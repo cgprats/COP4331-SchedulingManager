@@ -44,5 +44,28 @@ exports.setApp = function(app, client) {
 
 	// Register Endpoint
 	app.post('/api/register', async(req, res, next) => {
+		//incoming: login, password, first name, last name
+		//outgoing: id, error
+		
+		var login = req.body.login; // Should we use e-mail instead?
+		var password = req.body.password;
+		var email = req.body.email;
+		var FirstName = req.body.FirstName;
+    		var LastName = req.body.LastName;
+		
+		var data = {
+			"login" : login,
+        		"password" : password,
+			"email" : email,
+			"FirstName" : FirstName,
+			"LastName" : LastName
+		}
+		
+		const db = client.db();
+		const results = await db.collection('workers').insertOne(data,function(err, collection){ 
+			// Check for conflict
+		}
+    		
+    		return res.redirect( ... );
 	});
 }
