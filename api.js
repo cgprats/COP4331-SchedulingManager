@@ -2,7 +2,7 @@ var token = require('./createJWT.js');
 
 exports.setApp = function(app, client) {
 	// Login Endpoint
-	app.post('/api/login', async(req, res, next) ==> {
+	app.post('/api/login', async(req, res, next) => {
 		//incoming: login, password
 		//outgoing: id, firstName, lastName, error
 		var error = "";
@@ -40,5 +40,9 @@ exports.setApp = function(app, client) {
 		else {
 			ret = {error:"Login/Password incorrect"};
 		}
+	});
+
+	// Register Endpoint
+	app.post('/api/register', async(req, res, next) => {
 	});
 }
