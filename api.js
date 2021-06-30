@@ -68,4 +68,13 @@ exports.setApp = function(app, client) {
     		
     		return res.redirect( ... );
 	});
+	
+	app.post('/api/addorder', async(req, res, next) => {
+	});
+	
+	app.post('/api/editorder', async(req, res, next) => {
+	});
+	
+	app.post('/api/deleteorder', async(req, res, next) => {
+	});
 }
