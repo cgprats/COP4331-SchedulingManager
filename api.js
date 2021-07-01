@@ -46,7 +46,7 @@ exports.setApp = function(app, client) {
 	app.post('/api/register', async(req, res, next) => {
 		//incoming: login, password, first name, last name
 		//outgoing: id, error
-		
+		/*
 		var login = req.body.login; // Should we use e-mail instead?
 		var password = req.body.password;
 		var email = req.body.email;
@@ -66,7 +66,7 @@ exports.setApp = function(app, client) {
 			// Check for conflict
 		}
     		
-    		return res.redirect( ... );
+    		return res.redirect( ... );*/
 	});
 	
 	app.post('/api/addorder', async(req, res, next) => {

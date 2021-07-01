@@ -21,7 +21,7 @@ _createToken = function(fn, ln, id) {
 
 	return ret;
 }
-
+/*
 exports.isExpired = function(token) {
 	var isError = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, verifiedJwt) ==> {
 		if (err) {
@@ -35,7 +35,7 @@ exports.isExpired = function(token) {
 
 	return isError;
 }
-
+*/
 exports.refresh = function(token) {
 	var ui = jwt.decode(token,{complete:true});
 
