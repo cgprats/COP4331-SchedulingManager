@@ -21,7 +21,7 @@ exports.setApp = function(app, client) {
 			//Account Exists
 			if (results.length > 0)
 			{
-				id = results[0].login;
+				id = results[0].Login;
 				fn = results[0].FirstName;
 				ln = results[0].LastName;
 
@@ -52,14 +52,16 @@ exports.setApp = function(app, client) {
 		var LastName = req.body.LastName;
 		var errorMessage = '';
 
+		//TODO: Email verification (via smtp?)
+
 		if (!password.localeCompare(password_confirm)) {
 			//TODO: Send error message with res
 			return;
 		}
 
 		var data = {
-			"login": login,
-			"password": password,
+			"Login": login,
+			"Password": password,
 			"FirstName": FirstName,
 			"LastName": LastName
 		}
