@@ -1,6 +1,9 @@
 //var token = require('./createJWT.js');
 
 exports.setApp = function(app, client) {
+
+	// Sorry Chirs, this thing was causing me issues. Revert back whenever
+	/*
 	// Login Endpoint
 	app.post('/api/login', async(req, res, next) => {
 		//incoming: login, password
@@ -16,7 +19,7 @@ exports.setApp = function(app, client) {
 		var fn = '';
 		var ln = '';
 
-		//var ret;
+		var ret;
 
 		//Account Exists
 		if (results.length > 0) {
@@ -24,7 +27,7 @@ exports.setApp = function(app, client) {
 			fn = results[0].FirstName;
 			ln = results[0].LastName;
 
-			/*//Attempt to Create JWT
+			//Attempt to Create JWT
 			try {
 				const token = require("./createJWT.js");
 				ret = token.createToken(fn, ln, id);
@@ -33,16 +36,13 @@ exports.setApp = function(app, client) {
 			//Return Error on Failure
 			catch(e) {
 				ret = {error:e.message};
-			}*/
+			}
 		}
 
 		//Account Does Not Exist
 		else {
 			ret = {error:"Login/Password incorrect"};
 		}
-		
-		var ret = { id:id, firstName:fn, lastName:ln, error:''};
-      		res.status(200).json(ret);
 	});
 
 	// Register Endpoint
@@ -70,7 +70,35 @@ exports.setApp = function(app, client) {
 		}
     		
     		return res.redirect( ... );
-	});
+	}); 
+	
+	*/
+	app.post('/api/login', async (req, res, next) => 
+    {
+      // incoming: login, password
+      // outgoing: id, firstName, lastName, error
+    
+     var error = '';
+    
+      const { login, password } = req.body;
+    
+      const db = client.db();
+      const results = await db.collection('Users').find({Login:login,Password:password}).toArray();
+    
+      var id = -1;
+      var fn = '';
+      var ln = '';
+    
+      if( results.length > 0 )
+      {
+        id = results[0].UserId;
+        fn = results[0].FirstName;
+        ln = results[0].LastName;
+      }
+    
+      var ret = { id:id, firstName:fn, lastName:ln, error:''};
+      res.status(200).json(ret);
+    });
 	
 	app.post('/api/addorder', async(req, res, next) => {
 	});
