@@ -1,24 +1,12 @@
-import React from 'react';
-
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import React, { Component } from 'react';
+// Removed logo since we don't need it anymore
 import './App.css';
-import LoginPage from './pages/LoginPage';
-import CardPage from './pages/CardPage';
-
-function App() {  
-  return (    
-    <Router >      
-      <Switch>        
-        <Route path="/" exact>          
-          <LoginPage />        
-        </Route>        
-        <Route path="/cards" exact>          
-          <CardPage />        
-        </Route>        
-        <Redirect to="/" />      
-      </Switch>      
-    </Router>  
-  );
-}
-
-export default App;
+class App extends Component {
+  render() {
+    return (
+      <div classname="container">
+        <h1>kill me</h1>
+        <p>If I edit App.js everything breaks</p>
+      </div>
+    );
+  }
