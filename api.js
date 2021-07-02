@@ -36,12 +36,17 @@ exports.setApp = function(app, client) {
 	app.post('/api/register', async(req, res, next) => {
 		// incoming: login, password
 		// outgoing: id, error
-		var email = req.body.email;
+		var login = req.body.login;
 		var password = req.body.password;
+		var password_confirm = req.body.password_confirm;
 		var FirstName = req.body.FirstName;
 		var LastName = req.body.LastName;
+		var errorMessage = '';
 
-		//TODO: Handle password confirm
+		if (!password.localeCompare(password_confirm)) {
+			//TODO: Send error message with res
+			return;
+		}
 
 		var data = {
 			"login": login,
@@ -50,13 +55,22 @@ exports.setApp = function(app, client) {
 			"LastName": LastName
 		}
 
-		//TODO: Handle insert error
-		const db = client.db();
-		const results = await db.collection('workers').insertOne(data, function(err, collection) {
-		});
+		// Attempt to insert worker
+		try {
+			const db = client.db();
+			const results = await db.collection('workers').insertOne(data);
+		}
 
-		// Login after successful registration
-		return res.redirect('/api/login');
+		// Catch insert error
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+
+		/*TODO: Login after successful registration
+		return res.redirect('/api/login');*/
 	});
 
 	app.post('/api/addorder', async(req, res, next) => {
