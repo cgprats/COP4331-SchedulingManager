@@ -18,7 +18,7 @@ exports.setApp = function(app, client) {
 		//Account Exists
 		if (results.length > 0)
 		{
-			id = results[0].UserId;
+			id = results[0].login;
 			fn = results[0].FirstName;
 			ln = results[0].LastName;
 
@@ -77,16 +77,23 @@ exports.setApp = function(app, client) {
 		//TODO: Determine necessary data types for orders
 		// incoming:
 		// outgoing:
+		var errorMessage = '';
 
 		var data = {
 		}
 
-		//TODO: Handle insert error
-		const db = client.db();
-		const results = await db.collection('orders').insertOne(data, function(err, collection) {
-		});
+		// Attempt to insert order
+		try {
+			const db = client.db();
+			const results = await db.collection('orders').insertOne(data);
+		}
 
-		var ret = {};
+		// Catch insert error
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 
 	});
@@ -95,15 +102,23 @@ exports.setApp = function(app, client) {
 		//TODO: See addorder
 		// incoming:
 		// outgoing:
+		var errorMessage = '';
 		
 		var data = {
 		}
 
-		//TODO: Handle update error
-		const db = client.db();
-		const results = await db.collection('orders').updateOne( { filter:filter_var }, data, {upsert: false});
+		// Attempt to update order
+		try {
+			const db = client.db();
+			const results = await db.collection('orders').updateOne( { filter:filter_var }, data, {upsert: false});
+		}
 
-		var ret = {};
+		// Catch update error
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
 
@@ -111,12 +126,18 @@ exports.setApp = function(app, client) {
 		//TODO: See addorder
 		// incoming:
 		// outgoing:
+		var errorMessage = '';
 
-		//TODO: Handle delete error
-		const db = client.db();
-		const results = await db.collection('orders').deleteOne( { data:data_var });
+		try {
+			const db = client.db();
+			const results = await db.collection('orders').deleteOne( { data:data_var });
+		}
 		
-		var ret = {};
+		catch(e) {
+			errorMessage = e.toString;
+		}
+		
+		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
 }
