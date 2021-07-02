@@ -6,27 +6,36 @@ exports.setApp = function(app, client) {
 		// outgoing: id, firstName, lastName, error
 		var errorMessage = '';
 
-		const { login, password } = req.body;
+		var login = req.body.login;
+		var password = req.body.password;
 
-		const db = client.db();
-		const results = await db.collection('workers').find({Login:login,Password:password}).toArray();
+		// Attempt to login user
+		try {
+			const db = client.db();
+			const results = await db.collection('workers').find({Login:login,Password:password}).toArray();
 
-		var id = -1;
-		var fn = '';
-		var ln = '';
+			var id = -1;
+			var fn = '';
+			var ln = '';
 
-		//Account Exists
-		if (results.length > 0)
-		{
-			id = results[0].login;
-			fn = results[0].FirstName;
-			ln = results[0].LastName;
+			//Account Exists
+			if (results.length > 0)
+			{
+				id = results[0].login;
+				fn = results[0].FirstName;
+				ln = results[0].LastName;
 
-			//TODO: Create JWT
+				//TODO: Create JWT
+			}
+
+			else {
+				errorMessage = "Login/Password incorrect";
+			}
 		}
 
-		else {
-			errorMessage = "Login/Password incorrect";
+		// Catch login error
+		catch(e) {
+			errorMessage = e.toString();
 		}
 
 		var ret = { id:id, firstName:fn, lastName:ln, error:errorMessage};
