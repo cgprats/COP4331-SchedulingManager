@@ -74,7 +74,7 @@ exports.setApp = function(app, client) {
 	
 	*/
 	app.post('/api/login', async (req, res, next) => 
-    {
+	{
       // incoming: login, password
       // outgoing: id, firstName, lastName, error
     
@@ -83,7 +83,7 @@ exports.setApp = function(app, client) {
       const { login, password } = req.body;
     
       const db = client.db();
-      const results = await db.collection('Users').find({Login:login,Password:password}).toArray();
+      const results = await db.collection('workers').find({Login:login,Password:password}).toArray();
     
       var id = -1;
       var fn = '';
@@ -99,7 +99,7 @@ exports.setApp = function(app, client) {
       var ret = { id:id, firstName:fn, lastName:ln, error:''};
       res.status(200).json(ret);
     });
-	
+
 	app.post('/api/addorder', async(req, res, next) => {
 	});
 	
