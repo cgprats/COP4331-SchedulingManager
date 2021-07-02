@@ -1,14 +1,24 @@
-import React, { Component } from 'react';
-// Removed logo since we don't need it anymore
+import React from 'react';
+
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import './App.css';
-class App extends Component {
-  render() {
-    return (
-      <div classname="container">
-        <h1>Hello World!</h1>
-        <p>I just created my first React App</p>
-      </div>
-    );
-  }
+import LoginPage from './pages/LoginPage';
+import CardPage from './pages/CardPage';
+
+function App() {  
+  return (    
+    <Router >      
+      <Switch>        
+        <Route path="/" exact>          
+          <LoginPage />        
+        </Route>        
+        <Route path="/cards" exact>          
+          <CardPage />        
+        </Route>        
+        <Redirect to="/" />      
+      </Switch>      
+    </Router>  
+  );
 }
+
 export default App;
