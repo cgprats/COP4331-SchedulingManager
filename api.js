@@ -72,7 +72,7 @@ exports.setApp = function(app, client) {
 				"FirstName": FirstName,
 				"LastName": LastName,
 				"Type": Type,
-				"Verified": "false"
+				"Verified": false
 			}
 
 			// Attempt to insert worker
@@ -110,7 +110,7 @@ exports.setApp = function(app, client) {
 		var data = { 
 			//$set is needed to make the data atomic
 			$set: {
-				"Verified": "true"
+				"Verified": true
 			}
 		}
 
