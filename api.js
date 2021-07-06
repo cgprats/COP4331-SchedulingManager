@@ -26,6 +26,7 @@ exports.setApp = function(app, client) {
 				fn = results[0].FirstName;
 				ln = results[0].LastName;
 				type = results[0].Type;
+				verified = results[0].Verified;
 
 				//TODO: Create JWT
 
@@ -42,13 +43,13 @@ exports.setApp = function(app, client) {
 			errorMessage = e.toString();
 		}
 
-		var ret = { id:id, firstName:fn, lastName:ln,type:type, error:errorMessage};
+		var ret = { id:id, firstName:fn, lastName:ln, type:type, verified:verified, error:errorMessage};
 		res.status(200).json(ret);
 	});
 
 	app.post('/api/register', async(req, res, next) => {
 		// incoming: login, password
-		// outgoing: id, error
+		// outgoing: error
 		var login = req.body.login;
 		var password = req.body.password;
 		var password_confirm = req.body.password_confirm;
@@ -70,7 +71,8 @@ exports.setApp = function(app, client) {
 				"Password": password,
 				"FirstName": FirstName,
 				"LastName": LastName,
-				"Type": Type
+				"Type": Type,
+				"Verified": "false"
 			}
 
 			// Attempt to insert worker
@@ -91,6 +93,32 @@ exports.setApp = function(app, client) {
 
 		/*TODO: Login after successful registration
 		return res.redirect('/api/login');*/
+	});
+
+	app.post('/api/verify', async(req, res, next) => {
+		// incoming: login, password
+		// outgoing: error
+		var login = req.body.login;
+		var password = req.body.password;
+		var errorMessage = '';
+
+		var data = {
+			"Verified": "true"
+		}
+
+		try {
+			const db = client.db();
+			const results = await db.collection('workers').updateOne({login:login, password:password}, data, {upsert: false});
+
+			errorMessage = "Success";
+		}
+
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
 	});
 
 	app.post('/api/searchorder', async(req, res, next) =>{
@@ -128,8 +156,10 @@ exports.setApp = function(app, client) {
 		// incoming:
 		// outgoing:
 		var errorMessage = '';
+		var temp = req.body.temp;
 
 		var data = {
+			"TempData": temp
 		}
 
 		// Attempt to insert order
@@ -155,6 +185,7 @@ exports.setApp = function(app, client) {
 		// incoming:
 		// outgoing:
 		var errorMessage = '';
+		var filter_var = "TempFilter";
 		
 		var data = {
 		}
