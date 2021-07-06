@@ -98,8 +98,8 @@ exports.setApp = function(app, client) {
 	app.post('/api/verify', async(req, res, next) => {
 		// incoming: login, password
 		// outgoing: error
-		var login = ObjectID(req.body.login);
-		var password = ObjectID(req.body.password);
+		var login = req.body.login;
+		var password = req.body.password;
 		var errorMessage = '';
 
 		var account = {
