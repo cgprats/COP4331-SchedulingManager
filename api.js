@@ -102,13 +102,21 @@ exports.setApp = function(app, client) {
 		var password = req.body.password;
 		var errorMessage = '';
 
-		var data = {
-			"Verified": "true"
+		var account = {
+			"Login": login,
+			"Password": password
+		}
+
+		var data = { 
+			//$set is needed to make the data atomic
+			$set: {
+				"Verified": "true"
+			}
 		}
 
 		try {
 			const db = client.db();
-			const results = await db.collection('workers').updateOne({login:login, password:password}, data, {upsert: false});
+			const results = await db.collection('workers').updateOne(account, data, {upsert: false});
 
 			errorMessage = "Success";
 		}
