@@ -17,6 +17,7 @@ exports.setApp = function(app, client) {
 			var id = -1;
 			var fn = '';
 			var ln = '';
+			var type = '';
 
 			//Account Exists
 			if (results.length > 0)
@@ -24,6 +25,7 @@ exports.setApp = function(app, client) {
 				id = results[0].Login;
 				fn = results[0].FirstName;
 				ln = results[0].LastName;
+				type = results[0].Type;
 
 				//TODO: Create JWT
 
@@ -40,7 +42,7 @@ exports.setApp = function(app, client) {
 			errorMessage = e.toString();
 		}
 
-		var ret = { id:id, firstName:fn, lastName:ln, error:errorMessage};
+		var ret = { id:id, firstName:fn, lastName:ln,type:type, error:errorMessage};
 		res.status(200).json(ret);
 	});
 
@@ -52,9 +54,11 @@ exports.setApp = function(app, client) {
 		var password_confirm = req.body.password_confirm;
 		var FirstName = req.body.FirstName;
 		var LastName = req.body.LastName;
+		var Type = req.body.Type;
 		var errorMessage = '';
 
 		//TODO: Email verification (via smtp?)
+		//TODO: Handle duplicate users
 
 		if (password.localeCompare(password_confirm)) {
 			errorMessage = "Passwords do not match";
@@ -65,7 +69,8 @@ exports.setApp = function(app, client) {
 				"Login": login,
 				"Password": password,
 				"FirstName": FirstName,
-				"LastName": LastName
+				"LastName": LastName,
+				"Type": Type
 			}
 
 			// Attempt to insert worker
@@ -88,8 +93,38 @@ exports.setApp = function(app, client) {
 		return res.redirect('/api/login');*/
 	});
 
+	app.post('/api/searchorder', async(req, res, next) =>{
+		//TODO: Determine necessary data types for orders
+		// incoming:
+		// outgoing:
+		var errorMessage = '';
+
+		var temp = req.body.temp;
+
+		try {
+			const db = client.db();
+			const results = await db.collection('orders').find({temp:temp}).toArray();
+
+			var data = -1;
+
+			if (results.length > 0) {
+				data = results[0].data;
+
+				errorMessage = "Success";
+			}
+		}
+
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {data:data, error:errorMessage};
+		res.status(200).json(ret);
+	});
+
 	app.post('/api/addorder', async(req, res, next) => {
 		//TODO: Determine necessary data types for orders
+		//TODO: Handle duplicate orders
 		// incoming:
 		// outgoing:
 		var errorMessage = '';
@@ -101,6 +136,8 @@ exports.setApp = function(app, client) {
 		try {
 			const db = client.db();
 			const results = await db.collection('orders').insertOne(data);
+
+			errorMessage = "Success";
 		}
 
 		// Catch insert error
@@ -126,6 +163,8 @@ exports.setApp = function(app, client) {
 		try {
 			const db = client.db();
 			const results = await db.collection('orders').updateOne( { filter:filter_var }, data, {upsert: false});
+
+			errorMessage = "Success";
 		}
 
 		// Catch update error
@@ -146,6 +185,8 @@ exports.setApp = function(app, client) {
 		try {
 			const db = client.db();
 			const results = await db.collection('orders').deleteOne( { data:data_var });
+
+			errorMessage = "Success";
 		}
 		
 		catch(e) {
