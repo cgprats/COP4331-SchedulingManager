@@ -103,11 +103,11 @@ exports.setApp = function(app, client) {
 		var errorMessage = '';
 
 		var account = {
-			Login: login
-			//Password: password
+			Login: login,
+			Password: password
 		}
 
-		var data = { 
+		var data = {
 			//$set is needed to make the data atomic
 			$set: {
 				Verified: true
@@ -198,7 +198,7 @@ exports.setApp = function(app, client) {
 
 		var filter = {
 		}
-		
+
 		var data = {
 			$set: {
 			}
@@ -233,11 +233,11 @@ exports.setApp = function(app, client) {
 
 			errorMessage = "Success";
 		}
-		
+
 		catch(e) {
 			errorMessage = e.toString;
 		}
-		
+
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
