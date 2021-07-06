@@ -124,7 +124,7 @@ exports.setApp = function(app, client) {
 			}
 
 			else if (!results.modifiedCount) {
-				errorMessage = "No modifications";
+				errorMessage = "No modifications - matched " + results.matchedCount;
 			}
 
 			else {
