@@ -98,8 +98,8 @@ exports.setApp = function(app, client) {
 	app.post('/api/verify', async(req, res, next) => {
 		// incoming: login, password
 		// outgoing: error
-		var login = req.body.login;
-		var password = req.body.password;
+		var login = ObjectID(req.body.login);
+		var password = ObjectID(req.body.password);
 		var errorMessage = '';
 
 		var account = {
@@ -114,6 +114,7 @@ exports.setApp = function(app, client) {
 			}
 		}
 
+		//Set verify to true
 		try {
 			const db = client.db();
 			const results = await db.collection('workers').updateOne(account, data);
