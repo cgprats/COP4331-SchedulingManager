@@ -119,7 +119,17 @@ exports.setApp = function(app, client) {
 			const db = client.db();
 			const results = await db.collection('workers').updateOne(account, data);
 
-			errorMessage = "Success";
+			if (!results.matchedCount) {
+				errorMessage = "No match";
+			}
+
+			else if (!results.modifiedCount) {
+				errorMessage = "No modifications";
+			}
+
+			else {
+				errorMessage = "Success";
+			}
 		}
 
 		catch(e) {
