@@ -55,26 +55,27 @@ exports.setApp = function(app, client) {
 		//TODO: Email verification (via smtp?)
 
 		if (!password.localeCompare(password_confirm)) {
-			//TODO: Send error message with res
-			return;
+			errorMessage = "Passwords do not match";
 		}
 
-		var data = {
-			"Login": login,
-			"Password": password,
-			"FirstName": FirstName,
-			"LastName": LastName
-		}
+		else {
+			var data = {
+				"Login": login,
+				"Password": password,
+				"FirstName": FirstName,
+				"LastName": LastName
+			}
 
-		// Attempt to insert worker
-		try {
-			const db = client.db();
-			const results = await db.collection('workers').insertOne(data);
-		}
+			// Attempt to insert worker
+			try {
+				const db = client.db();
+				const results = await db.collection('workers').insertOne(data);
+			}
 
-		// Catch insert error
-		catch(e) {
-			errorMessage = e.toString();
+			// Catch insert error
+			catch(e) {
+				errorMessage = e.toString();
+			}
 		}
 
 		var ret = {error: errorMessage};
