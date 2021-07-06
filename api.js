@@ -103,14 +103,14 @@ exports.setApp = function(app, client) {
 		var errorMessage = '';
 
 		var account = {
-			"Login": login,
-			"Password": password
+			Login: login,
+			Password: password
 		}
 
 		var data = { 
 			//$set is needed to make the data atomic
 			$set: {
-				"Verified": true
+				Verified: true
 			}
 		}
 
