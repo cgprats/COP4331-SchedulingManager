@@ -26,6 +26,8 @@ exports.setApp = function(app, client) {
 				ln = results[0].LastName;
 
 				//TODO: Create JWT
+
+				errorMessage = "Success";
 			}
 
 			else {
@@ -54,7 +56,7 @@ exports.setApp = function(app, client) {
 
 		//TODO: Email verification (via smtp?)
 
-		if (!password.localeCompare(password_confirm)) {
+		if (password.localeCompare(password_confirm)) {
 			errorMessage = "Passwords do not match";
 		}
 
@@ -70,6 +72,7 @@ exports.setApp = function(app, client) {
 			try {
 				const db = client.db();
 				const results = await db.collection('workers').insertOne(data);
+				errorMessage = "Success";
 			}
 
 			// Catch insert error
