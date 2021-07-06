@@ -116,7 +116,7 @@ exports.setApp = function(app, client) {
 
 		try {
 			const db = client.db();
-			const results = await db.collection('workers').updateOne(account, data, {upsert: false});
+			const results = await db.collection('workers').updateOne(account, data);
 
 			errorMessage = "Success";
 		}
@@ -194,14 +194,19 @@ exports.setApp = function(app, client) {
 		// outgoing:
 		var errorMessage = '';
 		var filter_var = "TempFilter";
+
+		var filter = {
+		}
 		
 		var data = {
+			$set: {
+			}
 		}
 
 		// Attempt to update order
 		try {
 			const db = client.db();
-			const results = await db.collection('orders').updateOne( { filter:filter_var }, data, {upsert: false});
+			const results = await db.collection('orders').updateOne(filter, data);
 
 			errorMessage = "Success";
 		}
