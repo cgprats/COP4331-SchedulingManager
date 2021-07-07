@@ -140,6 +140,59 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
+	app.post('/api/changepassword', async(req, res, next) => {
+		// incoming: login, password
+		// outgoing: error
+		var login = req.body.login;
+		var password = req.body.password;
+		var new_password = req.body.new_password;
+		var new_password_confirm = req.body.new_password_confirm;
+		var errorMessage = '';
+
+		if (new_password.localeCompare(new_password_confirm)) {
+			errorMessage = "Passwords do not match";
+		}
+
+		else {
+			var account = {
+				Login: login,
+				Password: password
+			}
+
+			var data = {
+				//$set is needed to make the data atomic
+				$set: {
+					Password: new_password
+				}
+			}
+
+			//Set verify to true
+			try {
+				const db = client.db();
+				const results = await db.collection('workers').updateOne(account, data);
+
+				if (!results.matchedCount) {
+					errorMessage = "No match";
+				}
+
+				else if (!results.modifiedCount) {
+					errorMessage = "No modifications - matched " + results.matchedCount;
+				}
+
+				else {
+					errorMessage = "Success";
+				}
+			}
+
+			catch(e) {
+				errorMessage = e.toString();
+			}
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+	});
+
 	app.post('/api/searchorder', async(req, res, next) =>{
 		//TODO: Determine necessary data types for orders
 		// incoming:
