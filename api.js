@@ -58,7 +58,7 @@ exports.setApp = function(app, client) {
 		var email = req.body.email;
 		var phone = req.body.phone;
 		var employercode = req.body.employercode;
-		var Type = "worker";
+		var flag = 0;
 		var errorMessage = '';
 
 		//TODO: Email verification (via smtp?)
@@ -77,7 +77,7 @@ exports.setApp = function(app, client) {
 				"email" : email,
 				"phone" : phone,
 				"employercode" : employercode,
-				"Type": Type,
+				"flag": flag,
 				"Verified": false
 			}
 
@@ -112,7 +112,7 @@ exports.setApp = function(app, client) {
 		var email = req.body.email;
 		var phone = req.body.phone;
 		var employercode = req.body.employercode;
-		var Type = "employer";
+		var flag = 1;
 		var errorMessage = '';
 
 		//TODO: Email verification (via smtp?)
@@ -131,7 +131,7 @@ exports.setApp = function(app, client) {
 				"email" : email,
 				"phone" : phone,
 				"employercode" : employercode,
-				"Type": Type,
+				"flag": flag,
 				"Verified": false
 			}
 
