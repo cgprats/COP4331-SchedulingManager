@@ -47,7 +47,7 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/register', async(req, res, next) => {
+	app.post('/api/registerworker', async(req, res, next) => {
 		// incoming: login, password
 		// outgoing: error
 		var login = req.body.login;
@@ -55,7 +55,10 @@ exports.setApp = function(app, client) {
 		var password_confirm = req.body.password_confirm;
 		var FirstName = req.body.FirstName;
 		var LastName = req.body.LastName;
-		var Type = req.body.Type;
+		var email = req.body.email;
+		var phone = req.body.phone;
+		var employercode = req.body.employercode;
+		var Type = "worker";
 		var errorMessage = '';
 
 		//TODO: Email verification (via smtp?)
@@ -71,6 +74,9 @@ exports.setApp = function(app, client) {
 				"Password": password,
 				"FirstName": FirstName,
 				"LastName": LastName,
+				"email" : email,
+				"phone" : phone,
+				"employercode" : employercode,
 				"Type": Type,
 				"Verified": false
 			}
@@ -79,6 +85,60 @@ exports.setApp = function(app, client) {
 			try {
 				const db = client.db();
 				const results = await db.collection('workers').insertOne(data);
+				errorMessage = "Success";
+			}
+
+			// Catch insert error
+			catch(e) {
+				errorMessage = e.toString();
+			}
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+
+		/*TODO: Login after successful registration
+		return res.redirect('/api/login');*/
+	});
+	
+	app.post('/api/registeremployer', async(req, res, next) => {
+		// incoming: login, password
+		// outgoing: error
+		var login = req.body.login;
+		var password = req.body.password;
+		var password_confirm = req.body.password_confirm;
+		var FirstName = req.body.FirstName;
+		var LastName = req.body.LastName;
+		var email = req.body.email;
+		var phone = req.body.phone;
+		var employercode = req.body.employercode;
+		var Type = "employer";
+		var errorMessage = '';
+
+		//TODO: Email verification (via smtp?)
+		//TODO: Handle duplicate users
+
+		if (password.localeCompare(password_confirm)) {
+			errorMessage = "Passwords do not match";
+		}
+
+		else {
+			var data = {
+				"Login": login,
+				"Password": password,
+				"FirstName": FirstName,
+				"LastName": LastName,
+				"email" : email,
+				"phone" : phone,
+				"employercode" : employercode,
+				"Type": Type,
+				"Verified": false
+			}
+
+			// Attempt to insert worker
+			try {
+				const db = client.db();
+				const results = await db.collection('employers').insertOne(data);
 				errorMessage = "Success";
 			}
 
@@ -203,7 +263,7 @@ exports.setApp = function(app, client) {
 
 		try {
 			const db = client.db();
-			const results = await db.collection('orders').find({temp:temp}).toArray();
+			const results = await db.collection('jobs').find({temp:temp}).toArray();
 
 			var data = -1;
 
@@ -237,7 +297,7 @@ exports.setApp = function(app, client) {
 		// Attempt to insert order
 		try {
 			const db = client.db();
-			const results = await db.collection('orders').insertOne(data);
+			const results = await db.collection('jobs').insertOne(data);
 
 			errorMessage = "Success";
 		}
@@ -270,7 +330,7 @@ exports.setApp = function(app, client) {
 		// Attempt to update order
 		try {
 			const db = client.db();
-			const results = await db.collection('orders').updateOne(filter, data);
+			const results = await db.collection('jobs').updateOne(filter, data);
 
 			errorMessage = "Success";
 		}
@@ -292,7 +352,7 @@ exports.setApp = function(app, client) {
 
 		try {
 			const db = client.db();
-			const results = await db.collection('orders').deleteOne( { data:data_var });
+			const results = await db.collection('jobs').deleteOne( { data:data_var });
 
 			errorMessage = "Success";
 		}
