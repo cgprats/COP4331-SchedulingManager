@@ -364,4 +364,71 @@ exports.setApp = function(app, client) {
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
+
+	app.post('/api/markorder', async(req, res, next) => {
+		// Mark Order as Completed (1) or Incompleted (0)
+		// incoming: 0 or 1
+		// outgoing: error
+
+		var status = reg.body.status;
+		var errorMessage = '';
+		var filter_var = "TempFilter";
+
+		var joborder = {
+		}
+
+		var data = {
+			$set: {
+				"status" : status
+			}
+		}
+
+		// Attempt to update order
+		try {
+			const db = client.db();
+			const results = await db.collection('jobs').updateOne(joborder, data);
+
+			errorMessage = "Success";
+		}
+
+		// Catch update error
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/searchnotes', async(req, res, next) =>{
+		//TODO: What the Hell are notes? Past orders?
+		// incoming: fooid, "array of emails"
+		// outgoing: all notes w/ matching fooid and email from array
+		var errorMessage = '';
+
+		var fooid = req.body.fooid;
+		var emails = req.body.emails; // Arrays tho
+
+		var emailarr = new Array();
+
+		try {
+			const db = client.db();
+			const results = await db.collection('notes').find({fooid:emails}).toArray();
+
+			var data = -1;
+
+			if (results.length > 0) {
+				data = results[0].data;
+
+				errorMessage = "Success";
+			}
+		}
+
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {data:data, error:errorMessage};
+		res.status(200).json(ret);
+	});
 }
