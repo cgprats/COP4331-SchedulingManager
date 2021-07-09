@@ -283,10 +283,10 @@ exports.setApp = function(app, client) {
 	});
 
 	app.post('/api/addorder', async(req, res, next) => {
-		//TODO: Determine necessary data types for orders
 		//TODO: Handle duplicate orders
-		// incoming:
-		// outgoing:
+		// incoming: title, email, address, client name, client contact, 
+			// start data, end datae, max workers, briefing, fooid(?)
+		// outgoing:error
 		var errorMessage = '';
 		var temp = req.body.temp;
 
@@ -314,8 +314,9 @@ exports.setApp = function(app, client) {
 
 	app.post('/api/editorder', async(req, res, next) => {
 		//TODO: See addorder
-		// incoming:
-		// outgoing:
+		// incoming: fooid, title, email, address, client name, client contact, 
+			// start data, end datae, max workers, briefing
+		// outgoing: error
 		var errorMessage = '';
 		var filter_var = "TempFilter";
 
@@ -400,7 +401,7 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/searchnotes', async(req, res, next) =>{
+	app.post('/api/searchnotesEmail', async(req, res, next) =>{
 		//TODO: What the Hell are notes? Past orders?
 		// incoming: fooid, "array of emails"
 		// outgoing: all notes w/ matching fooid and email from array
@@ -429,6 +430,72 @@ exports.setApp = function(app, client) {
 		}
 
 		var ret = {data:data, error:errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/searchnotesTime', async(req, res, next) =>{
+		//TODO: See above
+		// incoming: email, start time, end time
+		// outgoing: all notes from time range
+		var errorMessage = '';
+
+		var email = req.body.email;
+		var start = req.body.start;
+		var end = req.body.end;
+
+		try {
+			const db = client.db();
+			const results = await db.collection('notes').find({email}).toArray();
+
+			var data = -1;
+
+			if (results.length > 0) {
+				data = results[0].data;
+
+				errorMessage = "Success";
+			}
+		}
+
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {data:data, error:errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/addnode', async(req, res, next) =>{
+		//TODO: See above
+		// incoming: fooid, email, time, note
+		// outgoing: error
+		var errorMessage = '';
+
+		var fooid = req.body.fooid;
+		var email = req.body.email;
+		var time = req.body.time;
+		var note = req.body.note;
+
+		var errorMessage = '';
+
+		var data = {
+			"fooid" : fooid,
+			"email" : email,
+			"time" : time,
+			"note" : note
+		}
+
+		try {
+			const db = client.db();
+			const results = await db.collection('notes').insertOne(data);
+
+			errorMessage = "Success";
+		}
+
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
 }
