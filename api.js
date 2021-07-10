@@ -1,7 +1,9 @@
 //var token = require('./createJWT.js');
+const nodemailer = require('nodemailer');
 
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
+		// TODO: Check if User has verified their email before allowing login
 		// incoming: login, password
 		// outgoing: id, firstName, lastName, error
 		var errorMessage = '';
@@ -46,37 +48,39 @@ exports.setApp = function(app, client) {
 		var ret = { id:id, firstName:fn, lastName:ln, type:type, verified:verified, error:errorMessage};
 		res.status(200).json(ret);
 	});
-	
-	/*
-	app.post('/api/emailtest', async(req, res) => {
 
-		let transporter = nodemailer.createTransport({
-			// create reusable transporter object using the default SMTP transport
-			host: "smtp.gmail.com",
-			port: 587,
-			secure: false, // true for 465, false for other ports
-			auth: {
-			user: "cop4331group2verifier@gmail.com", // generated ethereal user
-			pass: "plsletM3in", // generated ethereal password
-			},
-			tls:{
-				rejectUnauthorized:false
-			}
-		});
+	app.post('/api/send', async(req, res) => {
+		// TODO: Create JWT for verification link
+		// Maybe create async email for faster response, requires JWT done first
+		var errorMessage = "Yeet";
+		try{
 
-		// send mail with defined transport object
-		let info = await transporter.sendMail({
-			from: '"AHHHHH 👻" <cop4331group2verifier@gmail.com>', // sender address
-			to: "lepola6791@eyeremind.com", // list of receivers
-			subject: "Hello ✔", // Subject line
-			text: "Hello world?", // plain text body
-			html: "<b>Hello world?</b>", // html body
-		});
+			let sender = nodemailer.createTransport({
+				host: "smtp.gmail.com",
+				port: 25,
+				auth: {
+				user: "cop4331group2verifier@gmail.com",
+				pass: "plsletM3in",
+				},
+				tls:{
+					rejectUnauthorized:false
+				}
+			});
 
-		console.log("Message sent: %s", info.messageId);
-		console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+			let info = await sender.sendMail({
+				from: '"Group 2" <cop4331group2verifier@gmail.com>',
+				to: "lepola6791@eyeremind.com", //Temp email from random site
+				subject: "Verification Link", 
+				text: "WIP",
+			});
+		}	catch (e){
+			errorMessage = e.toString();
+		}
+
+		
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
 	});
-	*/
 
 	app.post('/api/registerworker', async(req, res, next) => {
 		// incoming: login, password
@@ -186,7 +190,8 @@ exports.setApp = function(app, client) {
 		return res.redirect('/api/login');*/
 	});
 
-	app.post('/api/verify', async(req, res, next) => {
+	app.post('/api/verify/:token', async(req, res, next) => { 
+		// TODO: JWT stuff, check new post URL in line above ^^
 		// incoming: login, password
 		// outgoing: error
 		var login = req.body.login;
