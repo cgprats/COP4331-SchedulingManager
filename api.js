@@ -1,6 +1,4 @@
 //var token = require('./createJWT.js');
-import { SmtpClient } from "https://deno.land/x/smtp/mod.ts";
-import "https://deno.land/x/dotenv/load.ts";
 
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
@@ -25,8 +23,8 @@ exports.setApp = function(app, client) {
 			if (results.length > 0)
 			{
 				id = results[0].Login;
-				fn = results[0].FirstName;
-				ln = results[0].LastName;
+				fn = results[0].firstName;
+				ln = results[0].lastName;
 				type = results[0].Type;
 				verified = results[0].Verified;
 
@@ -48,44 +46,45 @@ exports.setApp = function(app, client) {
 		var ret = { id:id, firstName:fn, lastName:ln, type:type, verified:verified, error:errorMessage};
 		res.status(200).json(ret);
 	});
+	
+	app.post('/api/emailtest', async(req, res) => {
 
-	/*
-	app.post('/api/emailtest', async(req, res, next) => {
-		var message = req.body.message;
-		var data = {
-			"message" : message
-		}
-		const client = new SmtpClient();
-
-		await client.connect({
-			hostname: "smtp.gmail.com",
-			port: 25,
-			username: "cop4331group2verifier@gmail.com",
-			password: "plsletM3in",
+		let transporter = nodemailer.createTransport({
+			// create reusable transporter object using the default SMTP transport
+			host: "smtp.gmail.com",
+			port: 587,
+			secure: false, // true for 465, false for other ports
+			auth: {
+			user: "cop4331group2verifier@gmail.com", // generated ethereal user
+			pass: "plsletM3in", // generated ethereal password
+			},
+			tls:{
+				rejectUnauthorized:false
+			}
 		});
 
-		await client.send({
-			from: "cop4331group2verifier@gmail.com",
-			to: "lepola6791@eyeremind.com",
-			subject: "TEST",
-			content: data,
+		// send mail with defined transport object
+		let info = await transporter.sendMail({
+			from: '"AHHHHH 👻" <cop4331group2verifier@gmail.com>', // sender address
+			to: "lepola6791@eyeremind.com", // list of receivers
+			subject: "Hello ✔", // Subject line
+			text: "Hello world?", // plain text body
+			html: "<b>Hello world?</b>", // html body
 		});
 
-		await client.close();
-
-		errorMessage = "Yey?";
-		var ret = {error: errorMessage};
-		res.status(200).json(ret);
+		console.log("Message sent: %s", info.messageId);
+		console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 	});
-	*/
+	
+
 	app.post('/api/registerworker', async(req, res, next) => {
 		// incoming: login, password
 		// outgoing: error
 		var login = req.body.login;
 		var password = req.body.password;
 		var password_confirm = req.body.password_confirm;
-		var FirstName = req.body.FirstName;
-		var LastName = req.body.LastName;
+		var firstName = req.body.firstName;
+		var lastName = req.body.lastName;
 		var email = req.body.email;
 		var phone = req.body.phone;
 		var employercode = req.body.employercode;
@@ -103,8 +102,8 @@ exports.setApp = function(app, client) {
 			var data = {
 				"Login": login,
 				"Password": password,
-				"FirstName": FirstName,
-				"LastName": LastName,
+				"firstName": firstName,
+				"lastName": lastName,
 				"email" : email,
 				"phone" : phone,
 				"employercode" : employercode,
@@ -157,8 +156,8 @@ exports.setApp = function(app, client) {
 			var data = {
 				"Login": login,
 				"Password": password,
-				"FirstName": FirstName,
-				"LastName": LastName,
+				"firstName": FirstName,
+				"lastName": LastName,
 				"email" : email,
 				"phone" : phone,
 				"employercode" : employercode,
