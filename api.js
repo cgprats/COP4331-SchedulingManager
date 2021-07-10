@@ -1,4 +1,6 @@
 //var token = require('./createJWT.js');
+import { SmtpClient } from "https://deno.land/x/smtp/mod.ts";
+import "https://deno.land/x/dotenv/load.ts";
 
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
