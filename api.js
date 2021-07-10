@@ -50,6 +50,10 @@ exports.setApp = function(app, client) {
 	});
 
 	app.post('/api/emailtest', async(req, res, next) => {
+		var message = req.body.message;
+		var data = {
+			"message" : message
+		}
 		const client = new SmtpClient();
 
 		await client.connect({
@@ -63,7 +67,7 @@ exports.setApp = function(app, client) {
 			from: "cop4331group2verifier@gmail.com",
 			to: "lepola6791@eyeremind.com",
 			subject: "TEST",
-			content: "test",
+			content: data,
 		});
 
 		await client.close();
