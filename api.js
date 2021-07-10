@@ -47,6 +47,7 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 	
+	/*
 	app.post('/api/emailtest', async(req, res) => {
 
 		let transporter = nodemailer.createTransport({
@@ -75,7 +76,7 @@ exports.setApp = function(app, client) {
 		console.log("Message sent: %s", info.messageId);
 		console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 	});
-	
+	*/
 
 	app.post('/api/registerworker', async(req, res, next) => {
 		// incoming: login, password
