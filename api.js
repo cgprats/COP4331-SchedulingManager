@@ -49,6 +49,30 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
+	app.post('/api/emailtest', async(req, res, next) => {
+		const client = new SmtpClient();
+
+		await client.connect({
+			hostname: "smtp.gmail.com",
+			port: 25,
+			username: "cop4331group2verifier@gmail.com",
+			password: "plsletM3in",
+		});
+
+		await client.send({
+			from: "cop4331group2verifier@gmail.com",
+			to: "lepola6791@eyeremind.com",
+			subject: "TEST",
+			content: "test",
+		});
+
+		await client.close();
+
+		errorMessage = "Yey?";
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+	});
+
 	app.post('/api/registerworker', async(req, res, next) => {
 		// incoming: login, password
 		// outgoing: error
@@ -95,6 +119,28 @@ exports.setApp = function(app, client) {
 				errorMessage = e.toString();
 			}
 		}
+
+		// SMTP email client start
+		/*
+		const client = new SmtpClient();
+
+		await client.connect({
+			hostname: "smtp.gmail.com",
+			port: 25,
+			username: "cop4331group2verifier@gmail.com",
+			password: "plsletM3in",
+		});
+
+		await client.send({
+			from: "cop4331group2verifier@gmail.com",
+			to: "lepola6791@eyeremind.com",
+			subject: "TEST",
+			content: "test",
+		});
+
+		await client.close();
+		*/
+		// SMTP email client end
 
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
