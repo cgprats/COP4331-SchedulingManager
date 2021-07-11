@@ -1,4 +1,4 @@
-//var token = require('./createJWT.js');
+const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
 
 exports.setApp = function(app, client) {
@@ -289,45 +289,33 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/searchorder', async(req, res, next) =>{
-		//TODO: Determine necessary data types for orders
-		// incoming:
-		// outgoing:
-		var errorMessage = '';
-
-		var temp = req.body.temp;
-
-		try {
-			const db = client.db();
-			const results = await db.collection('jobs').find({temp:temp}).toArray();
-
-			var data = -1;
-
-			if (results.length > 0) {
-				data = results[0].data;
-
-				errorMessage = "Success";
-			}
-		}
-
-		catch(e) {
-			errorMessage = e.toString();
-		}
-
-		var ret = {data:data, error:errorMessage};
-		res.status(200).json(ret);
-	});
-
 	app.post('/api/addorder', async(req, res, next) => {
 		//TODO: Handle duplicate orders
 		// incoming: title, email, address, client name, client contact, 
-			// start data, end datae, max workers, briefing, fooid(?)
+			// start date, end date, max workers, briefing, fooid(?)
 		// outgoing:error
 		var errorMessage = '';
-		var temp = req.body.temp;
+		var title = req.body.title;
+		var email = req.body.email;
+		var address = req.body.address;
+		var clientname = req.body.clientname;
+		var clientcontact = req.body.clientcontact;
+		var start = req.body.start;
+		var end = req.body.end;
+		var max = req.body.max;
+		var briefing = req.body.briefing;
 
 		var data = {
-			"TempData": temp
+			"title" : title,
+			"email" : email,
+			"address" : address,
+			"clientname" : clientname,
+			"clientcontact" : clientcontact,
+			"start" : start,
+			"end" : end,
+			"maxworkers" : max,
+			"briefing" : briefing,
+			"completed" : false,
 		}
 
 		// Attempt to insert order
@@ -348,28 +336,139 @@ exports.setApp = function(app, client) {
 
 	});
 
+	app.post('/api/searchIncomp', async(req, res) => {
+		// TODO: Create array of results to return (currently only able to return first result)
+		// incoming: 
+		// outgoing: All incomplete orders, error
+		var errorMessage = '';
+
+		try {
+			const db = client.db();
+			const results = await db.collection('jobs').find({completed: false}).toArray();
+
+			if (results.length > 0)
+			{
+				id = results[0]._id;
+				ti = results[0].title;
+				em = results[0].email;
+				add= results[0].address;
+				clientn = results[0].clientname;
+				clientc = results[0].clientcontact;
+				start = results[0].start;
+				end = results[0].end;
+				maxw = results[0].maxworkers;
+				bri = results[0].briefing;
+				comp = results[0].completed;
+
+				errorMessage = results.length.toString();
+			}
+
+			else {
+				errorMessage = "Couldn't find anything";
+			}
+		}
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = { ID: id, Title:ti, Email:em, error:errorMessage};
+		res.status(200).json(ret);
+
+	});
+
+	app.post('/api/searchTitle', async(req, res) => {
+		// TODO: Create array of results to return (currently only able to return first result)
+		// incoming: 
+		// outgoing: All orders with similar title, error
+		var errorMessage = '';
+		var Title = req.body.title;
+
+		try {
+			const db = client.db();
+			const results = await db.collection('jobs').find({title: Title}).toArray();
+
+			if (results.length > 0)
+			{
+				id = results[0]._id;
+				ti = results[0].title;
+				em = results[0].email;
+				add= results[0].address;
+				clientn = results[0].clientname;
+				clientc = results[0].clientcontact;
+				start = results[0].start;
+				end = results[0].end;
+				maxw = results[0].maxworkers;
+				bri = results[0].briefing;
+				comp = results[0].completed;
+
+				errorMessage = results.length.toString();
+			}
+
+			else {
+				errorMessage = "Couldn't find anything";
+			}
+		}
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = { ID:id, Title:ti, Email:em, error:errorMessage};
+		res.status(200).json(ret);
+
+	});
+
+
 	app.post('/api/editorder', async(req, res, next) => {
-		//TODO: See addorder
-		// incoming: fooid, title, email, address, client name, client contact, 
+		//TODO: This ain't working very well
+		// incoming: id, title, email, address, client name, client contact, 
 			// start data, end datae, max workers, briefing
 		// outgoing: error
 		var errorMessage = '';
-		var filter_var = "TempFilter";
+		var id = req.body.id;
+		var title = req.body.title;
+		var email = req.body.email;
+		var address = req.body.address;
+		var clientname = req.body.clientname;
+		var clientcontact = req.body.clientcontact;
+		var start = req.body.start;
+		var end = req.body.end;
+		var max = req.body.max;
+		var briefing = req.body.briefing;
 
 		var filter = {
+			_id: id
 		}
 
 		var data = {
 			$set: {
+			"title" : title,
+			"email" : email,
+			"address" : address,
+			"clientname" : clientname,
+			"clientcontact" : clientcontact,
+			"start" : start,
+			"end" : end,
+			"maxworkers" : max,
+			"briefing" : briefing
 			}
 		}
 
 		// Attempt to update order
 		try {
 			const db = client.db();
-			const results = await db.collection('jobs').updateOne(filter, data);
+			const results = await db.collection('jobs').updateOne({_id: id}, data);
 
-			errorMessage = "Success";
+			if (!results.matchedCount) {
+				errorMessage = "No match";
+			}
+
+			else if (!results.modifiedCount) {
+				errorMessage = "No modifications - matched " + results.matchedCount;
+			}
+
+			else {
+				errorMessage = "Success";
+			}
 		}
 
 		// Catch update error
@@ -500,7 +599,7 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/addnode', async(req, res, next) =>{
+	app.post('/api/addnote', async(req, res, next) =>{
 		//TODO: See above
 		// incoming: fooid, email, time, note
 		// outgoing: error
