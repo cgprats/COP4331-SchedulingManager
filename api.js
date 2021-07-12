@@ -98,6 +98,7 @@ exports.setApp = function(app, client) {
 	});
 
 	function sendVerificationLink(email) {
+		var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "https://cop4331group2.herokuapp.com/api/send", true);
 		xhr.setRequestHeader('Content-Type', 'application/json');
