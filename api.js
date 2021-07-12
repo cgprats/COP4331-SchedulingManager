@@ -67,12 +67,12 @@ exports.setApp = function(app, client) {
 				}
 			});
 
-			let body = await sender.sendMail({
+			let body = {
 				from: '"Group 2" <' + process.env.EMAIL_USER + '>',
 				to: email,
 				subject: "Verification Link", 
-				text: "WIP"
-			});
+				text: "<h1>Here is your verification link</h1><p>www.google.com<p>"
+			};
 
 			transporter.verify(function(error, success) {
 				if (error) {
