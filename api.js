@@ -316,6 +316,214 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
+	app.post('/api/changefirstname', async(req, res, next) => {
+		// incoming: login, password
+		// outgoing: error
+		var login = req.body.login;
+		var password = req.body.password;
+		var new_FirstName = req.body.new_FirstName;
+		var errorMessage = '';
+
+		if (new_password.localeCompare(new_password_confirm)) {
+			errorMessage = "Passwords do not match";
+		}
+
+		else {
+			var account = {
+				Login: login,
+				Password: password
+			}
+
+			var data = {
+				//$set is needed to make the data atomic
+				$set: {
+					FirstName: new_FirstName
+				}
+			}
+
+			//Set verify to true
+			try {
+				const db = client.db();
+				const results = await db.collection('workers').updateOne(account, data);
+
+				if (!results.matchedCount) {
+					errorMessage = "No match";
+				}
+
+				else if (!results.modifiedCount) {
+					errorMessage = "No modifications - matched " + results.matchedCount;
+				}
+
+				else {
+					errorMessage = "Success";
+				}
+			}
+
+			catch(e) {
+				errorMessage = e.toString();
+			}
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/changelastname', async(req, res, next) => {
+		// incoming: login, password
+		// outgoing: error
+		var login = req.body.login;
+		var password = req.body.password;
+		var new_LastName = req.body.new_LastName;
+		var errorMessage = '';
+
+		if (new_password.localeCompare(new_password_confirm)) {
+			errorMessage = "Passwords do not match";
+		}
+
+		else {
+			var account = {
+				Login: login,
+				Password: password
+			}
+
+			var data = {
+				//$set is needed to make the data atomic
+				$set: {
+					LastName: new_LastName
+				}
+			}
+
+			//Set verify to true
+			try {
+				const db = client.db();
+				const results = await db.collection('workers').updateOne(account, data);
+
+				if (!results.matchedCount) {
+					errorMessage = "No match";
+				}
+
+				else if (!results.modifiedCount) {
+					errorMessage = "No modifications - matched " + results.matchedCount;
+				}
+
+				else {
+					errorMessage = "Success";
+				}
+			}
+
+			catch(e) {
+				errorMessage = e.toString();
+			}
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/changephone', async(req, res, next) => {
+		// incoming: login, password
+		// outgoing: error
+		var login = req.body.login;
+		var password = req.body.password;
+		var new_phone = req.body.new_phone;
+		var errorMessage = '';
+
+		if (new_password.localeCompare(new_password_confirm)) {
+			errorMessage = "Passwords do not match";
+		}
+
+		else {
+			var account = {
+				Login: login,
+				Password: password
+			}
+
+			var data = {
+				//$set is needed to make the data atomic
+				$set: {
+					phone: new_phone
+				}
+			}
+
+			//Set verify to true
+			try {
+				const db = client.db();
+				const results = await db.collection('workers').updateOne(account, data);
+
+				if (!results.matchedCount) {
+					errorMessage = "No match";
+				}
+
+				else if (!results.modifiedCount) {
+					errorMessage = "No modifications - matched " + results.matchedCount;
+				}
+
+				else {
+					errorMessage = "Success";
+				}
+			}
+
+			catch(e) {
+				errorMessage = e.toString();
+			}
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/changeemail', async(req, res, next) => {
+		// incoming: login, password
+		// outgoing: error
+		var login = req.body.login;
+		var password = req.body.password;
+		var new_email = req.body.new_email;
+		var errorMessage = '';
+
+		if (new_password.localeCompare(new_password_confirm)) {
+			errorMessage = "Passwords do not match";
+		}
+
+		else {
+			var account = {
+				Login: login,
+				Password: password
+			}
+
+			var data = {
+				//$set is needed to make the data atomic
+				$set: {
+					email: new_email
+				}
+			}
+
+			//Set verify to true
+			try {
+				const db = client.db();
+				const results = await db.collection('workers').updateOne(account, data);
+
+				if (!results.matchedCount) {
+					errorMessage = "No match";
+				}
+
+				else if (!results.modifiedCount) {
+					errorMessage = "No modifications - matched " + results.matchedCount;
+				}
+
+				else {
+					errorMessage = "Success";
+				}
+			}
+
+			catch(e) {
+				errorMessage = e.toString();
+			}
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+	});
+
 	app.post('/api/addorder', async(req, res, next) => {
 		//TODO: Handle duplicate orders
 		// incoming: title, email, address, client name, client contact, 
