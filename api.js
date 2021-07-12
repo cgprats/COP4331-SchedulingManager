@@ -75,7 +75,7 @@ exports.setApp = function(app, client) {
 				subject: "Verification Link", 
 				html: "<h1><a href=" + verification_link + ">Click here to verify your account</a></h1>" +
 				      "<p>Copy and Paste the following link into your address bar if the link above does not work: " +
-				      verification_link + "</p>"
+				      "<a href=" + verification_link + ">" + verification_link + "</a></p>"
 			};
 
 			transporter.verify(function(error, success) {
