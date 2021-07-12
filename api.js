@@ -111,7 +111,6 @@ exports.setApp = function(app, client) {
 		var flag = 0;
 		var errorMessage = '';
 
-		//TODO: Email verification (via smtp?)
 		//TODO: Handle duplicate users
 
 		if (password.localeCompare(password_confirm)) {
@@ -165,7 +164,6 @@ exports.setApp = function(app, client) {
 		var flag = 1;
 		var errorMessage = '';
 
-		//TODO: Email verification (via smtp?)
 		//TODO: Handle duplicate users
 
 		if (password.localeCompare(password_confirm)) {
@@ -379,7 +377,7 @@ exports.setApp = function(app, client) {
 			}
 
 			else {
-				errorMessage = "Couldn't find anything";
+				errorMessage = "No results";
 			}
 		}
 		catch(e) {
@@ -420,7 +418,7 @@ exports.setApp = function(app, client) {
 			}
 
 			else {
-				errorMessage = "Couldn't find anything";
+				errorMessage = "No results";
 			}
 		}
 		catch(e) {
@@ -553,7 +551,7 @@ exports.setApp = function(app, client) {
 	});
 
 	app.post('/api/searchnotesEmail', async(req, res, next) =>{
-		//TODO: What the Hell are notes? Past orders?
+		//TODO: What are notes? Past orders?
 		// incoming: fooid, "array of emails"
 		// outgoing: all notes w/ matching fooid and email from array
 		var errorMessage = '';
