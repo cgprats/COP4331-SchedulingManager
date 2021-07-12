@@ -55,7 +55,8 @@ exports.setApp = function(app, client) {
 		// Maybe create async email for faster response, requires JWT done first
 		var errorMessage = '';
 		var email = req.body.email;
-		var verification_link = "www.google.com";
+		// Note: Must include http
+		var verification_link = "https://www.google.com";
 		try{
 
 			let transporter = nodemailer.createTransport({
