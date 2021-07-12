@@ -54,25 +54,36 @@ exports.setApp = function(app, client) {
 		// TODO: Create JWT for verification link
 		// Maybe create async email for faster response, requires JWT done first
 		var errorMessage = '';
+		var email = req.body.email;
 		try{
 
-			let sender = nodemailer.createTransport({
-				host: "smtp.gmail.com",
-				port: 587,
+			let transporter = nodemailer.createTransport({
+				/*host: "smtp.gmail.com",
+				port: 587,*/
+				service: 'gmail',
 				auth: {
 					user: process.env.EMAIL_USER,
 					pass: process.env.EMAIL_PASS
-				},
-				tls:{
-					rejectUnauthorized:false
 				}
 			});
 
-			let info = await sender.sendMail({
-				from: '"Group 2" <cop4331group2verifier@gmail.com>',
-				to: "lepola6791@eyeremind.com", //Temp email from random site
+			let body = await sender.sendMail({
+				from: '"Group 2" <' + process.env.EMAIL_USER + '>',
+				to: email,
 				subject: "Verification Link", 
 				text: "WIP"
+			});
+
+			transporter.verify(function(error, success) {
+				if (error) {
+					errorMessage = "Error verifying mail";
+				}
+			});
+
+			transporter.sendMail(body,(err, result) => {
+				if (error) {
+					errorMessage = "Error sending mail";
+				}
 			});
 
 			errorMessage = "Success";
