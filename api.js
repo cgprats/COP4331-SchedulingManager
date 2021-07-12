@@ -71,7 +71,7 @@ exports.setApp = function(app, client) {
 				from: '"Group 2" <' + process.env.EMAIL_USER + '>',
 				to: email,
 				subject: "Verification Link", 
-				text: "<h1>Here is your verification link</h1><p>www.google.com<p>"
+				html: "<h1>Here is your verification link</h1><p>www.google.com<p>"
 			};
 
 			transporter.verify(function(error, success) {
