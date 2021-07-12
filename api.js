@@ -481,14 +481,15 @@ exports.setApp = function(app, client) {
 	});
 
 	app.post('/api/deleteorder', async(req, res, next) => {
-		//TODO: See addorder
-		// incoming:
-		// outgoing:
+		// incoming: id
+		// outgoing: error
 		var errorMessage = '';
+
+		var id = req.body.id;
 
 		try {
 			const db = client.db();
-			const results = await db.collection('jobs').deleteOne( { data:data_var });
+			const results = await db.collection('jobs').deleteOne( { _id: id });
 
 			errorMessage = "Success";
 		}
