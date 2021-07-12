@@ -1,4 +1,3 @@
-const token = require('./createJWT.js');
 //const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
 
