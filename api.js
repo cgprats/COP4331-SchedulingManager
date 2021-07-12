@@ -2,6 +2,8 @@ require('dotenv').config();
 //const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
 
+function send_mail
+
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
 		// TODO: Check if User has verified their email before allowing login
@@ -97,6 +99,13 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
+	function sendVerificationLink(email) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "https://cop4331group2.herokuapp.com/api/send", true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(JSON.stringify({email: email}));
+	}
+
 	app.post('/api/registerworker', async(req, res, next) => {
 		// incoming: login, password
 		// outgoing: error
@@ -134,6 +143,7 @@ exports.setApp = function(app, client) {
 			try {
 				const db = client.db();
 				const results = await db.collection('workers').insertOne(data);
+				sendVerificationLink(email);
 				errorMessage = "Success";
 			}
 
@@ -187,6 +197,7 @@ exports.setApp = function(app, client) {
 			try {
 				const db = client.db();
 				const results = await db.collection('employers').insertOne(data);
+				sendVerificationLink(email);
 				errorMessage = "Success";
 			}
 
