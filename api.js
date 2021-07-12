@@ -1,3 +1,4 @@
+require('dotenv').config();
 //const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
 
@@ -52,15 +53,15 @@ exports.setApp = function(app, client) {
 	app.post('/api/send', async(req, res) => {
 		// TODO: Create JWT for verification link
 		// Maybe create async email for faster response, requires JWT done first
-		var errorMessage = "Yeet";
+		var errorMessage = '';
 		try{
 
 			let sender = nodemailer.createTransport({
 				host: "smtp.gmail.com",
-				port: 25,
+				port: 587,
 				auth: {
-				user: "cop4331group2verifier@gmail.com",
-				pass: "plsletM3in",
+					user: proccess.env.EMAIL_USER,
+					pass: proccess.env.EMAIL_PASS
 				},
 				tls:{
 					rejectUnauthorized:false
@@ -71,9 +72,12 @@ exports.setApp = function(app, client) {
 				from: '"Group 2" <cop4331group2verifier@gmail.com>',
 				to: "lepola6791@eyeremind.com", //Temp email from random site
 				subject: "Verification Link", 
-				text: "WIP",
+				text: "WIP"
 			});
-		}	catch (e){
+
+			errorMessage = "Success";
+		}
+		catch (e){
 			errorMessage = e.toString();
 		}
 
