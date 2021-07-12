@@ -60,8 +60,8 @@ exports.setApp = function(app, client) {
 				host: "smtp.gmail.com",
 				port: 587,
 				auth: {
-					user: proccess.env.EMAIL_USER,
-					pass: proccess.env.EMAIL_PASS
+					user: process.env.EMAIL_USER,
+					pass: process.env.EMAIL_PASS
 				},
 				tls:{
 					rejectUnauthorized:false
