@@ -2,8 +2,6 @@ require('dotenv').config();
 //const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
 
-function send_mail
-
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
 		// TODO: Check if User has verified their email before allowing login
