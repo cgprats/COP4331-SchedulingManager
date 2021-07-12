@@ -55,6 +55,7 @@ exports.setApp = function(app, client) {
 		// Maybe create async email for faster response, requires JWT done first
 		var errorMessage = '';
 		var email = req.body.email;
+		var verification_link = "www.google.com";
 		try{
 
 			let transporter = nodemailer.createTransport({
@@ -71,7 +72,9 @@ exports.setApp = function(app, client) {
 				from: '"Group 2" <' + process.env.EMAIL_USER + '>',
 				to: email,
 				subject: "Verification Link", 
-				html: "<h1>Here is your verification link</h1><p>www.google.com<p>"
+				html: "<h1><a href=\"" + verification_link + "\">Click here to verify your account</a></h1>" +
+				      "<p>Copy and Paste the following link into your address bar if the link above does not work:" +
+				      verification_link + "</p>"
 			};
 
 			transporter.verify(function(error, success) {
