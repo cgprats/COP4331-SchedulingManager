@@ -1,15 +1,25 @@
-import React, { Component } from 'react';
-// Removed logo since we don't need it anymore
-import './App.css';
-class App extends Component {
-  render() {
-    return (
-      <div classname="container">
-        <h1>kill me</h1>
-        <p>If I edit App.js everything breaks</p>
-      </div>
-    );
-  }
+import LoginFlip from './components/LoginFlip';
+import SignUpE from './components/SignUpE';
+import SignUp2 from './components/SignUp2';
+import {Route, Switch} from 'react-router-dom';
+
+function App()
+{
+  return (
+    <div>
+      <Switch>
+        <Route path='/' exact>
+          <LoginFlip/>
+        </Route>
+        <Route path='/sign-up1' exact>
+          <SignUpE/>
+        </Route>
+        <Route path='/sign-up2' exact>
+          <SignUp2/>
+        </Route>
+      </Switch>
+    </div>
+  );
 }
 
 export default App;

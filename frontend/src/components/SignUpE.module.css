@@ -1,0 +1,114 @@
+.label
+{
+    color:white;
+    font-family: 'MetropolisRegular';
+    font-size: 16px;
+    padding: 12px;
+    margin-left: 162px;
+    
+}
+
+.input
+{
+    background-color: lightgray;
+    border-radius:28px;
+    border: 1px solid black;
+    font-family: 'MetropolisRegular';
+    font-size: 16px;
+    padding: 8px 12px;
+    color: black;
+    margin: 4px 0px 12px 150px;
+    width: 16rem;
+}
+
+.h2
+{
+    color: white;
+    font-family: 'MetropolisExtraBold';
+    font-size: 32px;
+    letter-spacing: 1px;
+    margin: 4px 0px 8px 212px;
+}
+
+.h3{
+    color: white;
+    font-family: 'MetropolisExtraBold';
+    font-size: 60px;
+    letter-spacing: 1px;
+    padding: none;
+    margin-top: 124px;
+}
+
+.span{
+    color: white;
+    font-family: 'MetropolisLight';
+    margin: 0px 0px 0px 150px;
+    display: inline;
+}
+
+.link
+{
+    color: white;
+    font-family: 'MetropolisLight';
+    text-decoration: underline;
+    display: inline;
+}
+
+.link:hover{
+    text-decoration: none;
+}
+
+.myButton {
+	background-color:#7ca982;
+	border-radius:28px;
+	border:1px solid #3f994b;
+	display: block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'MetropolisLight';
+	font-size:16px;
+	font-weight:bold;
+	padding:8px 16px;
+	text-decoration:none;
+    letter-spacing: 1px;
+    transition: 0.4s;
+    margin: 0px 0px 8px 234px;
+}
+
+.myButton:hover {
+	background-color:#3f994b;
+}
+
+
+.right {
+    display:flex;
+    flex-direction:column;
+    flex-basis: 100%;
+    flex: 1;
+    padding: 0px 0rem;
+  }
+
+  .col
+  {
+    background-color: #7ca982;
+    display:flex;
+    flex-direction:column;
+    flex-basis:100%;
+    flex: 1;
+    border-radius: 12px 0px 0px 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    padding: none;
+    margin: -1rem;
+    align-items: center;
+    justify-content:center;
+      
+  }
+
+  .image
+  {
+      position:relative;
+      width: 325px;
+      top: 0px;
+      padding: none;
+      margin: none;
+  }
