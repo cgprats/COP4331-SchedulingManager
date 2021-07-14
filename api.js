@@ -194,60 +194,6 @@ exports.setApp = function(app, client) {
 		/*TODO: Login after successful registration
 		return res.redirect('/api/login');*/
 	});
-	
-	app.post('/api/registeremployer', async(req, res, next) => {
-		// incoming: login, password
-		// outgoing: error
-		var login = req.body.login;
-		var password = req.body.password;
-		var password_confirm = req.body.password_confirm;
-		var FirstName = req.body.FirstName;
-		var LastName = req.body.LastName;
-		var email = req.body.email;
-		var phone = req.body.phone;
-		var employercode = req.body.employercode;
-		var flag = 1;
-		var errorMessage = '';
-
-		//TODO: Handle duplicate users
-
-		if (password.localeCompare(password_confirm)) {
-			errorMessage = "Passwords do not match";
-		}
-
-		else {
-			var data = {
-				"Login": login,
-				"Password": password,
-				"firstName": FirstName,
-				"lastName": LastName,
-				"email" : email,
-				"phone" : phone,
-				"employercode" : employercode,
-				"flag": flag,
-				"Verified": false
-			}
-
-			// Attempt to insert worker
-			try {
-				const db = client.db();
-				const results = await db.collection('employers').insertOne(data);
-				sendVerificationLink(email);
-				errorMessage = "Success";
-			}
-
-			// Catch insert error
-			catch(e) {
-				errorMessage = e.toString();
-			}
-		}
-
-		var ret = {error: errorMessage};
-		res.status(200).json(ret);
-
-		/*TODO: Login after successful registration
-		return res.redirect('/api/login');*/
-	});
 
 	app.post('/api/verify/:token', async(req, res, next) => { 
 		// TODO: JWT stuff, check new post URL in line above ^^
