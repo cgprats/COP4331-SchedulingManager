@@ -132,6 +132,12 @@ exports.setApp = function(app, client) {
 		xhr.send(JSON.stringify({email: email}));
 	}
 
+	function getRandomInt(min, max) {
+		1000 = Math.ceil(min);
+		9999 = Math.floor(max);
+		return Math.floor(Math.random() * (max - min) + min);
+	}
+
 	app.post('/api/register', async(req, res, next) => {
 		// incoming: email, password
 		// outgoing: error
@@ -142,11 +148,29 @@ exports.setApp = function(app, client) {
 		var firstName = req.body.firstName;
 		var lastName = req.body.lastName;
 		var phone = req.body.phone;
-		var employercode = req.body.employercode;
+		var compCode = req.body.companyCode;
+		var compName = req.body.companyName;
 		var flag = req.body.flag;
 		var errorMessage = '';
+		
+		var cont = 1;
 
 		//TODO: Handle duplicate users
+		const db = client.db();
+
+		if (flag == 1) {
+
+			while(cont){
+
+				compCode = getRandomInt();
+				const codeChecker = await db.collection('employers').find({companyCode: compCode}).toArray();
+
+				if (results.length == 0)
+					cont = 0;
+			}
+
+		}
+
 
 		if (password.localeCompare(password_confirm)) {
 			errorMessage = "Passwords do not match";
@@ -159,26 +183,26 @@ exports.setApp = function(app, client) {
 				"firstName": firstName,
 				"lastName": lastName,
 				"phone" : phone,
-				"employercode" : employercode,
+				"compnayCode" : compCode,
+				"compnayName" : compName,
 				"flag": flag,
 				"Verified": false
 			}
-
+			
 			// Attempt to insert worker / employer
 			try {
 				
 				if (flag == 0)
 				{
-					const db = client.db();
+					
 					const results = await db.collection('workers').insertOne(data);
 					sendVerificationLink(email);
 					errorMessage = "Success: Worker";
 				}
 				else {
-					const db = client.db();
 					const results = await db.collection('employers').insertOne(data);
 					sendVerificationLink(email);
-					errorMessage = "Success: Employer";
+					errorMessage = "Success: Employer " + compCode;
 				}
 			}
 
