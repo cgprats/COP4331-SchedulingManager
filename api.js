@@ -143,7 +143,7 @@ exports.setApp = function(app, client) {
 		var lastName = req.body.lastName;
 		var phone = req.body.phone;
 		var employercode = req.body.employercode;
-		var flag = re.body.flag;
+		var flag = req.body.flag;
 		var errorMessage = '';
 
 		//TODO: Handle duplicate users
