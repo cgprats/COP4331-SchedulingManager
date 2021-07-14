@@ -133,9 +133,9 @@ exports.setApp = function(app, client) {
 		xhr.send(JSON.stringify({email: email}));
 	}
 
-	function getRandomInt(min, max) {
-		1000 = math.ceil(min);
-		9999 = math.floor(max);
+	function getRandomInt() {
+		var min = 1000;
+		var max = 9999;
 		return math.floor(math.random() * (max - min) + min);
 	}
 
