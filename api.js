@@ -166,7 +166,7 @@ exports.setApp = function(app, client) {
 				compCode = getRandomInt();
 				const codeChecker = await db.collection('employers').find({companyCode: compCode}).toArray();
 
-				if (results.length == 0)
+				if (codeChecker.length == 0)
 					cont = 0;
 			}
 
