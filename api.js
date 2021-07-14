@@ -1,6 +1,7 @@
 require('dotenv').config();
 //const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
+const Math = require("mathjs");
 
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
@@ -188,7 +189,7 @@ exports.setApp = function(app, client) {
 				"flag": flag,
 				"Verified": false
 			}
-			
+
 			// Attempt to insert worker / employer
 			try {
 				
