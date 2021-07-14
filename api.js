@@ -9,36 +9,59 @@ exports.setApp = function(app, client) {
 		// outgoing: id, firstName, lastName, error
 		var errorMessage = '';
 
-		var login = req.body.login;
+		var email = req.body.email;
 		var password = req.body.password;
+
+		var fn = '';
+		var ln = '';
+		var email = '';
+		var phone = '';
+		var compcode = '';
+		var flag = '';
 
 		// Attempt to login user
 		try {
 			const db = client.db();
-			const results = await db.collection('workers').find({Login:login,Password:password}).toArray();
-
-			var id = -1;
-			var fn = '';
-			var ln = '';
-			var type = '';
+			const results = await db.collection('workers').find({Email:email,Password:password}).toArray();
 
 			//Account Exists
 			if (results.length > 0)
 			{
-				id = results[0].Login;
+				email = results[0].Email;
 				fn = results[0].firstName;
 				ln = results[0].lastName;
-				type = results[0].Type;
+				phone = results[0].phone;
+				compcode = results[0].companyCode;
+				flag = results[0].flag;
 				verified = results[0].Verified;
 
 				//TODO: Create JWT
-
-				errorMessage = "Success";
+				errorMessage = "Success: Worker";
 			}
 
 			else {
-				errorMessage = "Login/Password incorrect";
+				const results = await db.collection('employer').find({Email:email,Password:password}).toArray();
+
+				if (results.length > 0)
+				{
+					email = results[0].Email;
+					fn = results[0].firstName;
+					ln = results[0].lastName;
+					phone = results[0].phone;
+					compcode = results[0].companyCode;
+					flag = results[0].flag;
+					verified = results[0].Verified;
+
+					//TODO: Create JWT
+					errorMessage = "Success: Employer";
+				}
+
+				else {
+					errorMessage = "Login/Password incorrect";
+				}
 			}
+
+			
 		}
 
 		// Catch login error
@@ -46,7 +69,7 @@ exports.setApp = function(app, client) {
 			errorMessage = e.toString();
 		}
 
-		var ret = { id:id, firstName:fn, lastName:ln, type:type, verified:verified, error:errorMessage};
+		var ret = { email:email, firstName:fn, lastName:ln, phone:phone, companycode:compcode, verified:verified, error:errorMessage};
 		res.status(200).json(ret);
 	});
 
