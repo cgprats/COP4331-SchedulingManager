@@ -132,18 +132,18 @@ exports.setApp = function(app, client) {
 		xhr.send(JSON.stringify({email: email}));
 	}
 
-	app.post('/api/registerworker', async(req, res, next) => {
-		// incoming: login, password
+	app.post('/api/register', async(req, res, next) => {
+		// incoming: email, password
 		// outgoing: error
-		var login = req.body.login;
+
+		var email = req.body.email;
 		var password = req.body.password;
 		var password_confirm = req.body.password_confirm;
 		var firstName = req.body.firstName;
 		var lastName = req.body.lastName;
-		var email = req.body.email;
 		var phone = req.body.phone;
 		var employercode = req.body.employercode;
-		var flag = 0;
+		var flag = re.body.flag;
 		var errorMessage = '';
 
 		//TODO: Handle duplicate users
@@ -154,23 +154,32 @@ exports.setApp = function(app, client) {
 
 		else {
 			var data = {
-				"Login": login,
+				"Email" : email,
 				"Password": password,
 				"firstName": firstName,
 				"lastName": lastName,
-				"email" : email,
 				"phone" : phone,
 				"employercode" : employercode,
 				"flag": flag,
 				"Verified": false
 			}
 
-			// Attempt to insert worker
+			// Attempt to insert worker / employer
 			try {
-				const db = client.db();
-				const results = await db.collection('workers').insertOne(data);
-				sendVerificationLink(email);
-				errorMessage = "Success";
+				
+				if (flag == 0)
+				{
+					const db = client.db();
+					const results = await db.collection('workers').insertOne(data);
+					sendVerificationLink(email);
+					errorMessage = "Success: Worker";
+				}
+				else {
+					const db = client.db();
+					const results = await db.collection('employer').insertOne(data);
+					sendVerificationLink(email);
+					errorMessage = "Success: Employer";
+				}
 			}
 
 			// Catch insert error
