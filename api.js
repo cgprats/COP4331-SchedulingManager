@@ -12,13 +12,15 @@ exports.setApp = function(app, client) {
 
 		var email = req.body.email;
 		var password = req.body.password;
+		var flag = req.body.flag;
 
 		var fn = '';
 		var ln = '';
-		var email = '';
 		var phone = '';
 		var compcode = '';
-		var flag = '';
+		var compname = '';
+		var verified = '';
+
 
 		// Attempt to login user
 		try {
@@ -61,16 +63,14 @@ exports.setApp = function(app, client) {
 					errorMessage = "Login/Password incorrect";
 				}
 			}
-
 			
 		}
-
 		// Catch login error
 		catch(e) {
 			errorMessage = e.toString();
 		}
 
-		var ret = { email:email, firstName:fn, lastName:ln, phone:phone, companycode:compcode, verified:verified, error:errorMessage};
+		var ret = { email:email, firstName:fn, lastName:ln, phone:phone, companyName:compname, companyCode: compcode, verified: verified, error:errorMessage};
 		res.status(200).json(ret);
 	});
 
@@ -152,18 +152,24 @@ exports.setApp = function(app, client) {
 		var compCode = req.body.companyCode;
 		var compName = req.body.companyName;
 		var flag = req.body.flag;
+
 		var errorMessage = '';
 		
-		var cont = 1;
-
-		//TODO: Handle duplicate users
 		const db = client.db();
 
+
+		// Comapres passwords
+		if (password.localeCompare(password_confirm)) {
+			errorMessage += "Passwords do not match";
+		}
+
+		// Generates Random Company Code
+		var cont = 1;
 		if (flag == 1) {
 
 			while(cont){
 
-				compCode = getRandomInt();
+				compCode = getRandomInt().toString();
 				const codeChecker = await db.collection('employers').find({companyCode: compCode}).toArray();
 
 				if (codeChecker.length == 0)
@@ -172,20 +178,44 @@ exports.setApp = function(app, client) {
 
 		}
 
+		// Checks company code entered by user, making sure it's used by an Employer already
+		var compcodeVerified = 1;
+		if (flag == 0){
+			const codeChecker = await db.collection('employers').find({companyCode: compCode}).toArray();
 
-		if (password.localeCompare(password_confirm)) {
-			errorMessage = "Passwords do not match";
+			if (codeChecker.length == 0)
+			{
+					compcodeVerified = 0;
+					errorMessage = "Company Code does not exist"
+			}
+
 		}
 
-		else {
+		// Check for existing users in both collections
+		var unique = 1;
+		const emailCheckerE = await db.collection('employers').find({Email: email}).toArray();
+		const emailCheckerW = await db.collection('workers').find({Email: email}).toArray();
+
+		if (emailCheckerE.length != 0){
+			unique = 0;
+			errorMessage = "Employer already exists with this email ";
+		}
+		
+		else if (emailCheckerW.length != 0){
+			unique = 0;
+			errorMessage = "Worker already exists with this email ";
+		}
+
+		// 'Unique' is used to denote the email hasn't been used before
+		else if (unique == 1 && compcodeVerified == 1){
 			var data = {
 				"Email" : email,
 				"Password": password,
 				"firstName": firstName,
 				"lastName": lastName,
 				"phone" : phone,
-				"compnayCode" : compCode,
-				"compnayName" : compName,
+				"companyCode" : compCode,
+				"companyName" : compName,
 				"flag": flag,
 				"Verified": false
 			}
