@@ -40,7 +40,7 @@ exports.setApp = function(app, client) {
 			}
 
 			else {
-				const results = await db.collection('employer').find({Email:email,Password:password}).toArray();
+				const results = await db.collection('employers').find({Email:email,Password:password}).toArray();
 
 				if (results.length > 0)
 				{
@@ -176,7 +176,7 @@ exports.setApp = function(app, client) {
 				}
 				else {
 					const db = client.db();
-					const results = await db.collection('employer').insertOne(data);
+					const results = await db.collection('employers').insertOne(data);
 					sendVerificationLink(email);
 					errorMessage = "Success: Employer";
 				}
