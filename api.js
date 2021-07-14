@@ -1,7 +1,7 @@
 require('dotenv').config();
 //const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
-const Math = require("mathjs");
+var math = require("mathjs");
 
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
@@ -134,9 +134,9 @@ exports.setApp = function(app, client) {
 	}
 
 	function getRandomInt(min, max) {
-		1000 = Math.ceil(min);
-		9999 = Math.floor(max);
-		return Math.floor(Math.random() * (max - min) + min);
+		1000 = math.ceil(min);
+		9999 = math.floor(max);
+		return math.floor(math.random() * (max - min) + min);
 	}
 
 	app.post('/api/register', async(req, res, next) => {
