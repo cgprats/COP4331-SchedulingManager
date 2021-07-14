@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'package:large_project/utils/global_data.dart';
-import 'package:large_project/utils/getAPI.dart';
-import 'package:large_project/utils/CustomColors.dart';
-import 'package:large_project/components/rounded_input_field.dart';
-import 'package:large_project/components/rounded-password-field.dart';
-import 'package:large_project/components/rounded_button.dart';
+import 'package:mobile/utils/global_data.dart';
+import 'package:mobile/utils/getAPI.dart';
+import 'package:mobile/utils/CustomColors.dart';
+import 'package:mobile/components/rounded_input_field.dart';
+import 'package:mobile/components/rounded-password-field.dart';
+import 'package:mobile/components/rounded_button.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
