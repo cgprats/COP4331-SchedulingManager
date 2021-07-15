@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -17,16 +18,8 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
-    // MediaQueryData mq = MediaQuery.of(context);
-    // Size size = Size(
-    //   mq.size.width,
-    //   mq.size.height - mq.viewInsets.vertical - mq.viewPadding.vertical - mq.padding.vertical,
-    // );
     Size _size = MediaQuery.of(context).size;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Sign Up'),
-      // ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
         child: Container(
@@ -36,7 +29,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _AccountTypeSelector(),
               Text(
                 "SIGN UP",
                 style: TextStyle(
@@ -45,8 +37,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   fontSize: 30,
                 ),
               ),
+              _AccountTypeSelector(),
               SizedBox(
-                height: _size.height * 0.05,
+                height: _size.height * 0.03,
               ),
               _SignUpForm(),
             ],
@@ -64,15 +57,20 @@ class _SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<_SignUpForm> {
-  final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
   Map _payload = Map();
   bool _visible1 = false, _visible2 = false;
-  String _errorMessage = 's';
+  String _errorMessage = '';
+
+  void refresh() {
+    setState(() {
+      _visible1 = !_visible1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    _payload['flag'] = 0;
     return Form(
       key: _formKey,
       child: Column(
@@ -110,23 +108,59 @@ class _SignUpFormState extends State<_SignUpForm> {
               _payload['phone'] = text;
             },
           ),
-          RoundedInputField(
-            labelText: 'Company ' +
-                () {
-                  if (_payload['flag'] == 1)
-                    return 'Name';
-                  else
-                    return 'Code';
-                }(),
-            hintText: '1234',
-            width: _size.width * 0.8,
-            onChanged: (text) {
-              if (_payload['flag'] == 1)
-                _payload['companyName'] = text;
-              else
-                _payload['companyCode'] = text;
-            },
+          Stack(
+            children: <Widget>[
+              AnimatedContainer(
+                duration: Duration(milliseconds: 1000),
+                curve: Curves.elasticOut,
+                alignment: GlobalData.accountType == 1
+                    ? AlignmentDirectional(0, 0)
+                    : AlignmentDirectional(10, 0),
+                child: RoundedInputField(
+                  labelText: 'Company Name',
+                  hintText: 'Company Name',
+                  width: _size.width * 0.8,
+                  onChanged: (text) {
+                    if (GlobalData.accountType == 1)
+                      _payload['companyName'] = text;
+                  },
+                ),
+              ),
+              AnimatedContainer(
+                duration: Duration(milliseconds: 1000),
+                curve: Curves.elasticOut,
+                alignment: GlobalData.accountType == 0
+                    ? AlignmentDirectional(0, 0)
+                    : AlignmentDirectional(-10, 0),
+                child: RoundedInputField(
+                  labelText: 'Company Code',
+                  hintText: '1234',
+                  width: _size.width * 0.8,
+                  onChanged: (text) {
+                    if (GlobalData.accountType == 0)
+                      _payload['companyCode'] = text;
+                  },
+                ),
+              ),
+            ],
           ),
+          // RoundedInputField(
+          //   labelText: 'Company ' +
+          //       () {
+          //         if (GlobalData.accountType == 1)
+          //           return 'Name';
+          //         else
+          //           return 'Code';
+          //       }(),
+          //   hintText: '1234',
+          //   width: _size.width * 0.8,
+          //   onChanged: (text) {
+          //     if (GlobalData.accountType == 1)
+          //       _payload['companyName'] = text;
+          //     else
+          //       _payload['companyCode'] = text;
+          //   },
+          // ),
           RoundedInputField(
             labelText: 'Password',
             hintText: 'Password',
@@ -181,18 +215,56 @@ class _SignUpFormState extends State<_SignUpForm> {
               ),
             ),
           ),
-          RoundedButton(
-            text: 'Sign Up',
-            width: _size.width * 0.8,
-            color: _payload['flag'] == 1
-                ? CustomColors.green
-                : CustomColors.purple,
-            onPress: () {
-              if (_formKey.currentState!.validate()) {
-                _register(_payload);
-              }
-            },
+          Stack(
+            children: <Widget>[
+              AnimatedContainer(
+                duration: Duration(milliseconds: 1000),
+                curve: Curves.elasticOut,
+                alignment: GlobalData.accountType == 1
+                    ? AlignmentDirectional(0, 0)
+                    : AlignmentDirectional(10, 0),
+                child: RoundedButton(
+                  text: 'Sign Up',
+                  width: _size.width * 0.8,
+                  color: CustomColors.green,
+                  onPress: () {
+                    if (_formKey.currentState!.validate()) {
+                      _register(_payload);
+                    }
+                  },
+                ),
+              ),
+              AnimatedContainer(
+                duration: Duration(milliseconds: 1000),
+                curve: Curves.elasticOut,
+                alignment: GlobalData.accountType == 0
+                    ? AlignmentDirectional(0, 0)
+                    : AlignmentDirectional(-10, 0),
+                child: RoundedButton(
+                  text: 'Sign Up',
+                  width: _size.width * 0.8,
+                  color: CustomColors.purple,
+                  onPress: () {
+                    if (_formKey.currentState!.validate()) {
+                      _register(_payload);
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
+          // RoundedButton(
+          //   text: 'Sign Up',
+          //   width: _size.width * 0.8,
+          //   color: GlobalData.accountType == 1
+          //       ? CustomColors.green
+          //       : CustomColors.purple,
+          //   onPress: () {
+          //     if (_formKey.currentState!.validate()) {
+          //       _register(_payload);
+          //     }
+          //   },
+          // ),
         ],
       ),
     );
@@ -203,6 +275,7 @@ class _SignUpFormState extends State<_SignUpForm> {
     String ret = await API.getJson(dir, _payload);
     print(ret);
     var jsonObj = json.decode(ret);
+    print(jsonObj);
     if (ret.isEmpty) {
       print('oh no :(');
     } else {
@@ -224,8 +297,87 @@ class _AccountTypeSelector extends StatefulWidget {
 class _AccountTypeSelectorState extends State<_AccountTypeSelector> {
   @override
   Widget build(BuildContext context) {
+    Size _size = MediaQuery.of(context).size;
+    if (GlobalData.accountType == null) GlobalData.accountType = 0;
     return Container(
-
+      width: _size.width * 0.7,
+      height: 50,
+      decoration: BoxDecoration(
+        color: CustomColors.black,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Stack(
+        children: <Widget>[
+          AnimatedContainer(
+            duration: Duration(milliseconds: 1000),
+            curve: Curves.elasticOut,
+            alignment: GlobalData.accountType == 1
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
+            child: FractionallySizedBox(
+              heightFactor: 1.0,
+              widthFactor: 0.5,
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 500),
+                decoration: BoxDecoration(
+                  color: GlobalData.accountType == 1
+                      ? CustomColors.green
+                      : CustomColors.purple,
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      GlobalData.accountType = 1;
+                      context
+                          .findAncestorStateOfType<State<SignUpScreen>>()!
+                          .setState(() {});
+                    });
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Employer',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      GlobalData.accountType = 0;
+                      context
+                          .findAncestorStateOfType<State<SignUpScreen>>()!
+                          .setState(() {});
+                    });
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Worker',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

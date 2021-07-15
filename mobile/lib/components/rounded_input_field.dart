@@ -39,9 +39,9 @@ class RoundedInputField extends StatelessWidget {
           suffixIcon: this.suffixIcon,
         ),
         validator: (value) {
-          // if (this.required && (value == null || value.isEmpty)) {
-          //   return this.errorMessage;
-          // }
+          if (this.required && (value == null || value.isEmpty)) {
+            return this.errorMessage;
+          }
           return null;
         },
         onChanged: this.onChanged,
