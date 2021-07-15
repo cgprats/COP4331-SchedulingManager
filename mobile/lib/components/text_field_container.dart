@@ -20,7 +20,7 @@ class TextFieldContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       width: this.width,
       height: this.height,
       decoration: BoxDecoration(
