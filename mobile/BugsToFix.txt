@@ -1,0 +1,6 @@
+signupscreen:
+    - when navigating through text fields by using the 'next' button on the keyboard,
+        the cursor will navigate to 'Company Code' and 'Company Name', even though only
+        one of them is visible on the screen
+    - when navigating through text fields by using the 'next' button on the keyboard,
+        the cursor will not go to 'Confirm Password' field
