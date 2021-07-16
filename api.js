@@ -1,5 +1,5 @@
 require('dotenv').config();
-//const token = require('./createJWT.js');
+const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
 var math = require("mathjs");
 
@@ -38,7 +38,6 @@ exports.setApp = function(app, client) {
 				flag = results[0].flag;
 				verified = results[0].Verified;
 
-				//TODO: Create JWT
 				errorMessage = "Success: Worker";
 			}
 
@@ -55,7 +54,6 @@ exports.setApp = function(app, client) {
 					flag = results[0].flag;
 					verified = results[0].Verified;
 
-					//TODO: Create JWT
 					errorMessage = "Success: Employer";
 				}
 
@@ -71,12 +69,20 @@ exports.setApp = function(app, client) {
 		}
 
 		var ret = { email:email, firstName:fn, lastName:ln, phone:phone, companyName:compname, companyCode: compcode, verified: verified, error:errorMessage};
+
+		// JWT Code
+		try {
+			ret = token.createToken(email, flag, fn, ln, phone, compcode, verified);
+		}
+
+		catch (e) {
+			ret = {error:e.message};
+		}
+
 		res.status(200).json(ret);
 	});
 
 	app.post('/api/send', async(req, res) => {
-		// TODO: Create JWT for verification link
-		// Maybe create async email for faster response, requires JWT done first
 		var errorMessage = '';
 		var email = req.body.email;
 		// Note: Must include http
@@ -245,9 +251,6 @@ exports.setApp = function(app, client) {
 
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
-
-		/*TODO: Login after successful registration
-		return res.redirect('/api/login');*/
 	});
 
 	app.post('/api/verify/:token', async(req, res, next) => { 
