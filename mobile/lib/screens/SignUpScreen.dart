@@ -23,11 +23,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
         child: Container(
-          // height: size.height,
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
                 "SIGN UP",
@@ -154,23 +152,6 @@ class _SignUpFormState extends State<_SignUpForm> {
                     ),
                   ],
                 ),
-                // RoundedInputField(
-                //   labelText: 'Company ' +
-                //       () {
-                //         if (GlobalData.accountType == 1)
-                //           return 'Name';
-                //         else
-                //           return 'Code';
-                //       }(),
-                //   hintText: '1234',
-                //   width: _size.width * 0.8,
-                //   onChanged: (text) {
-                //     if (GlobalData.accountType == 1)
-                //       _payload['companyName'] = text;
-                //     else
-                //       _payload['companyCode'] = text;
-                //   },
-                // ),
                 RoundedInputField(
                   order: 6,
                   labelText: 'Password',
@@ -180,9 +161,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   onChanged: (text) {
                     _payload['password'] = text;
                   },
-                  onFieldSubmitted: (text) {
-
-                  },
+                  onFieldSubmitted: (text) {},
                   suffixIcon: IconButton(
                     focusNode: FocusNode(skipTraversal: true),
                     icon: Icon(
@@ -235,56 +214,18 @@ class _SignUpFormState extends State<_SignUpForm> {
               ),
             ),
           ),
-          Stack(
-            children: <Widget>[
-              AnimatedContainer(
-                duration: Duration(milliseconds: 1000),
-                curve: Curves.elasticOut,
-                alignment: GlobalData.accountType == 1
-                    ? AlignmentDirectional(0, 0)
-                    : AlignmentDirectional(10, 0),
-                child: RoundedButton(
-                  text: 'Sign Up',
-                  width: _size.width * 0.8,
-                  color: CustomColors.green,
-                  onPress: () {
-                    if (_formKey.currentState!.validate()) {
-                      _register(_payload);
-                    }
-                  },
-                ),
-              ),
-              AnimatedContainer(
-                duration: Duration(milliseconds: 1000),
-                curve: Curves.elasticOut,
-                alignment: GlobalData.accountType == 0
-                    ? AlignmentDirectional(0, 0)
-                    : AlignmentDirectional(-10, 0),
-                child: RoundedButton(
-                  text: 'Sign Up',
-                  width: _size.width * 0.8,
-                  color: CustomColors.purple,
-                  onPress: () {
-                    if (_formKey.currentState!.validate()) {
-                      _register(_payload);
-                    }
-                  },
-                ),
-              ),
-            ],
+          RoundedButton(
+            text: 'SIGN UP',
+            width: _size.width * 0.8,
+            color: GlobalData.accountType == 1
+                ? CustomColors.green
+                : CustomColors.purple,
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                _register(_payload);
+              }
+            },
           ),
-          // RoundedButton(
-          //   text: 'Sign Up',
-          //   width: _size.width * 0.8,
-          //   color: GlobalData.accountType == 1
-          //       ? CustomColors.green
-          //       : CustomColors.purple,
-          //   onPress: () {
-          //     if (_formKey.currentState!.validate()) {
-          //       _register(_payload);
-          //     }
-          //   },
-          // ),
         ],
       ),
     );
@@ -333,8 +274,28 @@ class _AccountTypeSelectorState extends State<_AccountTypeSelector> {
             duration: Duration(milliseconds: 1000),
             curve: Curves.elasticOut,
             alignment: GlobalData.accountType == 1
-                ? Alignment.centerLeft
-                : Alignment.centerRight,
+                ? AlignmentDirectional(-0.9, 0)
+                : AlignmentDirectional(0.9, 0),
+            child: FractionallySizedBox(
+              heightFactor: 1.0,
+              widthFactor: 0.5,
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 500),
+                decoration: BoxDecoration(
+                  color: GlobalData.accountType == 1
+                      ? CustomColors.green.withAlpha(150)
+                      : CustomColors.purple.withAlpha(150),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+            ),
+          ),
+          AnimatedContainer(
+            duration: Duration(milliseconds: 1000),
+            curve: Curves.elasticOut,
+            alignment: GlobalData.accountType == 1
+                ? AlignmentDirectional(-1, 0)
+                : AlignmentDirectional(1, 0),
             child: FractionallySizedBox(
               heightFactor: 1.0,
               widthFactor: 0.5,
@@ -366,7 +327,9 @@ class _AccountTypeSelectorState extends State<_AccountTypeSelector> {
                     child: Text(
                       'Employer',
                       style: TextStyle(
-                        color: CustomColors.white,
+                        color: GlobalData.accountType == 1
+                            ? CustomColors.black
+                            : CustomColors.white,
                         fontSize: 24,
                       ),
                     ),
@@ -388,7 +351,9 @@ class _AccountTypeSelectorState extends State<_AccountTypeSelector> {
                     child: Text(
                       'Worker',
                       style: TextStyle(
-                        color: CustomColors.white,
+                        color: GlobalData.accountType == 0
+                            ? CustomColors.black
+                            : CustomColors.white,
                         fontSize: 24,
                       ),
                     ),
