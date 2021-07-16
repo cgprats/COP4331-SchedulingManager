@@ -1,15 +1,12 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-exports.createToken = function(fn, ln, id) {
-	return _createToken(fn, ln, id);
-}
-
-_createToken = function(fn, ln, id) {
+exports.createToken = function(email, flag, fn, ln, phone, compcode, verified) {
 	try {
-		const experation = new Date();
-		const user = {userId:id, firstName:fn, lastName:ln};
+		const expiration = new Date();
+		const user = {Email:email, flag:flag, firstName:fn, lastName:ln, phone:phone, companyCode:compcode, Verified:verified};
 
+		// Use default expiration
 		const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 
 		var ret = {accessToken:accessToken};
@@ -21,13 +18,12 @@ _createToken = function(fn, ln, id) {
 
 	return ret;
 }
-/*
+
 exports.isExpired = function(token) {
-	var isError = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, verifiedJwt) ==> {
+	var isError = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, verifiedJWT) => {
 		if (err) {
 			return true;
 		}
-		
 		else {
 			return false;
 		}
@@ -35,13 +31,17 @@ exports.isExpired = function(token) {
 
 	return isError;
 }
-*/
+
 exports.refresh = function(token) {
-	var ui = jwt.decode(token,{complete:true});
+	var ud = jwt.decode(token,{complete:true});
 
-	var userId = ud.payload.id;
-	var firstName = ud.payload.firstName;
-	var lastName = ud.payload.lastName;
+	var email = ud.payload.email;
+	var flag = ud.payload.flag;
+	var fn = ud.payload.fn;
+	var ln = ud.payload.ln;
+	var phone = ud.payload.phone;
+	var compcode = ud.payload.compcode;
+	var verified = ud.payload.verified;
 
-	return _createToken(firstName, lastName, userId);
+	return createToken(email, flag, fn, ln, phone, compcode, verified);
 }
