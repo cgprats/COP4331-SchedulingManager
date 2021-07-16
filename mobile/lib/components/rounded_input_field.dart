@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:mobile/utils/CustomColors.dart';
 import 'text_field_container.dart';
 
-class RoundedInputField extends StatelessWidget {
+class RoundedInputField extends StatefulWidget {
   final String? hintText, labelText, errorMessage;
   final double? width, height;
   final Function(String)? onChanged, onFieldSubmitted;
-  final bool obscureText, autofocus, required;
+  final bool enabled, obscureText, autofocus, skipTraversal, required;
   final TextInputAction textInputAction;
   final IconButton? suffixIcon;
+  final double order;
 
   const RoundedInputField({
-    //   Key key,
+    Key? key,
     this.hintText,
     this.labelText,
     this.errorMessage = 'Field cannot be empty',
@@ -20,38 +21,74 @@ class RoundedInputField extends StatelessWidget {
     this.height,
     this.onChanged,
     this.onFieldSubmitted,
+    this.enabled = true,
     this.obscureText = false,
     this.autofocus = false,
+    this.skipTraversal = false,
     this.required = true,
     this.textInputAction = TextInputAction.next,
     this.suffixIcon,
+    this.order = -1,
   }); // : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return TextFieldContainer(
-      child: TextFormField(
-        obscureText: this.obscureText,
-        decoration: InputDecoration(
-          hintText: this.hintText,
-          labelText: this.labelText,
-          border: InputBorder.none,
-          suffixIcon: this.suffixIcon,
-        ),
-        validator: (value) {
-          if (this.required && (value == null || value.isEmpty)) {
-            return this.errorMessage;
-          }
-          return null;
-        },
-        onChanged: this.onChanged,
-        onFieldSubmitted: this.onFieldSubmitted,
-        autofocus: this.autofocus,
-        textInputAction: this.textInputAction,
+  State<RoundedInputField> createState() => _RoundedInputFieldState();
+}
 
+class _RoundedInputFieldState extends State<RoundedInputField> {
+  late FocusNode focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode = FocusNode(
+      skipTraversal: widget.skipTraversal,
+    );
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(RoundedInputField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    focusNode.skipTraversal = widget.skipTraversal;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    FocusOrder order = NumericFocusOrder(widget.order);
+    return FocusTraversalOrder(
+      order: order,
+      child: TextFieldContainer(
+        child: TextFormField(
+          enabled: widget.enabled,
+          focusNode: this.focusNode,
+          obscureText: widget.obscureText,
+          decoration: InputDecoration(
+            hintText: widget.hintText,
+            labelText: widget.labelText,
+            border: InputBorder.none,
+            suffixIcon: widget.suffixIcon,
+          ),
+          validator: (value) {
+            // return null;
+            if (widget.required && (value == null || value.isEmpty)) {
+              return widget.errorMessage;
+            }
+            return null;
+          },
+          onChanged: widget.onChanged,
+          onFieldSubmitted: widget.onFieldSubmitted,
+          autofocus: widget.autofocus,
+          textInputAction: widget.textInputAction,
+        ),
+        width: widget.width,
+        height: widget.height,
       ),
-      width: this.width,
-      height: this.height,
     );
   }
 }

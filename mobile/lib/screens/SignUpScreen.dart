@@ -62,12 +62,6 @@ class _SignUpFormState extends State<_SignUpForm> {
   bool _visible1 = false, _visible2 = false;
   String _errorMessage = '';
 
-  void refresh() {
-    setState(() {
-      _visible1 = !_visible1;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
@@ -75,135 +69,161 @@ class _SignUpFormState extends State<_SignUpForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          RoundedInputField(
-            labelText: 'First Name',
-            hintText: 'John',
-            width: _size.width * 0.8,
-            onChanged: (text) {
-              _payload['firstName'] = text;
-            },
-            autofocus: true,
-          ),
-          RoundedInputField(
-            labelText: 'Last Name',
-            hintText: 'Doe',
-            width: _size.width * 0.8,
-            onChanged: (text) {
-              _payload['lastName'] = text;
-            },
-          ),
-          RoundedInputField(
-            labelText: 'Email',
-            hintText: 'john.doe@email.com',
-            width: _size.width * 0.8,
-            onChanged: (text) {
-              _payload['email'] = text;
-            },
-          ),
-          RoundedInputField(
-            labelText: 'Phone Number',
-            hintText: '(123) 456-7890',
-            width: _size.width * 0.8,
-            onChanged: (text) {
-              _payload['phone'] = text;
-            },
-          ),
-          Stack(
-            children: <Widget>[
-              AnimatedContainer(
-                duration: Duration(milliseconds: 1000),
-                curve: Curves.elasticOut,
-                alignment: GlobalData.accountType == 1
-                    ? AlignmentDirectional(0, 0)
-                    : AlignmentDirectional(10, 0),
-                child: RoundedInputField(
-                  labelText: 'Company Name',
-                  hintText: 'Company Name',
+          FocusTraversalGroup(
+            policy: OrderedTraversalPolicy(),
+            child: Column(
+              children: <Widget>[
+                RoundedInputField(
+                  order: 1,
+                  labelText: 'First Name',
+                  hintText: 'John',
                   width: _size.width * 0.8,
                   onChanged: (text) {
-                    if (GlobalData.accountType == 1)
-                      _payload['companyName'] = text;
+                    _payload['firstName'] = text;
                   },
+                  autofocus: true,
                 ),
-              ),
-              AnimatedContainer(
-                duration: Duration(milliseconds: 1000),
-                curve: Curves.elasticOut,
-                alignment: GlobalData.accountType == 0
-                    ? AlignmentDirectional(0, 0)
-                    : AlignmentDirectional(-10, 0),
-                child: RoundedInputField(
-                  labelText: 'Company Code',
-                  hintText: '1234',
+                RoundedInputField(
+                  order: 2,
+                  labelText: 'Last Name',
+                  hintText: 'Doe',
                   width: _size.width * 0.8,
                   onChanged: (text) {
-                    if (GlobalData.accountType == 0)
-                      _payload['companyCode'] = text;
+                    _payload['lastName'] = text;
                   },
                 ),
-              ),
-            ],
-          ),
-          // RoundedInputField(
-          //   labelText: 'Company ' +
-          //       () {
-          //         if (GlobalData.accountType == 1)
-          //           return 'Name';
-          //         else
-          //           return 'Code';
-          //       }(),
-          //   hintText: '1234',
-          //   width: _size.width * 0.8,
-          //   onChanged: (text) {
-          //     if (GlobalData.accountType == 1)
-          //       _payload['companyName'] = text;
-          //     else
-          //       _payload['companyCode'] = text;
-          //   },
-          // ),
-          RoundedInputField(
-            labelText: 'Password',
-            hintText: 'Password',
-            obscureText: !_visible1,
-            width: _size.width * 0.8,
-            onChanged: (text) {
-              _payload['password'] = text;
-            },
-            suffixIcon: IconButton(
-              icon: Icon(
-                _visible1 ? Icons.visibility : Icons.visibility_off,
-              ),
-              onPressed: () {
-                setState(() {
-                  _visible1 = !_visible1;
-                });
-              },
+                RoundedInputField(
+                  order: 3,
+                  labelText: 'Email',
+                  hintText: 'john.doe@email.com',
+                  width: _size.width * 0.8,
+                  onChanged: (text) {
+                    _payload['email'] = text;
+                  },
+                ),
+                RoundedInputField(
+                  order: 4,
+                  labelText: 'Phone Number',
+                  hintText: '(123) 456-7890',
+                  width: _size.width * 0.8,
+                  onChanged: (text) {
+                    _payload['phone'] = text;
+                  },
+                ),
+                Stack(
+                  children: <Widget>[
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 1000),
+                      curve: Curves.elasticOut,
+                      alignment: GlobalData.accountType == 1
+                          ? AlignmentDirectional(0, 0)
+                          : AlignmentDirectional(10, 0),
+                      child: RoundedInputField(
+                        order: 5,
+                        skipTraversal: GlobalData.accountType != 1,
+                        enabled: GlobalData.accountType == 1,
+                        required: GlobalData.accountType == 1,
+                        labelText: 'Company Name',
+                        hintText: 'Company Name',
+                        width: _size.width * 0.8,
+                        onChanged: (text) {
+                          if (GlobalData.accountType == 1)
+                            _payload['companyName'] = text;
+                        },
+                      ),
+                    ),
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 1000),
+                      curve: Curves.elasticOut,
+                      alignment: GlobalData.accountType == 0
+                          ? AlignmentDirectional(0, 0)
+                          : AlignmentDirectional(-10, 0),
+                      child: RoundedInputField(
+                        order: 5,
+                        skipTraversal: GlobalData.accountType != 0,
+                        enabled: GlobalData.accountType == 0,
+                        required: GlobalData.accountType == 0,
+                        labelText: 'Company Code',
+                        hintText: '1234',
+                        width: _size.width * 0.8,
+                        onChanged: (text) {
+                          if (GlobalData.accountType == 0)
+                            _payload['companyCode'] = text;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                // RoundedInputField(
+                //   labelText: 'Company ' +
+                //       () {
+                //         if (GlobalData.accountType == 1)
+                //           return 'Name';
+                //         else
+                //           return 'Code';
+                //       }(),
+                //   hintText: '1234',
+                //   width: _size.width * 0.8,
+                //   onChanged: (text) {
+                //     if (GlobalData.accountType == 1)
+                //       _payload['companyName'] = text;
+                //     else
+                //       _payload['companyCode'] = text;
+                //   },
+                // ),
+                RoundedInputField(
+                  order: 6,
+                  labelText: 'Password',
+                  hintText: 'Password',
+                  obscureText: !_visible1,
+                  width: _size.width * 0.8,
+                  onChanged: (text) {
+                    _payload['password'] = text;
+                  },
+                  onFieldSubmitted: (text) {
+
+                  },
+                  suffixIcon: IconButton(
+                    focusNode: FocusNode(skipTraversal: true),
+                    icon: Icon(
+                      _visible1 ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _visible1 = !_visible1;
+                      });
+                    },
+                  ),
+                ),
+                RoundedInputField(
+                  order: 7,
+                  labelText: 'Confirm Password',
+                  hintText: 'Confirm Password',
+                  obscureText: !_visible2,
+                  width: _size.width * 0.8,
+                  textInputAction: TextInputAction.done,
+                  onChanged: (text) {
+                    _payload['password_confirm'] = text;
+                  },
+                  suffixIcon: IconButton(
+                    focusNode: FocusNode(skipTraversal: true),
+                    icon: Icon(
+                      _visible2 ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _visible2 = !_visible2;
+                      });
+                    },
+                  ),
+                  onFieldSubmitted: (text) {
+                    if (_formKey.currentState!.validate()) {
+                      _register(_payload);
+                    }
+                  },
+                ),
+              ],
             ),
-          ),
-          RoundedInputField(
-            labelText: 'Confirm Password',
-            hintText: 'Confirm Password',
-            obscureText: !_visible2,
-            width: _size.width * 0.8,
-            textInputAction: TextInputAction.done,
-            onChanged: (text) {
-              _payload['password_confirm'] = text;
-            },
-            suffixIcon: IconButton(
-              icon: Icon(
-                _visible2 ? Icons.visibility : Icons.visibility_off,
-              ),
-              onPressed: () {
-                setState(() {
-                  _visible2 = !_visible2;
-                });
-              },
-            ),
-            onFieldSubmitted: (text) {
-              if (_formKey.currentState!.validate()) {
-                _register(_payload);
-              }
-            },
           ),
           Visibility(
             visible: _errorMessage.isNotEmpty,
@@ -271,6 +291,7 @@ class _SignUpFormState extends State<_SignUpForm> {
   }
 
   void _register(Map _payload) async {
+    print('register!');
     String dir = '/register';
     String ret = await API.getJson(dir, _payload);
     print(ret);
