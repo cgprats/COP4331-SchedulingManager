@@ -806,24 +806,21 @@ exports.setApp = function(app, client) {
 	});
 
 	app.post('/api/searchnotesEmail', async(req, res, next) =>{
-		//TODO: What are notes? Past orders?
 		// incoming: fooid, "array of emails"
 		// outgoing: all notes w/ matching fooid and email from array
 		var errorMessage = '';
 
 		var fooid = req.body.fooid;
-		var emails = req.body.emails; // Arrays tho
-
-		var emailarr = new Array();
+		var email = req.body.email;
 
 		try {
 			const db = client.db();
-			const results = await db.collection('notes').find({fooid:emails}).toArray();
+			const results = await db.collection('notes').find({fooid:fooid,email:email}).toArray();
 
 			var data = -1;
 
 			if (results.length > 0) {
-				data = results[0].data;
+				data = results[0].note;
 
 				errorMessage = "Success";
 			}
@@ -833,28 +830,25 @@ exports.setApp = function(app, client) {
 			errorMessage = e.toString();
 		}
 
-		var ret = {data:data, error:errorMessage};
+		var ret = {note:data, error:errorMessage};
 		res.status(200).json(ret);
 	});
 
 	app.post('/api/searchnotesTime', async(req, res, next) =>{
-		//TODO: See above
 		// incoming: email, start time, end time
 		// outgoing: all notes from time range
 		var errorMessage = '';
 
-		var email = req.body.email;
-		var start = req.body.start;
-		var end = req.body.end;
+		var time = req.body.time;
 
 		try {
 			const db = client.db();
-			const results = await db.collection('notes').find({email}).toArray();
+			const results = await db.collection('notes').find({time:time}).toArray();
 
 			var data = -1;
 
 			if (results.length > 0) {
-				data = results[0].data;
+				data = results[0].note;
 
 				errorMessage = "Success";
 			}
@@ -864,12 +858,11 @@ exports.setApp = function(app, client) {
 			errorMessage = e.toString();
 		}
 
-		var ret = {data:data, error:errorMessage};
+		var ret = {note:data, error:errorMessage};
 		res.status(200).json(ret);
 	});
 
 	app.post('/api/addnote', async(req, res, next) =>{
-		//TODO: See above
 		// incoming: fooid, email, time, note
 		// outgoing: error
 		var errorMessage = '';
