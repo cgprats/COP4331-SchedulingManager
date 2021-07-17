@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile/utils/CustomColors.dart';
+import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/utils/global_data.dart';
 
 class RoundedButton extends StatefulWidget {

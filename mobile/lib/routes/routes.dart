@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile/screens/SignUpScreen.dart';
+import 'package:mobile/screens/sign_up_screen.dart';
 
 class Routes {
   static const String SIGNUPSCREEN = '/signup';

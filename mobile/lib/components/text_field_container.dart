@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:mobile/utils/CustomColors.dart';
+import 'package:mobile/utils/custom_colors.dart';
 
 class TextFieldContainer extends StatelessWidget {
   final Widget child;
