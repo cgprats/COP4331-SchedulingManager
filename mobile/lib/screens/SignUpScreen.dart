@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/utils/getAPI.dart';
@@ -76,6 +74,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                   labelText: 'First Name',
                   hintText: 'John',
                   width: _size.width * 0.8,
+                  labelColor: GlobalData.accountType == 1
+                      ? CustomColors.green
+                      : CustomColors.purple,
                   onChanged: (text) {
                     _payload['firstName'] = text;
                   },
@@ -86,6 +87,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                   labelText: 'Last Name',
                   hintText: 'Doe',
                   width: _size.width * 0.8,
+                  labelColor: GlobalData.accountType == 1
+                      ? CustomColors.green
+                      : CustomColors.purple,
                   onChanged: (text) {
                     _payload['lastName'] = text;
                   },
@@ -95,6 +99,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                   labelText: 'Email',
                   hintText: 'john.doe@email.com',
                   width: _size.width * 0.8,
+                  labelColor: GlobalData.accountType == 1
+                      ? CustomColors.green
+                      : CustomColors.purple,
                   onChanged: (text) {
                     _payload['email'] = text;
                   },
@@ -104,6 +111,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                   labelText: 'Phone Number',
                   hintText: '(123) 456-7890',
                   width: _size.width * 0.8,
+                  labelColor: GlobalData.accountType == 1
+                      ? CustomColors.green
+                      : CustomColors.purple,
                   onChanged: (text) {
                     _payload['phone'] = text;
                   },
@@ -124,6 +134,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                         labelText: 'Company Name',
                         hintText: 'Company Name',
                         width: _size.width * 0.8,
+                        labelColor: GlobalData.accountType == 1
+                            ? CustomColors.green
+                            : CustomColors.purple,
                         onChanged: (text) {
                           if (GlobalData.accountType == 1)
                             _payload['companyName'] = text;
@@ -144,6 +157,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                         labelText: 'Company Code',
                         hintText: '1234',
                         width: _size.width * 0.8,
+                        labelColor: GlobalData.accountType == 1
+                            ? CustomColors.green
+                            : CustomColors.purple,
                         onChanged: (text) {
                           if (GlobalData.accountType == 0)
                             _payload['companyCode'] = text;
@@ -158,6 +174,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                   hintText: 'Password',
                   obscureText: !_visible1,
                   width: _size.width * 0.8,
+                  labelColor: GlobalData.accountType == 1
+                      ? CustomColors.green
+                      : CustomColors.purple,
                   onChanged: (text) {
                     _payload['password'] = text;
                   },
@@ -180,6 +199,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                   hintText: 'Confirm Password',
                   obscureText: !_visible2,
                   width: _size.width * 0.8,
+                  labelColor: GlobalData.accountType == 1
+                      ? CustomColors.green
+                      : CustomColors.purple,
                   textInputAction: TextInputAction.done,
                   onChanged: (text) {
                     _payload['password_confirm'] = text;

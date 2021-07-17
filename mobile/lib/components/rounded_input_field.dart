@@ -5,6 +5,7 @@ import 'text_field_container.dart';
 
 class RoundedInputField extends StatefulWidget {
   final String? hintText, labelText, errorMessage;
+  final Color? labelColor;
   final double? width, height;
   final Function(String)? onChanged, onFieldSubmitted;
   final bool enabled, obscureText, autofocus, skipTraversal, required;
@@ -16,6 +17,7 @@ class RoundedInputField extends StatefulWidget {
     Key? key,
     this.hintText,
     this.labelText,
+    this.labelColor,
     this.errorMessage = 'Field cannot be empty',
     this.width,
     this.height,
@@ -69,6 +71,9 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
           focusNode: this.focusNode,
           obscureText: widget.obscureText,
           decoration: InputDecoration(
+            labelStyle: TextStyle(
+              color: widget.labelColor,
+            ),
             hintText: widget.hintText,
             labelText: widget.labelText,
             border: InputBorder.none,
