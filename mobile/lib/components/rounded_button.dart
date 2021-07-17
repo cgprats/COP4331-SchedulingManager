@@ -9,6 +9,8 @@ class RoundedButton extends StatefulWidget {
   final Color color, textColor;
   final double width;
   final double height;
+  final bool doAnimation;
+  final Duration duration;
 
   const RoundedButton({
     Key? key,
@@ -18,6 +20,8 @@ class RoundedButton extends StatefulWidget {
     this.textColor = CustomColors.white,
     this.width = double.infinity,
     this.height = double.infinity,
+    this.doAnimation = false,
+    this.duration = const Duration(milliseconds: 500),
   }); // : super(key: key);
 
   @override
@@ -33,7 +37,7 @@ class _RoundedButtonState extends State<RoundedButton>
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: widget.duration,
     );
     _colorTween = ColorTween(
       begin: CustomColors.purple,
@@ -45,10 +49,12 @@ class _RoundedButtonState extends State<RoundedButton>
   @override
   void didUpdateWidget(oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (GlobalData.accountType == 1)
-      _animationController.forward();
-    else
-      _animationController.reverse();
+    if (widget.doAnimation) {
+      if (GlobalData.accountType == 1)
+        _animationController.forward();
+      else
+        _animationController.reverse();
+    }
   }
 
   @override
@@ -75,7 +81,7 @@ class _RoundedButtonState extends State<RoundedButton>
               ),
             ),
             backgroundColor: MaterialStateProperty.all<Color>(
-              _colorTween.value,
+              widget.doAnimation ? _colorTween.value : widget.color,
             ),
           ),
           child: Text(

@@ -217,9 +217,7 @@ class _SignUpFormState extends State<_SignUpForm> {
           RoundedButton(
             text: 'SIGN UP',
             width: _size.width * 0.8,
-            color: GlobalData.accountType == 1
-                ? CustomColors.green
-                : CustomColors.purple,
+            doAnimation: true,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _register(_payload);
