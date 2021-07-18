@@ -7,6 +7,7 @@ button.link
     text-decoration: underline;
     display: inline;
     font-size: 20px;
+    cursor: pointer;
 }
 
 button.link:hover
@@ -27,6 +28,7 @@ button.link:hover
     align-items: center;
     justify-content:center;
     transition: 0.4s;
+    cursor: pointer;
   }
 
   .right:hover
@@ -48,6 +50,7 @@ button.link:hover
     align-items: center;
     justify-content:center;
     transition: 0.4s;
+    cursor: pointer;
   }
 
   .col:hover
