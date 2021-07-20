@@ -100,6 +100,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   labelText: 'Email',
                   hintText: 'john.doe@email.com',
                   width: _size.width * 0.8,
+                  keyboardType: TextInputType.emailAddress,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
                       : CustomColors.purple,
@@ -112,6 +113,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   labelText: 'Phone Number',
                   hintText: '(123) 456-7890',
                   width: _size.width * 0.8,
+                  keyboardType: TextInputType.phone,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
                       : CustomColors.purple,
@@ -248,6 +250,7 @@ class _SignUpFormState extends State<_SignUpForm> {
             },
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 "Already have an Account ?",
@@ -258,15 +261,15 @@ class _SignUpFormState extends State<_SignUpForm> {
                   Navigator.pushNamed(context, '/login');
                 },
                 child: Text(
-                    "Log In",
-                    style: TextStyle(
-                      color: CustomColors.orange,
-                      fontWeight: FontWeight.bold,
-                    )
+                  "Log In",
+                  style: TextStyle(
+                    color: CustomColors.orange,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

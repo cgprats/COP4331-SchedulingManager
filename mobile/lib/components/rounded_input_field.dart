@@ -12,6 +12,7 @@ class RoundedInputField extends StatefulWidget {
   final TextInputAction textInputAction;
   final IconButton? suffixIcon;
   final double order;
+  final TextInputType? keyboardType;
 
   const RoundedInputField({
     Key? key,
@@ -31,6 +32,7 @@ class RoundedInputField extends StatefulWidget {
     this.textInputAction = TextInputAction.next,
     this.suffixIcon,
     this.order = -1,
+    this.keyboardType,
   }); // : super(key: key);
 
   @override
@@ -67,6 +69,7 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
       order: order,
       child: TextFieldContainer(
         child: TextFormField(
+          keyboardType: widget.keyboardType,
           enabled: widget.enabled,
           focusNode: this.focusNode,
           obscureText: widget.obscureText,

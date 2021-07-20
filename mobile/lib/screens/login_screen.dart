@@ -4,6 +4,7 @@ import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_button.dart';
+import 'package:mobile/utils/global_data.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,41 +21,40 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: CustomColors.grey,
-        body: SingleChildScrollView(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
-          child: Container(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "LOG IN",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: CustomColors.white,
-                    fontSize: 30,
-                  ),
+      backgroundColor: CustomColors.grey,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "LOG IN",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: CustomColors.white,
+                  fontSize: 30,
                 ),
-                SizedBox(
-                  height: _size.height * 0.03,
-                ),
-                MainPage(),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: _size.height * 0.03,
+              ),
+              _MainPage(),
+            ],
           ),
-        )
+        ),
+      ),
     );
   }
-
 }
 
-class MainPage extends StatefulWidget {
+class _MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<_MainPage> {
   static final _formKey = GlobalKey<FormState>();
   Map _payload = Map();
   bool _visible = false;
@@ -64,10 +64,8 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
     return Form(
-
-      key: _formKey,
-      child: Column(
-        children: <Widget>[
+        key: _formKey,
+        child: Column(children: <Widget>[
           RoundedInputField(
             order: 1,
             labelText: 'Email',
@@ -137,15 +135,14 @@ class _MainPageState extends State<MainPage> {
                   style: TextStyle(
                     color: CustomColors.orange,
                     fontWeight: FontWeight.bold,
-                  )
+                  ),
                 ),
               ),
             ],
-          )
-        ]
-      )
-    );
+          ),
+        ]));
   }
+
   void _login(Map _payload) async {
     print('login!');
     String dir = '/login';
@@ -157,9 +154,11 @@ class _MainPageState extends State<MainPage> {
       print('oh no :(');
     } else {
       setState(
-            () {
+        () {
           _errorMessage =
-          jsonObj['error'].startsWith('Success: ') ? '' : jsonObj['error'];
+              jsonObj['error'].startsWith('Success: ') ? '' : jsonObj['error'];
+          GlobalData.firstName = jsonObj['firstName'];
+          GlobalData.lastName = jsonObj['lastName'];
         },
       );
     }
