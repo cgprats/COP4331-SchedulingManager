@@ -16,38 +16,38 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: CustomColors.grey,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
-        child: Container(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "SIGN IN",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: CustomColors.white,
-                  fontSize: 30,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
+          child: Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "SIGN IN",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: CustomColors.white,
+                    fontSize: 30,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: _size.height * 0.03,
-              ),
-              _MainPage(),
-              SignUpOrLogin(
-                login: true,
-              ),
-            ],
+                SizedBox(
+                  height: 5,
+                ),
+                _MainPage(),
+                SignUpOrLogin(
+                  login: true,
+                ),
+                SizedBox(
+                  height: _size.height * 0.03,
+                ),
+              ],
+            ),
           ),
         ),
       ),

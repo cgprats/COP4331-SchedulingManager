@@ -11,29 +11,41 @@ class SignUpOrLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
       children: <Widget>[
-        Text(
-          this.login ? "Don't have an Account? " : "Already have an Account? ",
-          style: TextStyle(
-            color: CustomColors.white,
-          ),
+        Divider(
+          color: CustomColors.white,
+          indent: 20,
+          endIndent: 20,
+          thickness: 1,
         ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pushReplacementNamed(
-              context,
-              this.login ? '/signup' : '/login',
-            );
-          },
-          child: Text(
-            this.login ? 'Sign Up!' : 'Sign In!',
-            style: TextStyle(
-              color: CustomColors.white,
-              fontWeight: FontWeight.bold,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              this.login
+                  ? "Don't have an Account? "
+                  : "Already have an Account? ",
+              style: TextStyle(
+                color: CustomColors.white,
+              ),
             ),
-          ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                  context,
+                  this.login ? '/signup' : '/login',
+                );
+              },
+              child: Text(
+                this.login ? 'Sign Up!' : 'Sign In!',
+                style: TextStyle(
+                  color: CustomColors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

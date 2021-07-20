@@ -37,11 +37,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               _AccountTypeSelector(),
               SizedBox(
-                height: _size.height * 0.03,
+                height: 5,
               ),
               _SignUpForm(),
               SignUpOrLogin(
                 login: false,
+              ),
+              SizedBox(
+                height: _size.height * 0.03,
               ),
             ],
           ),
@@ -87,7 +90,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   onChanged: (text) {
                     _payload['firstName'] = text;
                   },
-                  // autofocus: true,
+                  autofocus: true,
                 ),
                 RoundedInputField(
                   order: 2,
@@ -105,7 +108,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                 RoundedInputField(
                   order: 3,
                   labelText: 'Email',
-                  hintText: 'john.doe@email.com',
+                  hintText: 'example@email.com',
                   width: _size.width * 0.8,
                   keyboardType: TextInputType.emailAddress,
                   labelColor: GlobalData.accountType == 1
@@ -297,7 +300,6 @@ class _AccountTypeSelectorState extends State<_AccountTypeSelector> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    if (GlobalData.accountType == null) GlobalData.accountType = 0;
     return Container(
       width: _size.width * 0.7,
       height: 50,
