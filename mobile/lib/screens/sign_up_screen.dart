@@ -7,6 +7,8 @@ import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/components/rounded_button.dart';
+import 'package:mobile/components/sign_up_or_login.dart';
+
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -38,6 +40,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: _size.height * 0.03,
               ),
               _SignUpForm(),
+              SignUpOrLogin(
+                login: false,
+              ),
             ],
           ),
         ),
@@ -82,7 +87,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   onChanged: (text) {
                     _payload['firstName'] = text;
                   },
-                  autofocus: true,
+                  // autofocus: true,
                 ),
                 RoundedInputField(
                   order: 2,
@@ -248,35 +253,15 @@ class _SignUpFormState extends State<_SignUpForm> {
           RoundedButton(
             text: 'SIGN UP',
             width: _size.width * 0.8,
+            color: GlobalData.accountType == 1
+                ? CustomColors.green
+                : CustomColors.purple,
             doAnimation: true,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _register(_payload);
               }
             },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Already have an Account? ",
-                style: TextStyle(
-                  color: CustomColors.white,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, '/login');
-                },
-                child: Text(
-                  "Log In",
-                  style: TextStyle(
-                    color: CustomColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
           ),
         ],
       ),

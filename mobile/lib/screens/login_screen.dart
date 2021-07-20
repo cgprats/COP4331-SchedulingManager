@@ -7,6 +7,7 @@ import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/utils/global_data.dart';
+import 'package:mobile/components/sign_up_or_login.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "LOG IN",
+                "SIGN IN",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: CustomColors.white,
@@ -43,6 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: _size.height * 0.03,
               ),
               _MainPage(),
+              SignUpOrLogin(
+                login: true,
+              ),
             ],
           ),
         ),
@@ -66,8 +70,9 @@ class _MainPageState extends State<_MainPage> {
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
     return Form(
-        key: _formKey,
-        child: Column(children: <Widget>[
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
           RoundedInputField(
             order: 1,
             labelText: 'Email',
@@ -114,39 +119,17 @@ class _MainPageState extends State<_MainPage> {
             ),
           ),
           RoundedButton(
-            text: 'LOG IN',
+            text: 'SIGN IN',
             width: _size.width * 0.8,
-            doAnimation: true,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _login(_payload);
               }
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Don't have an Account? ",
-                style: TextStyle(
-                  color: CustomColors.white,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, '/signup');
-                },
-                child: Text(
-                  "Sign Up",
-                  style: TextStyle(
-                    color: CustomColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ]));
+        ],
+      ),
+    );
   }
 
   void _login(Map _payload) async {
