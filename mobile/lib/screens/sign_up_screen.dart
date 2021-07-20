@@ -68,6 +68,7 @@ class _SignUpFormState extends State<_SignUpForm> {
           FocusTraversalGroup(
             policy: OrderedTraversalPolicy(),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 RoundedInputField(
                   order: 1,
@@ -246,6 +247,26 @@ class _SignUpFormState extends State<_SignUpForm> {
               }
             },
           ),
+          Row(
+            children: <Widget>[
+              Text(
+                "Already have an Account ?",
+                style: TextStyle(color: CustomColors.orange),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/login');
+                },
+                child: Text(
+                    "Log In",
+                    style: TextStyle(
+                      color: CustomColors.orange,
+                      fontWeight: FontWeight.bold,
+                    )
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
