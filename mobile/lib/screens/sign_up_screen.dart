@@ -75,6 +75,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   labelText: 'First Name',
                   hintText: 'John',
                   width: _size.width * 0.8,
+                  keyboardType: TextInputType.name,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
                       : CustomColors.purple,
@@ -88,6 +89,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   labelText: 'Last Name',
                   hintText: 'Doe',
                   width: _size.width * 0.8,
+                  keyboardType: TextInputType.name,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
                       : CustomColors.purple,
@@ -137,6 +139,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                         labelText: 'Company Name',
                         hintText: 'Company Name',
                         width: _size.width * 0.8,
+                        keyboardType: TextInputType.text,
                         labelColor: GlobalData.accountType == 1
                             ? CustomColors.green
                             : CustomColors.purple,
@@ -160,6 +163,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                         labelText: 'Company Code',
                         hintText: '1234',
                         width: _size.width * 0.8,
+                        keyboardType: TextInputType.number,
                         labelColor: GlobalData.accountType == 1
                             ? CustomColors.green
                             : CustomColors.purple,
@@ -177,6 +181,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   hintText: 'Password',
                   obscureText: !_visible1,
                   width: _size.width * 0.8,
+                  keyboardType: TextInputType.visiblePassword,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
                       : CustomColors.purple,
@@ -202,6 +207,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   hintText: 'Confirm Password',
                   obscureText: !_visible2,
                   width: _size.width * 0.8,
+                  keyboardType: TextInputType.visiblePassword,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
                       : CustomColors.purple,
@@ -253,17 +259,20 @@ class _SignUpFormState extends State<_SignUpForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Already have an Account ?",
-                style: TextStyle(color: CustomColors.orange),
+                "Already have an Account? ",
+                style: TextStyle(
+                  color: CustomColors.white,
+                ),
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, '/login');
+                  // Navigator.
                 },
                 child: Text(
                   "Log In",
                   style: TextStyle(
-                    color: CustomColors.orange,
+                    color: CustomColors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

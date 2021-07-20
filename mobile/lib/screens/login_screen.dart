@@ -74,6 +74,7 @@ class _MainPageState extends State<_MainPage> {
               _payload['login'] = text;
             },
             width: _size.width * 0.8,
+            keyboardType: TextInputType.emailAddress,
             autofocus: true,
           ),
           RoundedInputField(
@@ -85,6 +86,7 @@ class _MainPageState extends State<_MainPage> {
             },
             obscureText: !_visible,
             width: _size.width * 0.8,
+            keyboardType: TextInputType.visiblePassword,
             autofocus: true,
             onFieldSubmitted: (text) {},
             suffixIcon: IconButton(
@@ -123,8 +125,10 @@ class _MainPageState extends State<_MainPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Don't have an Account ?",
-                style: TextStyle(color: CustomColors.orange),
+                "Don't have an Account? ",
+                style: TextStyle(
+                  color: CustomColors.white,
+                ),
               ),
               GestureDetector(
                 onTap: () {
@@ -133,7 +137,7 @@ class _MainPageState extends State<_MainPage> {
                 child: Text(
                   "Sign Up",
                   style: TextStyle(
-                    color: CustomColors.orange,
+                    color: CustomColors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
