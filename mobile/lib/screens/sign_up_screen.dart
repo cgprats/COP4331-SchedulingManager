@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/login_screen.dart';
 
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/utils/get_api.dart';

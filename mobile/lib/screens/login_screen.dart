@@ -1,7 +1,8 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
 import 'package:mobile/components/rounded_input_field.dart';
-import 'package:mobile/screens/sign_up_screen.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_button.dart';
