@@ -132,7 +132,7 @@ class _MainPageState extends State<_MainPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/signup');
+                  Navigator.popAndPushNamed(context, '/signup');
                 },
                 child: Text(
                   "Sign Up",

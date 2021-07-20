@@ -266,8 +266,7 @@ class _SignUpFormState extends State<_SignUpForm> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/login');
-                  // Navigator.
+                  Navigator.popAndPushNamed(context, '/login');
                 },
                 child: Text(
                   "Log In",
