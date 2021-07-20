@@ -809,7 +809,6 @@ exports.setApp = function(app, client) {
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
-
 	app.post('/api/signon', async(req, res, next) => {
 		// TODO: Add array of worker names to orders
 		// Sign On for an available order unless max workers is reached
