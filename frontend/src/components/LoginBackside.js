@@ -1,5 +1,4 @@
 import classes from './LoginBackside.module.css';
-import {Link} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import workerLogo from '../icons/Workers.png';
 import employerLogo from '../icons/Employer.png';

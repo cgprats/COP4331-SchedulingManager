@@ -1,0 +1,96 @@
+.jobcard
+{
+    background-color: #4d5057;
+    margin:auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    width: 36rem;
+    height:250px;
+}
+
+.cardheading
+{
+    background-color: #c57b57;
+    width: 100%;
+    height: 60px;
+    border-radius: 12px 12px 0px 0px;
+    padding: 0px 0px;
+    margin: 0px;
+}
+
+.h3
+{
+    font-family:'MetropolisBold';
+    color: white;
+    font-size: 28px;
+    padding: 18px 0px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.search
+{
+    background-color: lightgray;
+    border-radius:28px;
+    border: 1px solid black;
+    font-family: 'MetropolisRegular';
+    font-size: 16px;
+    padding: 8px 12px;
+    display: inline-block;
+    margin: 18px 20px;
+    color: black;
+    width: 24rem;
+}
+
+.span
+{
+    font-family: 'MetropolisRegular';
+    font-size: 20px;
+    padding: 0px 24px;
+    display: inline;
+    color: white;
+}
+
+.date
+{
+    display: inline;
+}
+
+.check
+{
+    margin-left: 24px;
+    margin-right: 12px;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+.span2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 20px;
+    padding: 0px 0px;
+    display: inline;
+    color: white;
+}
+
+.button {
+	background-color:#c57b57;
+	border-radius:28px;
+	border:1px solid #cc551e;
+	display: inline;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'MetropolisLight';
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+    letter-spacing: 2px;
+    transition: 0.4s;
+    margin-left: 16px;
+}
+
+.button:hover {
+	background-color:#cc551e;
+}

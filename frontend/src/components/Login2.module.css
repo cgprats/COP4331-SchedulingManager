@@ -6,8 +6,9 @@ button.link
     font-family: 'MetropolisLight';
     text-decoration: underline;
     display: inline;
-    text-align: left;
     font-size: 20px;
+    padding-bottom: 24px;
+    cursor: pointer;
 }
 
 button.link:hover
@@ -67,7 +68,7 @@ button.link:hover
     margin: 0px;
     padding: 0px;
     font-size: 20px;
-    text-align: left;
+    text-align: center;
     display: inline;
 }
 
@@ -107,7 +108,8 @@ button.link:hover
     letter-spacing: 1px;
     transition: 0.4s;
     margin: auto;
-    margin-bottom: 100px;
+    margin-top: 24px;
+    margin-bottom: 84px;
 }
 
 .myButton:hover {
@@ -122,4 +124,12 @@ button.link:hover
     letter-spacing: 2px;
     margin: 4px 16% 8px;
     padding-bottom: 36px;
+}
+
+.error
+{
+    color: red;
+    font-family: 'MetropolisLight';
+    font-size: 16px;
+    text-align: center;
 }

@@ -1,0 +1,51 @@
+.list
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #c57b57;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.li
+{
+    float:right;
+    padding: 20px 16px 8px;
+    margin: 0;
+}
+
+.link
+{
+    color: white;
+    font-family: 'MetropolisBold';
+    transition:0.4s;
+    text-decoration: none;
+    padding: 26px 16px;
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.active
+{
+    background-color: black;
+}
+
+.link:hover
+{
+    background-color: white;
+    color: #c57b57;
+}
+
+.span
+{
+    font-family: 'MetropolisExtraBold';
+    font-size: 32px;
+    float: left;
+    text-align: center;
+    padding: 14px 16px;
+    letter-spacing: 1px;
+    color: white;
+}

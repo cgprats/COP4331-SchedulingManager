@@ -1,0 +1,232 @@
+.jobcard
+{
+    background-color: #4d5057;
+    margin: 18px auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    width: 48rem;
+}
+
+.cardheading
+{
+    background-color: #c57b57;
+    width: 100%;
+    height: 52px;
+    border-radius: 12px 12px 0px 0px;
+    padding: 0px 0px;
+    margin: 0px;
+}
+
+.ul
+{
+    list-style-type: disc;
+    margin: 0;
+    padding-left: 24px;
+    list-style-position: inside;
+    text-align: left;
+}
+
+.h3
+{
+    font-family:'MetropolisBold';
+    color: white;
+    font-size: 28px;
+    padding: 16px 0px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.span
+{
+    font-family: 'MetropolisRegular';
+    font-size: 20px;
+    padding: 8px 24px;
+    padding-right: 25px;
+    margin: 0px;
+    display: inline-block;
+    color: white;
+    text-decoration: underline;
+}
+
+.spacer
+{
+    padding: 0px 0px;
+}
+
+.spanD
+{
+    font-family: 'MetropolisRegular';
+    font-size: 20px;
+    padding: 8px 26px 8px 24px;
+    display: inline-block;
+    color: white;
+    text-decoration: underline;
+}
+
+.spanC
+{
+    font-family: 'MetropolisRegular';
+    font-size: 20px;
+    padding: 8px 32px 8px 24px;
+    display: inline-block;
+    color: white;
+    text-decoration: underline;
+}
+
+.address
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    padding: 0px 4px;
+    display: inline;
+    color: white;
+}
+
+.date
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    padding: 0px 4px;
+    display: inline;
+    color: white;
+}
+
+.date2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    padding: 0px 0px;
+    display: inline;
+    color: white;
+}
+
+.span2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 20px;
+    padding: 0px 24px;
+    display: inline;
+    color: white;
+}
+
+.client
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    padding: 0px 0px 0px 0px;
+    width: 20%;
+    text-align: center;
+    display: inline-block;
+    color: white;
+}
+
+.email
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    width: 40%;
+    text-align: center;
+    display: inline-block;
+    color: white;
+}
+
+.phone
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    padding: 0px;
+    width: 20%;
+    text-align: center;
+    display: inline-block;
+    color: white;
+}
+
+.details
+{
+    font-family:'MetropolisRegular';
+    color: white;
+    font-size: 20px;
+    padding-top: 20px;
+    padding-bottom: 12px;
+    display: inline-block;
+    letter-spacing: 1px;
+    text-decoration: underline;
+}
+
+.center
+{
+    text-align: center;
+}
+
+.worker
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    padding: 0px;
+    padding-bottom: 8px;
+    color: white;
+}
+
+.info
+{
+    text-align: center;
+    display: inline-block;
+    width: 32%;
+}
+
+
+.brief
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    color: white;
+    text-align: left;
+    padding: 0px 28px;
+    margin-top: 4px;
+}
+
+
+.noteButton {
+    background-color:#c57b57;
+    border-radius:28px;
+    border:1px solid #cc551e;
+    display: inline;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:'MetropolisLight';
+    font-size:16px;
+    font-weight:bold;
+    padding:10px 20px;
+    text-decoration:none;
+    letter-spacing: 2px;
+    transition: 0.4s;
+    margin-left: 16px;
+    margin-bottom: 16px;
+}
+    
+.noteButton:hover {
+    background-color:#cc551e;
+}
+
+.signButton {
+    background-color:#c57b57;
+    border-radius:28px;
+    border:1px solid #cc551e;
+    display: inline;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:'MetropolisLight';
+    font-size:16px;
+    font-weight:bold;
+    padding:10px 20px;
+    text-decoration:none;
+    letter-spacing: 2px;
+    transition: 0.4s;
+    margin-right: 16px;
+    float: right;
+}
+
+.signButton:hover {
+    background-color:#cc551e;
+}
