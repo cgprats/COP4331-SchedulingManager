@@ -31,6 +31,7 @@ class _JobCardState extends State<JobCard> {
         child: Column(
           children: <Widget>[
             _JobCardTitle(),
+            _JobCardBody(),
           ],
         ),
       ),
@@ -60,6 +61,31 @@ class _JobCardTitleState extends State<_JobCardTitle> {
         ),
         child: Text(
           widget.title,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
+
+class _JobCardBody extends StatefulWidget {
+  @override
+  _JobCardBodyState createState() => _JobCardBodyState();
+}
+
+class _JobCardBodyState extends State<_JobCardBody> {
+  @override
+  Widget build(BuildContext context) {
+    return FractionallySizedBox(
+      widthFactor: 1.0,
+      child: Container(
+        decoration: BoxDecoration(
+          color: GlobalData.accountType == 1
+              ? CustomColors.green
+              : CustomColors.purple,
+        ),
+        child: Text(
+          'Body',
           textAlign: TextAlign.center,
         ),
       ),
