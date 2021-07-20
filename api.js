@@ -860,6 +860,7 @@ exports.setApp = function(app, client) {
 			}
 		}
 
+		
 		// Attempt to update order
 		try {
 			const results = await db.collection('jobs').updateOne({id:_id}, data);
