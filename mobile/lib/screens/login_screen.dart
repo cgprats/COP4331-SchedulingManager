@@ -78,7 +78,7 @@ class _MainPageState extends State<_MainPage> {
             labelText: 'Email',
             hintText: 'example@email.com',
             onChanged: (text) {
-              _payload['login'] = text;
+              _payload['email'] = text;
             },
             width: _size.width * 0.8,
             keyboardType: TextInputType.emailAddress,
@@ -144,10 +144,18 @@ class _MainPageState extends State<_MainPage> {
     } else {
       setState(
         () {
-          _errorMessage =
-              jsonObj['error'].startsWith('Success: ') ? '' : jsonObj['error'];
-          GlobalData.firstName = jsonObj['firstName'];
-          GlobalData.lastName = jsonObj['lastName'];
+          _errorMessage = jsonObj['error'];
+          if (_errorMessage.startsWith('Success: ')) {
+            _errorMessage = '';
+            GlobalData.firstName = jsonObj['firstName'];
+            GlobalData.lastName = jsonObj['lastName'];
+            GlobalData.phone = jsonObj['phone'];
+            GlobalData.email = jsonObj['Email'];
+            GlobalData.accountType = jsonObj['flag'];
+            GlobalData.companyCode = jsonObj['companyCode'];
+            GlobalData.companyName = jsonObj['companyName'];
+            GlobalData.verified = jsonObj['Verified'];
+          }
         },
       );
     }
