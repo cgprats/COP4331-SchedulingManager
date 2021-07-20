@@ -51,6 +51,7 @@ exports.setApp = function(app, client) {
 					ln = results[0].lastName;
 					phone = results[0].phone;
 					compcode = results[0].companyCode;
+					compname = results[0].companyName;
 					flag = results[0].flag;
 					verified = results[0].Verified;
 
