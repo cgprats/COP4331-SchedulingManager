@@ -1,0 +1,160 @@
+.card
+{
+    background-color: #4d5057;
+    margin: auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    width: 48rem;
+    z-index: 10;
+    position: fixed;
+    top: 20vh;
+    left: calc(50% - 24rem);
+}
+
+.cardheader
+{
+    background-color: #c57b57;
+    width: 100%;
+    height: 52px;
+    border-radius: 12px 12px 0px 0px;
+    padding: 0px 0px;
+    margin: 0px;
+    margin-top: -28px;
+    text-align: center;
+}
+
+.h3
+{
+    font-family:'MetropolisBold';
+    color: white;
+    font-size: 28px;
+    padding: 12px 0px;
+    padding-left: 32px;
+    margin: 0px;
+    text-align: center;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+
+.close
+{
+    float: right;
+    font-family: 'MetropolisExtraBold';
+    background: none;
+    border: none;
+    margin-right: 4px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    padding: 6px 6px;
+}
+
+.center
+{
+    text-align: center;
+}
+
+.button {
+	background-color:#c57b57;
+	border-radius:28px;
+	border:1px solid #cc551e;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'MetropolisLight';
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+    letter-spacing: 2px;
+    transition: 0.4s;
+    margin-top: 12px;
+}
+
+.button:hover {
+	background-color:#cc551e;
+}
+
+.cancel {
+	background-color:#c57b57;
+	border-radius:28px;
+	border:1px solid #cc551e;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'MetropolisLight';
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+    letter-spacing: 2px;
+    transition: 0.4s;
+    margin-top: 12px;
+    margin-right: 12px;
+}
+
+.cancel:hover {
+	background-color:#cc551e;
+}
+
+.conf {
+	background-color:#c57b57;
+	border-radius:28px;
+	border:1px solid #cc551e;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'MetropolisLight';
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+    letter-spacing: 2px;
+    transition: 0.4s;
+    margin-top: 12px;
+    margin-left: 12px;
+}
+
+.conf:hover {
+	background-color:#cc551e;
+}
+
+.ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding-left: 24px;
+    list-style-position: inside;
+    text-align: left;
+}
+
+.span
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    padding: 8px 4px;
+    padding-right: 24px;
+    margin: 0px;
+    display: inline-block;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.p
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    padding: 4px 36px;
+    padding-right: 60px;
+    padding-bottom: 16px;
+    margin: 0px;
+    color: white;
+}
+
+.ta
+{
+    font-family: 'MetropolisLight';
+    font-size: 16px;
+    margin-top: 12px;
+    padding: 8px;
+    border-radius: 8px;
+    resize: none;
+}
