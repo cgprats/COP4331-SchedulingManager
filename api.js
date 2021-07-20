@@ -586,6 +586,7 @@ exports.setApp = function(app, client) {
 			"start" : start,
 			"end" : end,
 			"maxworkers" : max,
+			"currentworkers" : 0,
 			"briefing" : briefing,
 			"completed" : false,
 		}
@@ -796,6 +797,72 @@ exports.setApp = function(app, client) {
 		try {
 			const db = client.db();
 			const results = await db.collection('jobs').updateOne(joborder, data);
+
+			errorMessage = "Success";
+		}
+
+		// Catch update error
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/signon', async(req, res, next) => {
+		// TODO: Add array of worker names to orders
+		// Sign On for an available order unless max workers is reached
+		// incoming: order ID
+		// outgoing: error
+
+		var sign = reg.body.sign;
+		var id = req.body.id;
+		var maxw = 0; // Max Workers for job
+		var currw = 0; // Current amount of Workers signed on
+		var errorMessage = '';
+		var ret = '';
+		var filter_var = "TempFilter";
+
+		const db = client.db();
+
+		// Checking for order using the given ID
+		try {
+			
+			const results = await db.collection('jobs').find({_id:id}).toArray();
+		}
+		catch(e) {
+			errorMessage = e.toString();
+			ret = {error: errorMessage};
+			res.status(200).json(ret);
+		}
+
+		if (results.length > 0){
+			maxw = results[0].maxworkers;
+			currw = results[0].currentworkers + 1;
+		}
+		else{
+			errorMessage = "Job ID not valid";
+			ret = {error: errorMessage};
+			res.status(200).json(ret);
+
+		}
+
+		if (currw > maxw){
+			errorMessage = "Too many workers";
+			ret = {error: errorMessage};
+			res.status(200).json(ret);
+		}
+
+		var data = {
+			$set: {
+				"currentworkers" :currw,
+			}
+		}
+
+		// Attempt to update order
+		try {
+			const results = await db.collection('jobs').updateOne({id:_id}, data);
 
 			errorMessage = "Success";
 		}
