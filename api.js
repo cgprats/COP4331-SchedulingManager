@@ -780,7 +780,7 @@ exports.setApp = function(app, client) {
 		// incoming: 0 or 1
 		// outgoing: error
 
-		var status = reg.body.status;
+		var status = req.body.status;
 		var errorMessage = '';
 		var filter_var = "TempFilter";
 
@@ -815,7 +815,7 @@ exports.setApp = function(app, client) {
 		// incoming: order ID
 		// outgoing: error
 
-		var sign = reg.body.sign;
+		var sign = req.body.sign;
 		var id = req.body.id;
 		var maxw = 0; // Max Workers for job
 		var currw = 0; // Current amount of Workers signed on
