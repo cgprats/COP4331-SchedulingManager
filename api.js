@@ -3,6 +3,15 @@ const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
 var math = require("mathjs");
 
+// Remaining Endpoints To Create Or Significantly Modify
+// 1: Get Notes - handle "array of emails"
+// 2: Get Individual Notes - incomming: start date and end date 
+//			    			 outgoing: all notes within time range
+// 3: Sign On / Sign Off - MUST 1 function for both sign on and sign off
+// 4: Clock In / Clock Out - MUST be 1 function for both
+// 5: Get Individual Timesheet - Same as Individual Notes -> handle time range 
+
+
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
 		// TODO: Check if User has verified their email before allowing login
@@ -978,4 +987,33 @@ exports.setApp = function(app, client) {
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
+
+	
+app.post('/api/searchTimesheet', async(req, res, next) =>{
+	// incoming: fooid
+	// outgoing: All timesheets with matching id (?)
+	var errorMessage = '';
+
+	var fooid = req.body.fooid;
+
+	try {
+		const db = client.db();
+		const results = await db.collection('notes').find({_id:fooid}).toArray();
+
+		var data = -1;
+
+		if (results.length > 0) {
+			// data = 
+
+			errorMessage = "Success";
+		}
+	}
+
+	catch(e) {
+		errorMessage = e.toString();
+	}
+
+	var ret = {timesheet:data, error:errorMessage};
+	res.status(200).json(ret);
+});
 }
