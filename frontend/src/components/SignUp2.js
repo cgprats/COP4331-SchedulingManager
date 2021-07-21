@@ -61,7 +61,7 @@ function SignUp2(props)
                 Flag: res.Flag,
                 Verified: res.Verified,
             }
-            localStorage.setItem('user_data', user);
+            localStorage.setItem('user_data', JSON.stringify(user));
             props.history.push('/verify');
         }
 

@@ -239,7 +239,7 @@ exports.setApp = function(app, client) {
 					else {
 						const results = await db.collection('employers').insertOne(data);
 						sendVerificationLink(email, verificationCode);
-						errorMessage = "Success: Employer " + compCode;
+						errorMessage = "Success: Employer";
 					}
 				}
 
@@ -289,7 +289,7 @@ exports.setApp = function(app, client) {
 			const db = client.db();
 			const results = await db.collection('workers').updateOne(account, data);
 			if (results.matchedCount == 0) results = await db.collection('employers').updateOne(account, data);
-			
+
 			if (!results.matchedCount) {
 				errorMessage = "Code Invalid";
 			}

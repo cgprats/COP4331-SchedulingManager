@@ -3,8 +3,9 @@ import {Link} from 'react-router-dom';
 import classes from './SignUpE.module.css';
 import employerLogo from '../icons/Employer.png';
 import {useState} from 'react';
+import { withRouter } from 'react-router-dom';
 
-function SignUpE()
+function SignUpE(props)
 {
     const fnRef = useRef();
     const lnRef = useRef();
@@ -22,7 +23,7 @@ function SignUpE()
         const ln = lnRef.current.value;
         const email = emailRef.current.value;
         const phone = phoneRef.current.value;
-        const coName = nameRef.current.value;
+        const name = nameRef.current.value;
         const password = passRef.current.value;
         const confpass = pass2Ref.current.value;
 
@@ -34,7 +35,7 @@ function SignUpE()
             phone: phone,
             flag: 1,
             companyCode: null,
-            companyName: coName,
+            companyName: name,
             password: password,
             password_confirm: confpass
         };
@@ -48,6 +49,20 @@ function SignUpE()
 
         }catch(e){
             alert(e.toString());
+        }
+
+        if (res.error == 'Success: Employer'){
+            var user = {
+                Email: res.Email,
+                FirstName: res.FirstName,
+                LastName: res.LastName,
+                Phone: res.Phone,
+                CompanyCode: res.CompanyCode,
+                Flag: res.Flag,
+                Verified: res.Verified,
+            }
+            localStorage.setItem('user_data', JSON.stringify(user));
+            props.history.push('/verify');
         }
 
     }
@@ -105,4 +120,4 @@ function SignUpE()
     );
 }
 
-export default SignUpE;
+export default withRouter(SignUpE);
