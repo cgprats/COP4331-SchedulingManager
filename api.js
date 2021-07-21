@@ -989,31 +989,31 @@ exports.setApp = function(app, client) {
 	});
 
 	
-app.post('/api/searchTimesheet', async(req, res, next) =>{
-	// incoming: fooid
-	// outgoing: All timesheets with matching id (?)
-	var errorMessage = '';
+	app.post('/api/searchTimesheet', async(req, res, next) =>{
+		// incoming: fooid
+		// outgoing: All timesheets with matching id (?)
+		var errorMessage = '';
 
-	var fooid = req.body.fooid;
+		var fooid = req.body.fooid;
 
-	try {
-		const db = client.db();
-		const results = await db.collection('notes').find({_id:fooid}).toArray();
+		try {
+			const db = client.db();
+			const results = await db.collection('notes').find({_id:fooid}).toArray();
 
-		var data = -1;
+			var data = -1;
 
-		if (results.length > 0) {
-			// data = 
+			if (results.length > 0) {
+				// data = 
 
-			errorMessage = "Success";
+				errorMessage = "Success";
+			}
 		}
-	}
 
-	catch(e) {
-		errorMessage = e.toString();
-	}
+		catch(e) {
+			errorMessage = e.toString();
+		}
 
-	var ret = {timesheet:data, error:errorMessage};
-	res.status(200).json(ret);
-});
+		var ret = {timesheet:data, error:errorMessage};
+		res.status(200).json(ret);
+	});
 }
