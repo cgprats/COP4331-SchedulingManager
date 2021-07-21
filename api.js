@@ -585,6 +585,7 @@ exports.setApp = function(app, client) {
 		var clientcontact = req.body.clientcontact;
 		var start = req.body.start;
 		var end = req.body.end;
+		var companyCode = req.body.companyCode;
 		var max = req.body.max;
 		var briefing = req.body.briefing;
 
@@ -597,9 +598,10 @@ exports.setApp = function(app, client) {
 			"start" : start,
 			"end" : end,
 			"maxworkers" : max,
-			"currentworkers" : 0,
+			"workers": [],
+			"companyCode" : companyCode,
 			"briefing" : briefing,
-			"completed" : false,
+			"completed" : false
 		}
 
 		// Attempt to insert order
@@ -607,7 +609,7 @@ exports.setApp = function(app, client) {
 			const db = client.db();
 			const results = await db.collection('jobs').insertOne(data);
 
-			errorMessage = "Success";
+			errorMessage = "Job added!";
 		}
 
 		// Catch insert error

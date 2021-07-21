@@ -13,9 +13,52 @@ function JobAddModal(props)
     const endRef = useRef();
     const briefRef = useRef();
 
-    function addHandler()
+    async function addHandler(event)
     {
+        event.preventDefault();
+        var user = JSON.parse(localStorage.getItem('user_data'));
 
+        const title = titleRef.current.value;
+        const address = addressRef.current.value;
+        const max = maxRef.current.value;
+        const clientname = clientNameRef.current.value;
+        const clientemail = clientEmailRef.current.value;
+        const clientphone = clientPhoneRef.current.value;
+        const start = startRef.current.value;
+        const end = endRef.current.value;
+        const briefing = briefRef.current.value;
+
+        const companyCode = user.companyCode;
+
+        const Data =
+        {
+            title: title,
+            email: clientemail,
+            address: address,
+            clientname: clientname,
+            clientcontact: clientphone,
+            start: start,
+            end: end,
+            max: max,
+            companyCode: companyCode,
+            briefing: briefing
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/addorder', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+
+        }catch(e){
+            alert(e.toString());
+        }
+
+        if (res.error == 'Job added!')
+        {
+            var fr = props.onClick;
+            fr();
+        }
     }
 
     return (
