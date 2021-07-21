@@ -86,8 +86,7 @@ exports.setApp = function(app, client) {
 	app.post('/api/send', async(req, res) => {
 		var errorMessage = '';
 		var email = req.body.email;
-		// Note: Must include http
-		var verification_link = "https://www.google.com";
+
 		try{
 
 			let transporter = nodemailer.createTransport({
@@ -103,10 +102,8 @@ exports.setApp = function(app, client) {
 			let body = {
 				from: '"Group 2" <' + process.env.EMAIL_USER + '>',
 				to: email,
-				subject: "Verification Link", 
-				html: "<h1><a href=" + verification_link + ">Click here to verify your account</a></h1>" +
-				      "<p>Copy and Paste the following link into your address bar if the link above does not work: " +
-				      "<a href=" + verification_link + ">" + verification_link + "</a></p>"
+				subject: "Verification Code", 
+				html: "<h1>Your verification code is: " + req.body.verCode + "</h1>"
 			};
 
 			transporter.verify(function(error, success) {
@@ -132,12 +129,12 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	function sendVerificationLink(email) {
+	function sendVerificationLink(email, verificationCode) {
 		var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "https://cop4331group2.herokuapp.com/api/send", true);
 		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.send(JSON.stringify({email: email}));
+		xhr.send(JSON.stringify({email: email, verCode: verificationCode}));
 	}
 
 	function getRandomInt() {
@@ -167,86 +164,89 @@ exports.setApp = function(app, client) {
 
 		// Comapres passwords
 		if (password.localeCompare(password_confirm)) {
-			errorMessage += "Passwords do not match";
+			errorMessage = "Passwords do not match";
 		}
+		else{
+			// Generates Random Company Code
+			var cont = 1;
+			if (flag == 1) {
 
-		// Generates Random Company Code
-		var cont = 1;
-		if (flag == 1) {
+				while(cont){
 
-			while(cont){
+					compCode = getRandomInt().toString();
+					const codeChecker = await db.collection('employers').find({companyCode: compCode}).toArray();
 
-				compCode = getRandomInt().toString();
+					if (codeChecker.length == 0)
+						cont = 0;
+				}
+
+			}
+
+			// Checks company code entered by user, making sure it's used by an Employer already
+			var compcodeVerified = 1;
+			if (flag == 0){
 				const codeChecker = await db.collection('employers').find({companyCode: compCode}).toArray();
 
 				if (codeChecker.length == 0)
-					cont = 0;
-			}
-
-		}
-
-		// Checks company code entered by user, making sure it's used by an Employer already
-		var compcodeVerified = 1;
-		if (flag == 0){
-			const codeChecker = await db.collection('employers').find({companyCode: compCode}).toArray();
-
-			if (codeChecker.length == 0)
-			{
-					compcodeVerified = 0;
-					errorMessage = "Company Code does not exist"
-			}
-
-		}
-
-		// Check for existing users in both collections
-		var unique = 1;
-		const emailCheckerE = await db.collection('employers').find({Email: email}).toArray();
-		const emailCheckerW = await db.collection('workers').find({Email: email}).toArray();
-
-		if (emailCheckerE.length != 0){
-			unique = 0;
-			errorMessage = "Employer already exists with this email ";
-		}
-		
-		else if (emailCheckerW.length != 0){
-			unique = 0;
-			errorMessage = "Worker already exists with this email ";
-		}
-
-		// 'Unique' is used to denote the email hasn't been used before
-		else if (unique == 1 && compcodeVerified == 1){
-			var data = {
-				"Email" : email,
-				"Password": password,
-				"firstName": firstName,
-				"lastName": lastName,
-				"phone" : phone,
-				"companyCode" : compCode,
-				"companyName" : compName,
-				"flag": flag,
-				"Verified": false
-			}
-
-			// Attempt to insert worker / employer
-			try {
-				
-				if (flag == 0)
 				{
-					
-					const results = await db.collection('workers').insertOne(data);
-					sendVerificationLink(email);
-					errorMessage = "Success: Worker";
+						compcodeVerified = 0;
+						errorMessage = "Invalid company code";
 				}
-				else {
-					const results = await db.collection('employers').insertOne(data);
-					sendVerificationLink(email);
-					errorMessage = "Success: Employer " + compCode;
-				}
+
 			}
 
-			// Catch insert error
-			catch(e) {
-				errorMessage = e.toString();
+			// Check for existing users in both collections
+			var unique = 1;
+			const emailCheckerE = await db.collection('employers').find({Email: email}).toArray();
+			const emailCheckerW = await db.collection('workers').find({Email: email}).toArray();
+
+			if (emailCheckerE.length != 0){
+				unique = 0;
+				errorMessage = "User already exists with this email ";
+			}
+			
+			else if (emailCheckerW.length != 0){
+				unique = 0;
+				errorMessage = "User already exists with this email ";
+			}
+
+			// 'Unique' is used to denote the email hasn't been used before
+			else if (unique == 1 && compcodeVerified == 1){
+				var verificationCode = getRandomInt().toString();
+				var data = {
+					"Email" : email,
+					"Password": password,
+					"firstName": firstName,
+					"lastName": lastName,
+					"phone" : phone,
+					"companyCode" : compCode,
+					"companyName" : compName,
+					"flag": flag,
+					"Verified": false,
+					"VerificationCode": verificationCode
+				}
+
+				// Attempt to insert worker / employer
+				try {
+					
+					if (flag == 0)
+					{
+						
+						const results = await db.collection('workers').insertOne(data);
+						sendVerificationLink(email, verificationCode);
+						errorMessage = "Success: Worker";
+					}
+					else {
+						const results = await db.collection('employers').insertOne(data);
+						sendVerificationLink(email, verificationCode);
+						errorMessage = "Success: Employer " + compCode;
+					}
+				}
+
+				// Catch insert error
+				catch(e) {
+					errorMessage = e.toString();
+				}
 			}
 		}
 
