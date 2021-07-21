@@ -2,6 +2,7 @@ import classes from './Job.module.css';
 import {useState} from 'react';
 import Backdrop from './Backdrop';
 import Notes from './Notes';
+import Timesheet from './Timesheet';
 
 const DUMMY_DATA = [
     {
@@ -16,21 +17,52 @@ const DUMMY_DATA = [
     }
 ];
 
+const DUMMY_DATA2 = [
+    {
+        name: 'Sean Bennett',
+        date: '7/18/2021',
+        start: '11:00',
+        end: '3:30'
+    },
+    {
+        name: 'Trish Nigrelli',
+        date: '7/18/2021',
+        start: '11:05',
+        end: '3:42'
+    },
+    {
+        name: 'Sean Bennett',
+        date: '7/19/2021',
+        start: '11:10',
+        end: '-----'
+    }
+
+];
+
 function Job(props)
 {
     const [errorMsg, setMsg] = useState("");
     const [backdropIsVisible, setBackdropVisiblity] = useState(false);
     const [notesAreVisible, setNoteVisibility] = useState(false);
+    const [timesheetIsVisible, setTimesheetVisibility] = useState(false);
 
     function loadNotes()
     {
         setNoteVisibility(true);
         setBackdropVisiblity(true);
     }
-    function closeNotes()
+
+    function loadTimesheet()
     {
-        setNoteVisibility(false);
+        setTimesheetVisibility(true);
+        setBackdropVisiblity(true);
+    }
+
+    function closeAll()
+    {
         setBackdropVisiblity(false);
+        setNoteVisibility(false);
+        setTimesheetVisibility(false);
     }
 
     return (
@@ -78,16 +110,17 @@ function Job(props)
                 </div>
                 <div className={classes.cardfooter}>
                     <button className={classes.noteButton} onClick={loadNotes}>Notes</button>
-                    <button className={classes.noteButton}>Hours</button>
+                    <button className={classes.noteButton} onClick={loadTimesheet}>Timesheet</button>
                     {props.utype == 'w' && <button className={classes.signButton}>Sign on/off</button>}
                     {props.utype == 'w' && <button className={classes.signButton}>Clock in/out</button>}
-                    {props.utype == 'e' && <button className={classes.markButton}>Mark Done</button>}
-                    {props.utype == 'e' && <button className={classes.editButton}>Edit</button>}
-                    {props.utype == 'e' && <button className={classes.deleteButton}>Delete</button>}
+                    {props.utype == 'e' && <button className={classes.signButton}>Delete</button>}
+                    {props.utype == 'e' && <button className={classes.signButton}>Edit</button>}
+                    {props.utype == 'e' && <button className={classes.signButton}>Mark Done</button>}
                 </div>
             </div>
-            {backdropIsVisible && <Backdrop></Backdrop>}
-            {notesAreVisible && <Notes input={DUMMY_DATA} close={closeNotes}></Notes>}
+            {backdropIsVisible && <Backdrop onClick={closeAll}></Backdrop>}
+            {notesAreVisible && <Notes input={DUMMY_DATA} onClick={closeAll}></Notes>}
+            {timesheetIsVisible && <Timesheet input={DUMMY_DATA2} onClick={closeAll}></Timesheet>}
         </div>
     );
 }

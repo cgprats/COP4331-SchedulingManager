@@ -1,0 +1,111 @@
+.card
+{
+    background-color: #4d5057;
+    margin: auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    width: 48rem;
+    z-index: 10;
+    position: fixed;
+    top: 20vh;
+    left: calc(50% - 24rem);
+}
+
+.cardheader
+{
+    background-color: #c57b57;
+    width: 100%;
+    height: 52px;
+    border-radius: 12px 12px 0px 0px;
+    padding: 0px 0px;
+    margin: 0px;
+    margin-top: -28px;
+    text-align: center;
+}
+
+.h3
+{
+    font-family:'MetropolisBold';
+    color: white;
+    font-size: 28px;
+    padding: 12px 0px;
+    padding-left: 32px;
+    margin: 0px;
+    text-align: center;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+
+.close
+{
+    float: right;
+    font-family: 'MetropolisExtraBold';
+    background: none;
+    border: none;
+    margin-right: 4px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    padding: 6px 6px;
+}
+
+.first
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    width: 20%;
+}
+
+.first2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    text-align: center;
+    padding: 12px;
+    width: 20%;
+}
+
+.second
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    width: 30%;
+}
+
+.second2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    text-align: center;
+    padding: 12px;
+    width: 30%;
+}
+
+.third
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    width: 50%;
+}
+
+.third2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    text-align: center;
+    padding: 12px;
+    width: 50%;
+}
+
+.table
+{
+    width: 100%;
+    color: white;
+}

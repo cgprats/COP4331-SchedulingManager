@@ -19,7 +19,7 @@ function Notes(props)
         <div className={classes.card}>
             <div className={classes.cardheader}>
                 <h3 className={classes.h3}>Job Notes</h3>
-                <button className={classes.close} onClick={props.close}>X</button>
+                <button className={classes.close} onClick={props.onClick}>X</button>
             </div>
             <div>
                 <div className={classes.center}>

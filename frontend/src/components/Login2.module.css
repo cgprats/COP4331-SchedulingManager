@@ -1,4 +1,4 @@
-button.link
+.link
 {
     background:none;
     border:none;
@@ -11,7 +11,26 @@ button.link
     cursor: pointer;
 }
 
-button.link:hover
+.link:hover
+{
+    text-decoration: none;
+}
+
+.link2
+{
+    background:none;
+    border:none;
+    color: white;
+    font-family: 'MetropolisLight';
+    text-decoration: underline;
+    display: inline;
+    font-size: 20px;
+    padding-bottom: 24px;
+    padding-top: 24px;
+    cursor: pointer;
+}
+
+.link2:hover
 {
     text-decoration: none;
 }

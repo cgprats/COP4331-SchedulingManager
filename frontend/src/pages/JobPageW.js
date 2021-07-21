@@ -1,6 +1,7 @@
 import NavBar from '../components/NavBar';
 import JobSearch from '../components/JobSearch';
 import JobList from '../components/JobList';
+import JobAdd from '../components/JobAdd';
 
 const DUMMY_DATA = [
     {
@@ -45,11 +46,14 @@ const DUMMY_DATA = [
 ];
 function JobPageW()
 {
+    const userType = 'e';
+
     return (
         <div>
             <NavBar end='w'></NavBar>
-            <JobSearch utype='w'></JobSearch>
-            <JobList jobs={DUMMY_DATA} utype='w'></JobList>
+            {userType=='e' && <JobAdd></JobAdd>}
+            <JobSearch utype='e'></JobSearch>
+            <JobList jobs={DUMMY_DATA} utype='e'></JobList>
         </div>
     );
 }

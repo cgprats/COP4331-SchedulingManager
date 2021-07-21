@@ -2,6 +2,7 @@ import classes from './Login2.module.css';
 import workerLogo from '../icons/Workers.png';
 import {useRef} from 'react';
 import {useState} from 'react';
+import {Link} from 'react-router-dom';
 
 function Login2(props)
 {
@@ -61,8 +62,8 @@ function Login2(props)
                     <button className={classes.link} onClick={props.onClick}> Sign up!</button>
                 </div>
                 <div>
-                    <span className={classes.span}>Forgot password?</span>
-                    <button className={classes.link} onClick={resetHandler}> Click here!</button>
+                    <span className={classes.span}>Forgot password? </span>
+                    <Link className={classes.link2} to='/forgot-password'>Click here!</Link>
                 </div>
             </div>
             <div className={classes.right}>

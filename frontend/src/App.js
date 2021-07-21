@@ -1,8 +1,10 @@
 import LoginFlip from './components/LoginFlip';
 import SignUpE from './components/SignUpE';
 import SignUp2 from './components/SignUp2';
+import Verify from './components/Verify';
 import JobPageW from './pages/JobPageW';
 import {Route, Switch} from 'react-router-dom';
+import ForgotPassword from './components/ForgotPassword';
 
 function App()
 {
@@ -17,6 +19,12 @@ function App()
         </Route>
         <Route path='/sign-up2' exact>
           <SignUp2/>
+        </Route>
+        <Route path='/verify' exact>
+          <Verify utype='w'/>
+        </Route>
+        <Route path='/forgot-password' exact>
+          <ForgotPassword></ForgotPassword>
         </Route>
         <Route path='/jobs-w' exact>
           <JobPageW/>
