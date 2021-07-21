@@ -10,7 +10,7 @@ class Routes {
   static const String JOBLISTINGSSCREEN = '/joblistings';
 
   static Map<String, Widget Function(BuildContext)> get getRoutes => {
-    '/': (context) => LoginScreen(),
+    '/': (context) => JobListingsScreen(),
     LOGINSCREEN: (context) => LoginScreen(),
     SIGNUPSCREEN: (context) => SignUpScreen(),
     JOBLISTINGSSCREEN: (context) => JobListingsScreen(),

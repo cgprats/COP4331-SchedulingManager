@@ -34,18 +34,46 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                   fontSize: 30,
                 ),
               ),
-              RoundedInputField(
-                hintText: 'Search...',
-                width: _size.width * 0.8,
-              ),
               JobCard(
                 width: _size.width * 0.8,
+                title: 'Title',
+                address: '4000 Central Florida Blvd, Orlando, Fl, 32816',
+                startDate: DateTime(2021, 7, 11),
+                endDate: DateTime(2021, 7, 31),
+                clientInfo: {
+                  'firstName': 'John',
+                  'lastName': 'Doe',
+                  'email': 'example@email.com',
+                  'phone': '(123) 456-7890',
+                },
+                maxWorkers: 4,
+                workers: <Map<String, String>>[
+                  {
+                    'firstName': 'Bob',
+                    'lastName': 'Anderson',
+                    'email': 'email@gmail.com',
+                    'phone': '(098) 765-4321',
+                  },
+                  {
+                    'firstName': 'Sue',
+                    'lastName': 'Smith',
+                    'email': 'gang@hotmail.com',
+                    'phone': '(890) 567-1234',
+                  },
+                ],
+                details: () {
+                  String text = '';
+                  for (int i = 0; i < 10; i++) {
+                    text += 'Very short briefing.';
+                  }
+                  return text;
+                }(),
               ),
             ],
           ),
         ),
       ),
-      backgroundColor: CustomColors.grey,
+      backgroundColor: CustomColors.lightGrey,
     );
   }
 }
