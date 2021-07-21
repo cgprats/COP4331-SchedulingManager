@@ -1,14 +1,15 @@
 import NavBar from '../components/NavBar';
 import JobSearch from '../components/JobSearch';
 import JobList from '../components/JobList';
+import JobAdd from '../components/JobAdd';
 
 const DUMMY_DATA = [
     {
         id: 1,
         title: 'This is an example title',
         address: '4000 Central Florida Blvd, Orlando, FL, 32816',
-        start: '7/18/2021',
-        end: '7/21/2021',
+        start: '2021-07-18',
+        end: '2021-07-21',
         client: 'Bobby Dylan',
         email: 'BobDill@gmail.com',
         phone: '305-519-8560',
@@ -22,8 +23,8 @@ const DUMMY_DATA = [
         id: 2,
         title: 'This is a second example title',
         address: '9000 SW 196 Dr',
-        start: '7/25/2021',
-        end: '8/2/2021',
+        start: '2021-07-25',
+        end: '2021-08-02',
         client: 'Biggie Smalls',
         email: 'biggieDaGoat@hotmail.com',
         phone: '305-804-0523',
@@ -45,11 +46,14 @@ const DUMMY_DATA = [
 ];
 function JobPageW()
 {
+    const userType = 'e';
+
     return (
         <div>
             <NavBar end='w'></NavBar>
-            <JobSearch utype='w'></JobSearch>
-            <JobList jobs={DUMMY_DATA} utype='w'></JobList>
+            {userType=='e' && <JobAdd></JobAdd>}
+            <JobSearch utype='e'></JobSearch>
+            <JobList jobs={DUMMY_DATA} utype='e'></JobList>
         </div>
     );
 }
