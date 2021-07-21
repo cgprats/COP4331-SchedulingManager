@@ -287,7 +287,7 @@ exports.setApp = function(app, client) {
 		//Set verify to true
 		try {
 			const db = client.db();
-			const results = await db.collection('workers').updateOne(account, data);
+			var results = await db.collection('workers').updateOne(account, data);
 			if (results.matchedCount == 0) results = await db.collection('employers').updateOne(account, data);
 
 			if (!results.matchedCount) {
