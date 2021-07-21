@@ -3,8 +3,9 @@ import {Link} from 'react-router-dom';
 import classes from './SignUp2.module.css';
 import workerLogo from '../icons/Workers.png';
 import {useState} from 'react';
+import { withRouter } from 'react-router-dom';
 
-function SignUp2()
+function SignUp2(props)
 {
     const fnRef = useRef();
     const lnRef = useRef();
@@ -48,6 +49,20 @@ function SignUp2()
 
         }catch(e){
             alert(e.toString());
+        }
+
+        if (res.error == 'Success: Worker'){
+            var user = {
+                Email: res.Email,
+                FirstName: res.FirstName,
+                LastName: res.LastName,
+                Phone: res.Phone,
+                CompanyCode: res.CompanyCode,
+                Flag: res.Flag,
+                Verified: res.Verified,
+            }
+            localStorage.setItem('user_data', user);
+            props.history.push('/verify');
         }
 
     }
@@ -104,4 +119,4 @@ function SignUp2()
     );
 }
 
-export default SignUp2;
+export default withRouter(SignUp2);

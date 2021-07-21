@@ -250,21 +250,31 @@ exports.setApp = function(app, client) {
 			}
 		}
 
-		var ret = {error: errorMessage};
+		var ret = {
+			error: errorMessage,
+			Email: email,
+			FirstName: firstName,
+			LastName: lastName,
+			Phone: phone,
+			CompanyCode: compCode,
+			Flag: flag,
+			Verified: false,
+			VerificationCode: verificationCode
+		};
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/verify/:token', async(req, res, next) => { 
+	app.post('/api/verify', async(req, res, next) => { 
 		// TODO: JWT stuff, check new post URL in line above ^^
 		// incoming: login, password
 		// outgoing: error
-		var login = req.body.login;
-		var password = req.body.password;
+		var email = req.body.email;
+		var ver = req.body.verificationCode;
 		var errorMessage = '';
 
 		var account = {
-			Login: login,
-			Password: password
+			Email: email,
+			VerificationCode: ver
 		}
 
 		var data = {
@@ -278,9 +288,10 @@ exports.setApp = function(app, client) {
 		try {
 			const db = client.db();
 			const results = await db.collection('workers').updateOne(account, data);
-
+			if (results.matchedCount == 0) results = await db.collection('employers').updateOne(account, data);
+			
 			if (!results.matchedCount) {
-				errorMessage = "No match";
+				errorMessage = "Code Invalid";
 			}
 
 			else if (!results.modifiedCount) {
@@ -288,7 +299,7 @@ exports.setApp = function(app, client) {
 			}
 
 			else {
-				errorMessage = "Success";
+				errorMessage = "";
 			}
 		}
 

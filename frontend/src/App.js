@@ -21,7 +21,7 @@ function App()
           <SignUp2/>
         </Route>
         <Route path='/verify' exact>
-          <Verify utype='w'/>
+          <Verify/>
         </Route>
         <Route path='/forgot-password' exact>
           <ForgotPassword></ForgotPassword>
