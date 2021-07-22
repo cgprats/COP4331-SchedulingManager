@@ -964,7 +964,6 @@ exports.setApp = function(app, client) {
 		var time = req.body.time;
 		var note = req.body.note;
 
-		var errorMessage = '';
 
 		var data = {
 			"fooid" : fooid,
@@ -1015,5 +1014,41 @@ exports.setApp = function(app, client) {
 
 		var ret = {timesheet:data, error:errorMessage};
 		res.status(200).json(ret);
+	});
+
+	app.post('/api/searchJobs', async(req, res, next) =>{
+		// TODO: Do not return jobs the user does not have access too 
+		// Outgoing: Any relevant job orders
+
+		var errorMessage = '';
+
+		// Incomming
+		var compCode = req.body.companyCode;
+		var address = req.body.address;
+		var email = req.body.eamil;
+		var title = req.body.title;
+		var clientname = req.body.clientname;
+		var clientcontact = req.body.clientcontact;
+		var start = req.body.start;
+		var end = req.body.end;
+
+		var data = {
+			"companyCode" : compCode,
+			"address" : address,
+			"email" : email,
+			"title" : title,
+			"clientname" : clientname,
+			"clientcontact" : clientcontact,
+			//"start"  : start,
+			//"end" : end,
+			"completed": false
+		}
+
+		// Using company code, find all orders with a partial match to the incomming data
+
+		// The given 'start' data must be earlier than the end field of the job
+		// The give 'end' data must be later than the start field of the job
+		// If no string, ignore
+
 	});
 }
