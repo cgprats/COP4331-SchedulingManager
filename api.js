@@ -1,6 +1,7 @@
 require('dotenv').config();
 const token = require('./createJWT.js');
 const nodemailer = require('nodemailer');
+var ObjectID = require('mongodb').ObjectID;
 var math = require("mathjs");
 
 // Remaining Endpoints To Create Or Significantly Modify
@@ -90,8 +91,6 @@ exports.setApp = function(app, client) {
 			ret = {error:e.message};
 		}
 		*/
-
-
 
 		res.status(200).json(ret);
 	});
@@ -681,13 +680,15 @@ exports.setApp = function(app, client) {
 		// outgoing: All orders with similar title, error
 		var errorMessage = '';
 		var Title = req.body.title;
+		
 
 		try {
 			const db = client.db();
-			const results = await db.collection('jobs').find({title: Title}).toArray();
+			var results = await db.collection('jobs').find({title: Title}).toArray();
 
 			if (results.length > 0)
 			{
+				/*
 				id = results[0]._id;
 				ti = results[0].title;
 				em = results[0].email;
@@ -699,6 +700,7 @@ exports.setApp = function(app, client) {
 				maxw = results[0].maxworkers;
 				bri = results[0].briefing;
 				comp = results[0].completed;
+				*/
 
 				errorMessage = results.length.toString();
 			}
@@ -711,7 +713,7 @@ exports.setApp = function(app, client) {
 			errorMessage = e.toString();
 		}
 
-		var ret = { ID:id, Title:ti, Email:em, error:errorMessage};
+		var ret = { data:results, error:errorMessage};
 		res.status(200).json(ret);
 
 	});
@@ -784,17 +786,26 @@ exports.setApp = function(app, client) {
 		// outgoing: error
 		var errorMessage = '';
 
-		var id = req.body.id;
+		var id = new ObjectID(req.body.id);
+
 
 		try {
 			const db = client.db();
-			const results = await db.collection('jobs').deleteOne( { _id: id });
+			var results = await db.collection('jobs').deleteOne({ _id:id });
 
-			errorMessage = "Success";
+			if (results.deletedCount == 1) {
+				errorMessage = "Success";
+			}
+			else {
+				errorMessage = "Nope";
+			}
 		}
 
 		catch(e) {
 			errorMessage = e.toString;
+		}
+		finally {
+			await client.close();
 		}
 
 		var ret = {error: errorMessage};
@@ -1036,16 +1047,18 @@ exports.setApp = function(app, client) {
 		var start = req.body.start;
 		var end = req.body.end;
 
+		var jobsTitle = [];
+
 		var data = {
 			"companyCode" : compCode,
 			"address" : address,
 			"email" : email,
 			"title" : title,
 			"clientname" : clientname,
-			"clientcontact" : clientcontact,
+			"clientcontact" : clientcontact
 			//"start"  : start,
 			//"end" : end,
-			"completed": false
+			//"completed": false
 		}
 		try {
 			const db = client.db();
@@ -1057,6 +1070,16 @@ exports.setApp = function(app, client) {
 
 		if (jobsWithCode.length == 0){
 			errorMessage = "No Jobs found with given company code"
+		}
+
+		for(let i = 0; i < jobsWithCode.length; ++i){
+			if (jobsWithCode[i].title.indexOf(title) > -1 ) {
+				//data[i].title = jobsWithCode[i].title;
+			}
+			else{
+				jobsWithCode.splice(i,1);
+				errorMessage = "Spliced"
+			}
 		}
 
 		var ret = {jobs:jobsWithCode, error:errorMessage};
