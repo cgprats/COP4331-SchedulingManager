@@ -78,7 +78,7 @@ exports.setApp = function(app, client) {
 			errorMessage = e.toString();
 		}
 
-		var ret = { email:email, firstName:fn, lastName:ln, phone:phone, companyName:compname, companyCode: compcode, verified: verified, error:errorMessage};
+		var ret = { email:email, firstName:fn, lastName:ln, phone:phone, companyName:compname, companyCode: compcode, verified: verified, flag:flag, error:errorMessage};
 
 		/* 
 		// JWT Code
@@ -91,7 +91,7 @@ exports.setApp = function(app, client) {
 		}
 		*/
 
-		
+
 
 		res.status(200).json(ret);
 	});
