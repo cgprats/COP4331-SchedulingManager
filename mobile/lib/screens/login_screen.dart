@@ -121,6 +121,7 @@ class _MainPageState extends State<_MainPage> {
           RoundedButton(
             text: 'SIGN IN',
             width: _size.width * 0.8,
+            fontSize: 20,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _login(_payload);

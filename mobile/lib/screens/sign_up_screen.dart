@@ -6,7 +6,7 @@ import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_input_field.dart';
-import 'package:mobile/components/rounded_button.dart';
+import 'package:mobile/components/animated_rounded_button.dart';
 import 'package:mobile/components/sign_up_or_login.dart';
 
 
@@ -253,13 +253,14 @@ class _SignUpFormState extends State<_SignUpForm> {
               ),
             ),
           ),
-          RoundedButton(
+          AnimatedRoundedButton(
             text: 'SIGN UP',
             width: _size.width * 0.8,
+            fontSize: 20,
             color: GlobalData.accountType == 1
                 ? CustomColors.green
                 : CustomColors.purple,
-            doAnimation: true,
+            duration: Duration(milliseconds: 500),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _register(_payload);
