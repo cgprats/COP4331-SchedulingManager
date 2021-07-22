@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/utils/global_data.dart';
+import 'package:mobile/components/rounded_button.dart';
 
 class JobCard extends StatefulWidget {
   final String title, address, details;
@@ -81,7 +82,8 @@ class _JobCardTitleState extends State<_JobCardTitle> {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: CustomColors.white,
-            fontSize: 30,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -111,6 +113,8 @@ class _JobCardBody extends StatefulWidget {
 }
 
 class _JobCardBodyState extends State<_JobCardBody> {
+  bool _expandClient = false;
+  bool _expandTeam = false;
   bool _expandDetails = false;
   int _upArrow = 63534;
   int _downArrow = 63531;
@@ -134,10 +138,22 @@ class _JobCardBodyState extends State<_JobCardBody> {
                   TableCell(
                     child: Container(
                       padding: EdgeInsets.all(5),
-                      child: Text(
-                        'Location:',
-                        style: TextStyle(
-                          color: CustomColors.white,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: CustomColors.white,
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            'Location:',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -160,10 +176,22 @@ class _JobCardBodyState extends State<_JobCardBody> {
                   TableCell(
                     child: Container(
                       padding: EdgeInsets.all(5),
-                      child: Text(
-                        'Duration:',
-                        style: TextStyle(
-                          color: CustomColors.white,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: CustomColors.white,
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            'Duration:',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -214,97 +242,152 @@ class _JobCardBodyState extends State<_JobCardBody> {
                   TableCell(
                     child: Container(
                       padding: EdgeInsets.all(5),
-                      child: Text(
-                        'Client:',
-                        style: TextStyle(
-                          color: CustomColors.white,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: CustomColors.white,
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            'Client:',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
                   TableCell(
                     child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Table(
-                        columnWidths: const <int, TableColumnWidth>{
-                          0: FractionColumnWidth(0.3),
-                        },
-                        children: <TableRow>[
-                          TableRow(
-                            children: <TableCell>[
-                              TableCell(
-                                child: Container(
-                                  child: Text(
-                                    'Name:',
-                                    style: TextStyle(
-                                      color: CustomColors.white,
-                                    ),
+                      padding: EdgeInsets.only(top: 5, left: 5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Visibility(
+                            visible: !this._expandClient,
+                            child: Expanded(
+                              child: Container(
+                                child: Text(
+                                  '${widget.clientInfo['firstName']} ${widget.clientInfo['lastName']}',
+                                  style: TextStyle(
+                                    color: CustomColors.white,
                                   ),
                                 ),
                               ),
-                              TableCell(
-                                child: Container(
-                                  child: Text(
-                                    '${widget.clientInfo['firstName']} ${widget.clientInfo['lastName']}',
-                                    style: TextStyle(
-                                      color: CustomColors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                          TableRow(
-                            children: <TableCell>[
-                              TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 2.5),
-                                  child: Text(
-                                    'Email:',
-                                    style: TextStyle(
-                                      color: CustomColors.white,
-                                    ),
+                          Visibility(
+                            visible: this._expandClient,
+                            child: Expanded(
+                              child: Table(
+                                columnWidths: const <int, TableColumnWidth>{
+                                  0: FractionColumnWidth(0.25),
+                                },
+                                children: <TableRow>[
+                                  TableRow(
+                                    children: <TableCell>[
+                                      TableCell(
+                                        child: Container(
+                                          child: Text(
+                                            'Name:',
+                                            style: TextStyle(
+                                              color: CustomColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: Container(
+                                          child: Text(
+                                            '${widget.clientInfo['firstName']} ${widget.clientInfo['lastName']}',
+                                            style: TextStyle(
+                                              color: CustomColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                              TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 2.5),
-                                  child: Text(
-                                    '${widget.clientInfo['email']}',
-                                    style: TextStyle(
-                                      color: CustomColors.white,
-                                    ),
+                                  TableRow(
+                                    children: <TableCell>[
+                                      TableCell(
+                                        child: Container(
+                                          padding: EdgeInsets.only(top: 2.5),
+                                          child: Text(
+                                            'Email:',
+                                            style: TextStyle(
+                                              color: CustomColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: Container(
+                                          padding: EdgeInsets.only(top: 2.5),
+                                          child: Text(
+                                            '${widget.clientInfo['email']}',
+                                            style: TextStyle(
+                                              color: CustomColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
+                                  TableRow(
+                                    children: <TableCell>[
+                                      TableCell(
+                                        child: Container(
+                                          padding: EdgeInsets.only(top: 2.5),
+                                          child: Text(
+                                            'Phone:',
+                                            style: TextStyle(
+                                              color: CustomColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: Container(
+                                          padding: EdgeInsets.only(top: 2.5),
+                                          child: Text(
+                                            _formatPhone(
+                                                widget.clientInfo['phone']!),
+                                            style: TextStyle(
+                                              color: CustomColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                          TableRow(
-                            children: <TableCell>[
-                              TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 2.5),
-                                  child: Text(
-                                    'Phone:',
-                                    style: TextStyle(
-                                      color: CustomColors.white,
-                                    ),
-                                  ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                this._expandClient = !this._expandClient;
+                              });
+                            },
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(
+                                IconData(
+                                  this._expandClient
+                                      ? this._upArrow
+                                      : this._downArrow,
+                                  fontFamily: 'MaterialIcons',
                                 ),
+                                color: CustomColors.orange,
                               ),
-                              TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 2.5),
-                                  child: Text(
-                                    _formatPhone(widget.clientInfo['phone']!),
-                                    style: TextStyle(
-                                      color: CustomColors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
@@ -314,89 +397,135 @@ class _JobCardBodyState extends State<_JobCardBody> {
               ),
             ],
           ),
-          Text(
-            '\nTeam: ${widget.workers.length} / ${widget.maxWorkers}',
-            style: TextStyle(
-              color: CustomColors.white,
-            ),
+          Row(
+            children: <Widget>[
+              Spacer(),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: CustomColors.white,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'Team: ${widget.workers.length} / ${widget.maxWorkers}',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      this._expandTeam = !this._expandTeam;
+                    });
+                  },
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Icon(
+                      IconData(
+                        this._expandTeam ? this._upArrow : this._downArrow,
+                        fontFamily: 'MaterialIcons',
+                      ),
+                      color: CustomColors.orange,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          Table(
-            columnWidths: <int, TableColumnWidth>{
-              0: FlexColumnWidth(1),
-              1: FlexColumnWidth(2),
-            },
-            children: List<TableRow>.generate(
-              widget.workers.length,
-              (int index) {
-                Map<String, String> _worker = widget.workers[index];
-                return TableRow(
-                  children: <TableCell>[
-                    TableCell(
-                      child: Container(
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          '${_worker['firstName']} ${_worker['lastName']}',
-                          style: TextStyle(
-                            color: CustomColors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Container(
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          '${_worker['email']}\n${_formatPhone(_worker['phone']!)}',
-                          style: TextStyle(
-                            color: CustomColors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
+          Visibility(
+            visible: this._expandTeam,
+            child: Table(
+              columnWidths: <int, TableColumnWidth>{
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(2),
               },
+              children: List<TableRow>.generate(
+                widget.workers.length,
+                (int index) {
+                  Map<String, String> _worker = widget.workers[index];
+                  return TableRow(
+                    children: <TableCell>[
+                      TableCell(
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          child: Text(
+                            '${_worker['firstName']} ${_worker['lastName']}',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          child: Text(
+                            '${_worker['email']}\n${_formatPhone(_worker['phone']!)}',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                '\nDetails:',
-                style: TextStyle(
-                  color: CustomColors.white,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    this._expandDetails = !this._expandDetails;
-                  });
-                },
-                child: Icon(
-                  IconData(
-                    this._expandDetails ? this._upArrow : this._downArrow,
-                    fontFamily: 'MaterialIcons',
+              Spacer(),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: CustomColors.white,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'Details:',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  size: 16,
-                  color: CustomColors.orange,
                 ),
               ),
-              // IconButton(
-              //   color: CustomColors.orange,
-              //   // iconSize: 10,
-              //   icon: Icon(
-              //     IconData(
-              //       this._expandDetails ? this._upArrow : this._downArrow,
-              //       fontFamily: 'MaterialIcons',
-              //     ),
-              //   ),
-              //   onPressed: () {
-              //     setState(() {
-              //       this._expandDetails = !this._expandDetails;
-              //     });
-              //   },
-              // ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      this._expandDetails = !this._expandDetails;
+                    });
+                  },
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Icon(
+                      IconData(
+                        this._expandDetails ? this._upArrow : this._downArrow,
+                        fontFamily: 'MaterialIcons',
+                      ),
+                      color: CustomColors.orange,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           Row(
@@ -414,6 +543,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
               ),
             ],
           ),
+          _JobCardButtons(),
         ],
       ),
     );
@@ -426,5 +556,27 @@ class _JobCardBodyState extends State<_JobCardBody> {
   String _formatPhone([String phone = '']) {
     phone = phone.replaceAll(new RegExp('\\D'), '').padLeft(10, '0');
     return '(${phone.substring(0, 3)}) ${phone.substring(3, 6)}-${phone.substring(6)}';
+  }
+}
+
+class _JobCardButtons extends StatefulWidget {
+  @override
+  _JobCardButtonsState createState() => _JobCardButtonsState();
+}
+
+class _JobCardButtonsState extends State<_JobCardButtons> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          RoundedButton(
+            text: 'Notes',
+            color: CustomColors.orange,
+            onPressed: (){},
+          ),
+        ],
+      ),
+    );
   }
 }
