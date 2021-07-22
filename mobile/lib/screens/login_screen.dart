@@ -154,8 +154,8 @@ class _MainPageState extends State<_MainPage> {
             GlobalData.lastName = jsonObj['lastName'];
             GlobalData.phone = jsonObj['phone'];
             GlobalData.email = jsonObj['Email'];
-            GlobalData.accountType = jsonObj['flag'];
-            GlobalData.companyCode = jsonObj['companyCode'];
+            GlobalData.accountType = int.parse(jsonObj['flag']);
+            GlobalData.companyCode = int.parse(jsonObj['companyCode']);
             GlobalData.companyName = jsonObj['companyName'];
             GlobalData.verified = jsonObj['Verified'];
           }
