@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/utils/global_data.dart';
-import 'package:mobile/components/rounded_button.dart';
 
 class JobCard extends StatefulWidget {
   final String title, address, details;
@@ -32,10 +32,11 @@ class JobCard extends StatefulWidget {
 class _JobCardState extends State<JobCard> {
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        width: widget.width,
+    return Container(
+      width: widget.width,
+      margin: EdgeInsets.all(10),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
         child: Column(
           children: <Widget>[
             _JobCardTitle(
@@ -71,21 +72,31 @@ class _JobCardTitle extends StatefulWidget {
 class _JobCardTitleState extends State<_JobCardTitle> {
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      widthFactor: 1.0,
-      child: Container(
-        decoration: BoxDecoration(
-          color: CustomColors.orange,
-        ),
-        child: Text(
-          widget.title,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: CustomColors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
+        color: CustomColors.orange,
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            child: Text(
+              widget.title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: CustomColors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-        ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: _JobCardButtons(),
+          ),
+        ],
       ),
     );
   }
@@ -116,8 +127,8 @@ class _JobCardBodyState extends State<_JobCardBody> {
   bool _expandClient = false;
   bool _expandTeam = false;
   bool _expandDetails = false;
-  int _upArrow = 63534;
-  int _downArrow = 63531;
+  IconData _upArrow = Icons.keyboard_arrow_up_rounded;
+  IconData _downArrow = Icons.keyboard_arrow_down_rounded;
 
   @override
   Widget build(BuildContext context) {
@@ -379,12 +390,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: Icon(
-                                IconData(
-                                  this._expandClient
-                                      ? this._upArrow
-                                      : this._downArrow,
-                                  fontFamily: 'MaterialIcons',
-                                ),
+                                this._expandClient ? this._upArrow : this._downArrow,
                                 color: CustomColors.orange,
                               ),
                             ),
@@ -431,10 +437,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Icon(
-                      IconData(
-                        this._expandTeam ? this._upArrow : this._downArrow,
-                        fontFamily: 'MaterialIcons',
-                      ),
+                      this._expandTeam ? this._upArrow : this._downArrow,
                       color: CustomColors.orange,
                     ),
                   ),
@@ -517,10 +520,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Icon(
-                      IconData(
-                        this._expandDetails ? this._upArrow : this._downArrow,
-                        fontFamily: 'MaterialIcons',
-                      ),
+                      this._expandDetails ? this._upArrow : this._downArrow,
                       color: CustomColors.orange,
                     ),
                   ),
@@ -543,7 +543,6 @@ class _JobCardBodyState extends State<_JobCardBody> {
               ),
             ],
           ),
-          _JobCardButtons(),
         ],
       ),
     );
@@ -564,19 +563,58 @@ class _JobCardButtons extends StatefulWidget {
   _JobCardButtonsState createState() => _JobCardButtonsState();
 }
 
+enum menu {
+  notes,
+  timesheet,
+  edit,
+  delete,
+  markCompleted,
+  signOnOff,
+  clockInOut,
+}
+
 class _JobCardButtonsState extends State<_JobCardButtons> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          RoundedButton(
-            text: 'Notes',
-            color: CustomColors.orange,
-            onPressed: (){},
-          ),
-        ],
+    return PopupMenuButton(
+      icon: Icon(
+        Icons.menu,
+        color: CustomColors.white,
+        size: 30,
       ),
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<menu>>[
+        const PopupMenuItem<menu>(
+          value: menu.notes,
+          child: Text('Notes'),
+        ),
+        const PopupMenuItem<menu>(
+          value: menu.timesheet,
+          child: Text('Timesheet'),
+        ),
+        if (GlobalData.accountType == 1) ...[
+          const PopupMenuItem<menu>(
+            value: menu.notes,
+            child: Text('Edit'),
+          ),
+          const PopupMenuItem<menu>(
+            value: menu.notes,
+            child: Text('Delete'),
+          ),
+          const PopupMenuItem<menu>(
+            value: menu.notes,
+            child: Text('Mark as Completed'),
+          ),
+        ] else ...[
+          const PopupMenuItem<menu>(
+            value: menu.notes,
+            child: Text('Sign On'),
+          ),
+          const PopupMenuItem<menu>(
+            value: menu.notes,
+            child: Text('Clock In'),
+          ),
+        ]
+      ],
     );
   }
 }
