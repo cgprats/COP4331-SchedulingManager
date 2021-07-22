@@ -11,9 +11,11 @@ var math = require("mathjs");
 // 3: Sign On / Sign Off - MUST 1 function for both sign on and sign off
 // 4: Clock In / Clock Out - MUST be 1 function for both clock in and clock out
 // 5: Get Individual Timesheet - Same as Individual Notes -> handle time range 
+// 6: Finish Search Order (Mostly done)
 
 // Other stuff
 // 1: Handle date stuff for add / edit order (I got this)
+// 2: Help Front End with JWT
 
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
