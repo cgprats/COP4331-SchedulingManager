@@ -80,6 +80,7 @@ exports.setApp = function(app, client) {
 
 		var ret = { email:email, firstName:fn, lastName:ln, phone:phone, companyName:compname, companyCode: compcode, verified: verified, error:errorMessage};
 
+		/* 
 		// JWT Code
 		try {
 			ret = token.createToken(email, flag, fn, ln, phone, compcode, verified);
@@ -88,6 +89,9 @@ exports.setApp = function(app, client) {
 		catch (e) {
 			ret = {error:e.message};
 		}
+		*/
+
+		
 
 		res.status(200).json(ret);
 	});
