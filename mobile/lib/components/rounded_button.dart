@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:mobile/utils/custom_colors.dart';
-import 'package:mobile/utils/global_data.dart';
 
 class RoundedButton extends StatefulWidget {
   final String text;
@@ -35,7 +34,6 @@ class _RoundedButtonState extends State<RoundedButton> {
       child: ElevatedButton(
         style: ButtonStyle(
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            // EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             widget.padding,
           ),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
