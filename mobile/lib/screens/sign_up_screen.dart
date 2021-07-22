@@ -285,6 +285,7 @@ class _SignUpFormState extends State<_SignUpForm> {
     } else {
       setState(
         () {
+          print('register successful!');
           _errorMessage =
               jsonObj['error'].startsWith('Success: ') ? '' : jsonObj['error'];
         },
