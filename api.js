@@ -797,8 +797,9 @@ exports.setApp = function(app, client) {
 				errorMessage = "Success";
 			}
 			else {
-				errorMessage = "Nope";
+				errorMessage = "No Jobs found";
 			}
+			
 		}
 
 		catch(e) {
@@ -1071,16 +1072,23 @@ exports.setApp = function(app, client) {
 		if (jobsWithCode.length == 0){
 			errorMessage = "No Jobs found with given company code"
 		}
-
-		for(let i = 0; i < jobsWithCode.length; ++i){
-			if (jobsWithCode[i].title.indexOf(title) > -1 ) {
-				//data[i].title = jobsWithCode[i].title;
-			}
-			else{
+		
+		// ************* Yes, I know this is duplicate code.
+		//	I have no idea why, but it doesn't work otherwise. I'll fix it later.
+		for(let i = 0; i < jobsWithCode.length; i++){
+			if (jobsWithCode[i].title.indexOf(title) == -1) {
 				jobsWithCode.splice(i,1);
 				errorMessage = "Spliced"
 			}
 		}
+
+		for(let i = 0; i < jobsWithCode.length; i++){
+			if (jobsWithCode[i].title.indexOf(title) == -1) {
+				jobsWithCode.splice(i,1);
+				errorMessage = "Spliced"
+			}
+		}
+		// ****************************************************
 
 		var ret = {jobs:jobsWithCode, error:errorMessage};
 		res.status(200).json(ret);
