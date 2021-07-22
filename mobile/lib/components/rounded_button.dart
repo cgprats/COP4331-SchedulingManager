@@ -9,6 +9,7 @@ class RoundedButton extends StatefulWidget {
   final Color color, textColor;
   final double? width;
   final double? fontSize;
+  final EdgeInsetsGeometry padding;
 
   const RoundedButton({
     Key? key,
@@ -18,6 +19,7 @@ class RoundedButton extends StatefulWidget {
     this.textColor = CustomColors.white,
     this.width,
     this.fontSize,
+    this.padding = EdgeInsets.zero,
   }); // : super(key: key);
 
   @override
@@ -33,7 +35,8 @@ class _RoundedButtonState extends State<RoundedButton> {
       child: ElevatedButton(
         style: ButtonStyle(
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            // EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            widget.padding,
           ),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(

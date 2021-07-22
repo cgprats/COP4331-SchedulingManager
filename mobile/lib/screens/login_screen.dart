@@ -122,6 +122,7 @@ class _MainPageState extends State<_MainPage> {
             text: 'SIGN IN',
             width: _size.width * 0.8,
             fontSize: 20,
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _login(_payload);

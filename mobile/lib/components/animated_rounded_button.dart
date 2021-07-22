@@ -10,6 +10,7 @@ class AnimatedRoundedButton extends StatefulWidget {
   final Color color, textColor;
   final double? width;
   final double? fontSize;
+  final EdgeInsetsGeometry padding;
   final Duration duration;
 
   const AnimatedRoundedButton({
@@ -20,6 +21,7 @@ class AnimatedRoundedButton extends StatefulWidget {
     this.textColor = CustomColors.white,
     this.width,
     this.fontSize,
+    this.padding = EdgeInsets.zero,
     required this.duration,
   }); // : super(key: key);
 
@@ -72,6 +74,7 @@ class _AnimatedRoundedButtonState extends State<AnimatedRoundedButton>
         textColor: widget.textColor,
         width: widget.width,
         fontSize: widget.fontSize,
+        padding: widget.padding,
       ),
     );
   }

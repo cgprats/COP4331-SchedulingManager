@@ -257,6 +257,7 @@ class _SignUpFormState extends State<_SignUpForm> {
             text: 'SIGN UP',
             width: _size.width * 0.8,
             fontSize: 20,
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             color: GlobalData.accountType == 1
                 ? CustomColors.green
                 : CustomColors.purple,
