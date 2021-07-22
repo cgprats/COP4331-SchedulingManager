@@ -1021,7 +1021,7 @@ exports.setApp = function(app, client) {
 		// Outgoing: Any relevant job orders
 
 		var errorMessage = '';
-		
+
 		// Incomming
 		var compCode = req.body.companyCode;
 		var address = req.body.address;
@@ -1055,7 +1055,7 @@ exports.setApp = function(app, client) {
 			errorMessage = "No Jobs found with given company code"
 		}
 
-		var ret = {jobs:jobsWithCode.length, error:errorMessage};
+		var ret = {jobs:jobsWithCode, error:errorMessage};
 		res.status(200).json(ret);
 		// Using company code, find all orders with a partial match to the incomming data
 
