@@ -1078,17 +1078,29 @@ exports.setApp = function(app, client) {
 		for(let i = 0; i < jobsWithCode.length; i++){
 			if (jobsWithCode[i].title.indexOf(title) == -1) {
 				jobsWithCode.splice(i,1);
-				errorMessage = "Spliced"
 			}
 		}
 
 		for(let i = 0; i < jobsWithCode.length; i++){
 			if (jobsWithCode[i].title.indexOf(title) == -1) {
 				jobsWithCode.splice(i,1);
-				errorMessage = "Spliced"
 			}
 		}
 		// ****************************************************
+
+		for(let i = 0; i < jobsWithCode.length; i++){
+			if (jobsWithCode[i].address.indexOf(address) == -1) {
+				jobsWithCode.splice(i,1);
+			}
+		}
+
+		for(let i = 0; i < jobsWithCode.length; i++){
+			if (jobsWithCode[i].address.indexOf(address) == -1) {
+				jobsWithCode.splice(i,1);
+				errorMessage = "Spliced"
+			}
+		}
+
 
 		var ret = {jobs:jobsWithCode, error:errorMessage};
 		res.status(200).json(ret);
