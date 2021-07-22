@@ -6,9 +6,9 @@ var math = require("mathjs");
 // Remaining Endpoints To Create Or Significantly Modify
 // 1: Get Notes - handle "array of emails"
 // 2: Get Individual Notes - incomming: start date and end date 
-//			     outgoing: all notes within time range
+//			    			 outgoing: all notes within time range
 // 3: Sign On / Sign Off - MUST 1 function for both sign on and sign off
-// 4: Clock In / Clock Out - MUST be 1 function for both
+// 4: Clock In / Clock Out - MUST be 1 function for both clock in and clock out
 // 5: Get Individual Timesheet - Same as Individual Notes -> handle time range 
 
 
@@ -850,7 +850,7 @@ exports.setApp = function(app, client) {
 		// Checking for order using the given ID
 		try {
 			
-			const results = await db.collection('jobs').find({_id:id}).toArray();
+			var results = await db.collection('jobs').find({_id:id}).toArray();
 		}
 		catch(e) {
 			errorMessage = e.toString();
@@ -1021,7 +1021,7 @@ exports.setApp = function(app, client) {
 		// Outgoing: Any relevant job orders
 
 		var errorMessage = '';
-
+		
 		// Incomming
 		var compCode = req.body.companyCode;
 		var address = req.body.address;
@@ -1043,7 +1043,20 @@ exports.setApp = function(app, client) {
 			//"end" : end,
 			"completed": false
 		}
+		try {
+			const db = client.db();
+			var jobsWithCode = await db.collection('jobs').find({companyCode:compCode}).toArray();
+		}
+		catch(e) {
+			errorMessage = e.toString();
+		}
 
+		if (jobsWithCode.length == 0){
+			errorMessage = "No Jobs found with given company code"
+		}
+
+		var ret = {jobs:jobsWithCode.length, error:errorMessage};
+		res.status(200).json(ret);
 		// Using company code, find all orders with a partial match to the incomming data
 
 		// The given 'start' data must be earlier than the end field of the job
