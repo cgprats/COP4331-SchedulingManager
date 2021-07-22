@@ -81,6 +81,68 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                     'Definitely going to need word wrap to make this look nice, because ho boy '
                     'just look how long its getting',
               ),
+              JobCard(
+                width: _size.width * 0.8,
+                title: 'This is a second example title',
+                address: '9000 SW 196 Dr',
+                startDate: DateTime(2021, 7, 25),
+                endDate: DateTime(2021, 8, 2),
+                clientInfo: {
+                  'firstName': 'Biggie',
+                  'lastName': 'Smalls',
+                  'email': 'biggieDaGoat@hotmail.com',
+                  'phone': '305-804-0523',
+                },
+                maxWorkers: 6,
+                workers: <Map<String, String>>[
+                  {
+                    'firstName': 'Sean',
+                    'lastName': 'Bennett',
+                    'email': 'seanmbmiami@gmail.com',
+                    'phone': '305-519-8560',
+                  },
+                  {
+                    'firstName': 'Trish',
+                    'lastName': 'Nigrelli',
+                    'email': 'kmbmiami@gmail.com',
+                    'phone': '786-367-6792',
+                  },
+                ],
+                details: 'This is a longer briefing. It has formatting in the form of this list. '
+                    'Definitely going to need word wrap to make this look nice, because ho boy '
+                    'just look how long its getting',
+              ),
+              JobCard(
+                width: _size.width * 0.8,
+                title: 'This is a second example title',
+                address: '9000 SW 196 Dr',
+                startDate: DateTime(2021, 7, 25),
+                endDate: DateTime(2021, 8, 2),
+                clientInfo: {
+                  'firstName': 'Biggie',
+                  'lastName': 'Smalls',
+                  'email': 'biggieDaGoat@hotmail.com',
+                  'phone': '305-804-0523',
+                },
+                maxWorkers: 6,
+                workers: <Map<String, String>>[
+                  {
+                    'firstName': 'Sean',
+                    'lastName': 'Bennett',
+                    'email': 'seanmbmiami@gmail.com',
+                    'phone': '305-519-8560',
+                  },
+                  {
+                    'firstName': 'Trish',
+                    'lastName': 'Nigrelli',
+                    'email': 'kmbmiami@gmail.com',
+                    'phone': '786-367-6792',
+                  },
+                ],
+                details: 'This is a longer briefing. It has formatting in the form of this list. '
+                    'Definitely going to need word wrap to make this look nice, because ho boy '
+                    'just look how long its getting',
+              ),
             ],
           ),
         ),

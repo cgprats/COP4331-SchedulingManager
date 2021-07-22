@@ -148,6 +148,7 @@ class _MainPageState extends State<_MainPage> {
         () {
           _errorMessage = jsonObj['error'];
           if (_errorMessage.startsWith('Success: ')) {
+            print('login successful!');
             _errorMessage = '';
             GlobalData.firstName = jsonObj['firstName'];
             GlobalData.lastName = jsonObj['lastName'];
