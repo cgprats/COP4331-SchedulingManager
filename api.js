@@ -12,6 +12,8 @@ var math = require("mathjs");
 // 4: Clock In / Clock Out - MUST be 1 function for both clock in and clock out
 // 5: Get Individual Timesheet - Same as Individual Notes -> handle time range 
 
+// Other stuff
+// 1: Handle date stuff for add / edit order (I got this)
 
 exports.setApp = function(app, client) {
 	app.post('/api/login', async (req, res, next) => {
@@ -1048,7 +1050,8 @@ exports.setApp = function(app, client) {
 		var start = req.body.start;
 		var end = req.body.end;
 
-		var jobsTitle = [];
+		var startinput = new Date(start);
+		var endinput = new Date(end);
 
 		var data = {
 			"companyCode" : compCode,
@@ -1075,32 +1078,114 @@ exports.setApp = function(app, client) {
 		
 		// ************* Yes, I know this is duplicate code.
 		//	I have no idea why, but it doesn't work otherwise. I'll fix it later.
-		for(let i = 0; i < jobsWithCode.length; i++){
-			if (jobsWithCode[i].title.indexOf(title) == -1) {
-				jobsWithCode.splice(i,1);
+		//  This function is supposed to check for partial matches then remove or "splice"
+		//  the element with no match. Oddly enough, it always misses 1 element
+		//  After hours of fuckshit, I found that checking again fixes the issue.
+		if (title != null){
+			for(let i = 0; i < jobsWithCode.length; i++){
+				if (jobsWithCode[i].title.indexOf(title) == -1) {
+					jobsWithCode.splice(i,1);
+				}
+			}
+
+			for(let i = 0; i < jobsWithCode.length; i++){
+				if (jobsWithCode[i].title.indexOf(title) == -1) {
+					jobsWithCode.splice(i,1);
+				}
 			}
 		}
 
-		for(let i = 0; i < jobsWithCode.length; i++){
-			if (jobsWithCode[i].title.indexOf(title) == -1) {
-				jobsWithCode.splice(i,1);
+		// ****************************** DUPE CODE
+		if (address != null){
+			for(let i = 0; i < jobsWithCode.length; i++){
+				if (jobsWithCode[i].address.indexOf(address) == -1) {
+					jobsWithCode.splice(i,1);
+					errorMessage = "Spliced";
+				}
 			}
-		}
-		// ****************************************************
 
-		for(let i = 0; i < jobsWithCode.length; i++){
-			if (jobsWithCode[i].address.indexOf(address) == -1) {
-				jobsWithCode.splice(i,1);
-			}
-		}
-
-		for(let i = 0; i < jobsWithCode.length; i++){
-			if (jobsWithCode[i].address.indexOf(address) == -1) {
-				jobsWithCode.splice(i,1);
-				errorMessage = "Spliced"
+			for(let i = 0; i < jobsWithCode.length; i++){
+				if (jobsWithCode[i].address.indexOf(address) == -1) {
+					jobsWithCode.splice(i,1);
+					errorMessage = "Spliced";
+				}
 			}
 		}
 
+		// ****************************** DUPE CODE
+		if (clientname != null){
+			for(let i = 0; i < jobsWithCode.length; i++){
+				if (jobsWithCode[i].clientname.indexOf(clientname) == -1) {
+					jobsWithCode.splice(i,1);
+					errorMessage = "Spliced";
+				}
+			}
+
+			for(let i = 0; i < jobsWithCode.length; i++){
+				if (jobsWithCode[i].clientname.indexOf(clientname) == -1) {
+					jobsWithCode.splice(i,1);
+					errorMessage = "Spliced";
+				}
+			}
+		}
+
+		// ****************************** DUPE CODE
+		if (clientcontact != null){
+			for(let i = 0; i < jobsWithCode.length; i++){
+				if (jobsWithCode[i].clientcontact.indexOf(clientcontact) == -1) {
+					jobsWithCode.splice(i,1);
+					errorMessage = "Spliced";
+				}
+			}
+
+			for(let i = 0; i < jobsWithCode.length; i++){
+				if (jobsWithCode[i].clientcontact.indexOf(clientcontact) == -1) {
+					jobsWithCode.splice(i,1);
+					errorMessage = "Spliced";
+				}
+			}
+		}
+
+		// ****************************** DUPE CODE
+		if (start != null){
+			var startfield;
+			for(let i = 0; i < jobsWithCode.length; i++){
+				startfield = new Date(jobsWithCode[i].start);
+
+				if (startfield.getTime() > endinput.getTime()){
+					jobsWithCode.splice(i,1);
+				}
+			}
+
+			for(let i = 0; i < jobsWithCode.length; i++){
+				startfield = new Date(jobsWithCode[i].start);
+
+				if (startfield.getTime() > endinput.getTime()){
+					jobsWithCode.splice(i,1);
+				}
+
+			}
+		}
+
+		// ****************************** DUPE CODE
+		if (end != null){
+			var startfield;
+			for(let i = 0; i < jobsWithCode.length; i++){
+				endfield = new Date(jobsWithCode[i].end);
+
+				if (endfield.getTime() < startinput.getTime()){
+					jobsWithCode.splice(i,1);
+				}
+			}
+
+			for(let i = 0; i < jobsWithCode.length; i++){
+				endfield = new Date(jobsWithCode[i].end);
+
+				if (endfield.getTime() < startinput.getTime()){
+					jobsWithCode.splice(i,1);
+				}
+			}
+		}
 
 		var ret = {jobs:jobsWithCode, error:errorMessage};
 		res.status(200).json(ret);
@@ -1109,6 +1194,7 @@ exports.setApp = function(app, client) {
 		// The given 'start' data must be earlier than the end field of the job
 		// The give 'end' data must be later than the start field of the job
 		// If no string, ignore
+
 
 	});
 }
