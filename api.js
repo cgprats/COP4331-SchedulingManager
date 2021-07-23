@@ -1041,7 +1041,7 @@ exports.setApp = function(app, client) {
 		// Outgoing: Any relevant job orders
 
 		var errorMessage = '';
-
+		
 		// Incomming
 		var compCode = req.body.companyCode;
 		var address = req.body.address;
@@ -1082,7 +1082,7 @@ exports.setApp = function(app, client) {
 		//	I have no idea why, but it doesn't work otherwise. I'll fix it later.
 		//  This function is supposed to check for partial matches then remove or "splice"
 		//  the element with no match. Oddly enough, it always misses 1 element
-		//  After hours of fuckshit, I found that checking again fixes the issue.
+		//  After hours of troubleshooting, I found that checking again fixes the issue.
 		if (title != null){
 			for(let i = 0; i < jobsWithCode.length; i++){
 				if (jobsWithCode[i].title.indexOf(title) == -1) {
