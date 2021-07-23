@@ -32,26 +32,28 @@ class JobCard extends StatefulWidget {
 class _JobCardState extends State<JobCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.width,
-      margin: EdgeInsets.all(10),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Column(
-          children: <Widget>[
-            _JobCardTitle(
-              title: widget.title,
-            ),
-            _JobCardBody(
-              address: widget.address,
-              startDate: widget.startDate,
-              endDate: widget.endDate,
-              clientInfo: widget.clientInfo,
-              maxWorkers: widget.maxWorkers,
-              workers: widget.workers,
-              details: widget.details,
-            ),
-          ],
+    return FractionallySizedBox(
+      widthFactor: widget.width,
+      child: Container(
+        margin: EdgeInsets.all(10),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Column(
+            children: <Widget>[
+              _JobCardTitle(
+                title: widget.title,
+              ),
+              _JobCardBody(
+                address: widget.address,
+                startDate: widget.startDate,
+                endDate: widget.endDate,
+                clientInfo: widget.clientInfo,
+                maxWorkers: widget.maxWorkers,
+                workers: widget.workers,
+                details: widget.details,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -390,7 +392,9 @@ class _JobCardBodyState extends State<_JobCardBody> {
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: Icon(
-                                this._expandClient ? this._upArrow : this._downArrow,
+                                this._expandClient
+                                    ? this._upArrow
+                                    : this._downArrow,
                                 color: CustomColors.orange,
                               ),
                             ),
@@ -447,38 +451,93 @@ class _JobCardBodyState extends State<_JobCardBody> {
           ),
           Visibility(
             visible: this._expandTeam,
-            child: Table(
-              columnWidths: <int, TableColumnWidth>{
-                0: FlexColumnWidth(1),
-                1: FlexColumnWidth(2),
-              },
-              children: List<TableRow>.generate(
+            child: Column(
+              children: List<Table>.generate(
                 widget.workers.length,
                 (int index) {
                   Map<String, String> _worker = widget.workers[index];
-                  return TableRow(
-                    children: <TableCell>[
-                      TableCell(
-                        child: Container(
-                          padding: EdgeInsets.all(5),
-                          child: Text(
-                            '${_worker['firstName']} ${_worker['lastName']}',
-                            style: TextStyle(
-                              color: CustomColors.white,
+                  return Table(
+                    columnWidths: <int, TableColumnWidth>{
+                      0: FractionColumnWidth(0.25),
+                    },
+                    children: <TableRow>[
+                      TableRow(
+                        children: <TableCell>[
+                          TableCell(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 2.5),
+                              child: Text(
+                                'Name:',
+                                style: TextStyle(
+                                  color: CustomColors.white,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          TableCell(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 2.5),
+                              child: Text(
+                                '${_worker['firstName']} ${_worker['lastName']}',
+                                style: TextStyle(
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      TableCell(
-                        child: Container(
-                          padding: EdgeInsets.all(5),
-                          child: Text(
-                            '${_worker['email']}\n${_formatPhone(_worker['phone']!)}',
-                            style: TextStyle(
-                              color: CustomColors.white,
+                      TableRow(
+                        children: <TableCell>[
+                          TableCell(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 2.5),
+                              child: Text(
+                                'Email:',
+                                style: TextStyle(
+                                  color: CustomColors.white,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          TableCell(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 2.5),
+                              child: Text(
+                                '${_worker['email']}',
+                                style: TextStyle(
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: <TableCell>[
+                          TableCell(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 2.5),
+                              child: Text(
+                                'Phone:',
+                                style: TextStyle(
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 2.5),
+                              child: Text(
+                                '${_formatPhone(_worker['phone']!)}',
+                                style: TextStyle(
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   );
@@ -578,7 +637,7 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
   Widget build(BuildContext context) {
     return PopupMenuButton(
       icon: Icon(
-        Icons.menu,
+        Icons.more_vert,
         color: CustomColors.white,
         size: 30,
       ),

@@ -22,7 +22,7 @@ class AnimatedRoundedButton extends StatefulWidget {
     this.width,
     this.fontSize,
     this.padding = EdgeInsets.zero,
-    required this.duration,
+    this.duration = const Duration(milliseconds: 500),
   }); // : super(key: key);
 
   @override

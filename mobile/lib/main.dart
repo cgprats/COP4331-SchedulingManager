@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/login_screen.dart';
 
 import 'routes/routes.dart';
 
@@ -9,6 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'app title goes here',
+      home: LoginScreen(),
       routes: Routes.getRoutes,
     );
   }

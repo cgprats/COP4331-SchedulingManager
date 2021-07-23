@@ -8,7 +8,7 @@ import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/components/animated_rounded_button.dart';
 import 'package:mobile/components/sign_up_or_login.dart';
-
+import 'package:mobile/components/custom_scaffold.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -19,38 +19,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
-        child: Container(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "SIGN UP",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: CustomColors.white,
-                  fontSize: 30,
+    return CustomScaffold(
+      title: 'Sign Up',
+      doAnimation: true,
+      appBarColor: GlobalData.accountType == 1
+          ? CustomColors.green
+          : CustomColors.purple,
+      backgroundColor: CustomColors.grey,
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5),
+            child: _AccountTypeSelector(),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              // padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
+              child: Container(
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    // _AccountTypeSelector(),
+                    _SignUpForm(),
+                    SignUpOrLogin(
+                      login: false,
+                    ),
+                    SizedBox(
+                      height: _size.height * 0.03,
+                    ),
+                  ],
                 ),
               ),
-              _AccountTypeSelector(),
-              SizedBox(
-                height: 5,
-              ),
-              _SignUpForm(),
-              SignUpOrLogin(
-                login: false,
-              ),
-              SizedBox(
-                height: _size.height * 0.03,
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
-      backgroundColor: CustomColors.grey,
     );
   }
 }
@@ -61,7 +65,7 @@ class _SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<_SignUpForm> {
-  static final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map _payload = Map();
   bool _visible1 = false, _visible2 = false;
   String _errorMessage = '';
@@ -90,7 +94,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   onChanged: (text) {
                     _payload['firstName'] = text;
                   },
-                  autofocus: true,
+                  // autofocus: true,
                 ),
                 RoundedInputField(
                   order: 2,
@@ -261,7 +265,6 @@ class _SignUpFormState extends State<_SignUpForm> {
             color: GlobalData.accountType == 1
                 ? CustomColors.green
                 : CustomColors.purple,
-            duration: Duration(milliseconds: 500),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _register(_payload);
