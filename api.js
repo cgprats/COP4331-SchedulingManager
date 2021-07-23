@@ -1007,7 +1007,6 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	
 	app.post('/api/searchTimesheet', async(req, res, next) =>{
 		// incoming: fooid
 		// outgoing: All timesheets with matching id (?)
@@ -1035,6 +1034,7 @@ exports.setApp = function(app, client) {
 		var ret = {timesheet:data, error:errorMessage};
 		res.status(200).json(ret);
 	});
+	
 
 	app.post('/api/searchJobs', async(req, res, next) =>{
 		// TODO: Do not return jobs the user does not have access too 
@@ -1043,160 +1043,94 @@ exports.setApp = function(app, client) {
 		var errorMessage = '';
 		
 		// Incomming
+		var input = req.body.input;
 		var compCode = req.body.companyCode;
-		var address = req.body.address;
 		var email = req.body.eamil;
-		var title = req.body.title;
-		var clientname = req.body.clientname;
-		var clientcontact = req.body.clientcontact;
+		
 		var start = req.body.start;
 		var end = req.body.end;
 
 		var startinput = new Date(start);
 		var endinput = new Date(end);
 
-		var data = {
-			"companyCode" : compCode,
-			"address" : address,
-			"email" : email,
-			"title" : title,
-			"clientname" : clientname,
-			"clientcontact" : clientcontact
-			//"start"  : start,
-			//"end" : end,
-			//"completed": false
-		}
 		try {
 			const db = client.db();
-			var jobsWithCode = await db.collection('jobs').find({companyCode:compCode}).toArray();
+			var jobsAll = await db.collection('jobs').find({companyCode:compCode}).toArray();
 		}
 		catch(e) {
 			errorMessage = e.toString();
 		}
 
-		if (jobsWithCode.length == 0){
+		// Copy over all found jobs to new array
+		// Then empty all elements so they can be filled if matched
+		var jobsMatched = [].concat(jobsAll);
+		jobsMatched.splice(0,jobsMatched.length);
+
+		if (jobsAll.length == 0){
 			errorMessage = "No Jobs found with given company code"
 		}
 		
-		// ************* Yes, I know this is duplicate code.
-		//	I have no idea why, but it doesn't work otherwise. I'll fix it later.
-		//  This function is supposed to check for partial matches then remove or "splice"
-		//  the element with no match. Oddly enough, it always misses 1 element
-		//  After hours of troubleshooting, I found that checking again fixes the issue.
-		if (title != null){
-			for(let i = 0; i < jobsWithCode.length; i++){
-				if (jobsWithCode[i].title.indexOf(title) == -1) {
-					jobsWithCode.splice(i,1);
+		for(let i = 0; i < jobsAll.length; i++){
+			if (jobsAll[i].title != null)
+				if (jobsAll[i].title.indexOf(input) > -1) {
+					jobsMatched[i] = jobsAll[i];
 				}
-			}
-
-			for(let i = 0; i < jobsWithCode.length; i++){
-				if (jobsWithCode[i].title.indexOf(title) == -1) {
-					jobsWithCode.splice(i,1);
-				}
-			}
 		}
 
-		// ****************************** DUPE CODE
-		if (address != null){
-			for(let i = 0; i < jobsWithCode.length; i++){
-				if (jobsWithCode[i].address.indexOf(address) == -1) {
-					jobsWithCode.splice(i,1);
-					errorMessage = "Spliced";
+		for(let i = 0; i < jobsAll.length; i++){
+			if (jobsAll[i].email != null)
+				if (jobsAll[i].email.indexOf(input) > -1) {
+					jobsMatched[i] = jobsAll[i];
 				}
-			}
-
-			for(let i = 0; i < jobsWithCode.length; i++){
-				if (jobsWithCode[i].address.indexOf(address) == -1) {
-					jobsWithCode.splice(i,1);
-					errorMessage = "Spliced";
+		}
+		
+		for(let i = 0; i < jobsAll.length; i++){
+			if (jobsAll[i].address != null)
+				if (jobsAll[i].address.indexOf(input) > -1) {
+					jobsMatched[i] = jobsAll[i];
 				}
-			}
 		}
 
-		// ****************************** DUPE CODE
-		if (clientname != null){
-			for(let i = 0; i < jobsWithCode.length; i++){
-				if (jobsWithCode[i].clientname.indexOf(clientname) == -1) {
-					jobsWithCode.splice(i,1);
-					errorMessage = "Spliced";
+		for(let i = 0; i < jobsAll.length; i++){
+			if (jobsAll[i].clientname != null)
+				if (jobsAll[i].clientname.indexOf(input) > -1) {
+					jobsMatched[i] = jobsAll[i];
 				}
-			}
-
-			for(let i = 0; i < jobsWithCode.length; i++){
-				if (jobsWithCode[i].clientname.indexOf(clientname) == -1) {
-					jobsWithCode.splice(i,1);
-					errorMessage = "Spliced";
-				}
-			}
 		}
 
-		// ****************************** DUPE CODE
-		if (clientcontact != null){
-			for(let i = 0; i < jobsWithCode.length; i++){
-				if (jobsWithCode[i].clientcontact.indexOf(clientcontact) == -1) {
-					jobsWithCode.splice(i,1);
-					errorMessage = "Spliced";
+		for(let i = 0; i < jobsAll.length; i++){
+			if (jobsAll[i].clientcontact != null)
+				if (jobsAll[i].clientcontact.indexOf(input) > -1) {
+					jobsMatched[i] = jobsAll[i];
 				}
-			}
-
-			for(let i = 0; i < jobsWithCode.length; i++){
-				if (jobsWithCode[i].clientcontact.indexOf(clientcontact) == -1) {
-					jobsWithCode.splice(i,1);
-					errorMessage = "Spliced";
-				}
-			}
 		}
 
-		// ****************************** DUPE CODE
 		if (start != null){
 			var startfield;
-			for(let i = 0; i < jobsWithCode.length; i++){
-				startfield = new Date(jobsWithCode[i].start);
+			for(let i = 0; i < jobsAll.length; i++){
+				startfield = new Date(jobsAll[i].start);
 
 				if (startfield.getTime() > endinput.getTime()){
-					jobsWithCode.splice(i,1);
+					jobsMatched[i] = jobsAll[i];
 				}
-			}
-
-			for(let i = 0; i < jobsWithCode.length; i++){
-				startfield = new Date(jobsWithCode[i].start);
-
-				if (startfield.getTime() > endinput.getTime()){
-					jobsWithCode.splice(i,1);
-				}
-
 			}
 		}
 
-		// ****************************** DUPE CODE
 		if (end != null){
 			var startfield;
-			for(let i = 0; i < jobsWithCode.length; i++){
-				endfield = new Date(jobsWithCode[i].end);
+			for(let i = 0; i < jobsAll.length; i++){
+				endfield = new Date(jobsAll[i].end);
 
 				if (endfield.getTime() < startinput.getTime()){
-					jobsWithCode.splice(i,1);
-				}
-			}
-
-			for(let i = 0; i < jobsWithCode.length; i++){
-				endfield = new Date(jobsWithCode[i].end);
-
-				if (endfield.getTime() < startinput.getTime()){
-					jobsWithCode.splice(i,1);
+					jobsMatched[i] = jobsAll[i];
 				}
 			}
 		}
 
-		var ret = {jobs:jobsWithCode, error:errorMessage};
+		// Await filter for completed jobs
+		// Await filter for showing jobs the user is signed on for
+
+		var ret = {jobs:jobsMatched, error:errorMessage};
 		res.status(200).json(ret);
-		// Using company code, find all orders with a partial match to the incomming data
-
-		// The given 'start' data must be earlier than the end field of the job
-		// The give 'end' data must be later than the start field of the job
-		// If no string, ignore
-
-
 	});
 }
