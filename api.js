@@ -5,13 +5,13 @@ var ObjectID = require('mongodb').ObjectID;
 var math = require("mathjs");
 
 // Remaining Endpoints To Create Or Significantly Modify
-// 1: Get Notes - handle "array of emails"
-// 2: Get Individual Notes - incomming: start date and end date 
-//			    			 outgoing: all notes within time range
+// 1: Get Notes
+// 2: Get Individual Notes
 // 3: Sign On / Sign Off - MUST 1 function for both sign on and sign off
 // 4: Clock In / Clock Out - MUST be 1 function for both clock in and clock out
 // 5: Get Individual Timesheet - Same as Individual Notes -> handle time range 
 // 6: Finish Search Order (Mostly done)
+// 7: Edit Account Info, 1 end point instead of multiple
 
 // Other stuff
 // 1: Handle date stuff for add / edit order (I got this)
