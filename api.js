@@ -729,7 +729,7 @@ exports.setApp = function(app, client) {
 			// start data, end datae, max workers, briefing
 		// outgoing: error
 		var errorMessage = '';
-		var id = req.body.id;
+		var id = new ObjectID(req.body.id);
 		var title = req.body.title;
 		var email = req.body.email;
 		var address = req.body.address;
@@ -739,10 +739,6 @@ exports.setApp = function(app, client) {
 		var end = req.body.end;
 		var max = req.body.max;
 		var briefing = req.body.briefing;
-
-		var filter = {
-			_id: id
-		}
 
 		var data = {
 			$set: {
@@ -851,7 +847,7 @@ exports.setApp = function(app, client) {
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
-	
+
 	app.post('/api/signon', async(req, res, next) => {
 		// TODO: Add array of worker names to orders
 		// Sign On for an available order unless max workers is reached
@@ -859,7 +855,7 @@ exports.setApp = function(app, client) {
 		// outgoing: error
 
 		var sign = req.body.sign;
-		var id = req.body.id;
+		var id = new ObjectID(req.body.id);
 		var maxw = 0; // Max Workers for job
 		var currw = 0; // Current amount of Workers signed on
 		var errorMessage = '';
