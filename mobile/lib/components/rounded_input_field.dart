@@ -13,6 +13,7 @@ class RoundedInputField extends StatefulWidget {
   final IconButton? suffixIcon;
   final double order;
   final TextInputType? keyboardType;
+  final EdgeInsetsGeometry margin;
 
   const RoundedInputField({
     Key? key,
@@ -33,7 +34,8 @@ class RoundedInputField extends StatefulWidget {
     this.suffixIcon,
     this.order = -1,
     this.keyboardType,
-  }); // : super(key: key);
+    this.margin = const EdgeInsets.symmetric(vertical: 5),
+  }): super(key: key);
 
   @override
   State<RoundedInputField> createState() => _RoundedInputFieldState();
@@ -96,6 +98,7 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
         ),
         width: widget.width,
         height: widget.height,
+        margin: widget.margin,
       ),
     );
   }

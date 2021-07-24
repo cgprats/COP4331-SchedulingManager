@@ -9,6 +9,7 @@ import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/components/job_card.dart';
 import 'package:mobile/components/custom_scaffold.dart';
+import 'package:mobile/components/job_search_bar.dart';
 
 class JobListingsScreen extends StatefulWidget {
   @override
@@ -22,15 +23,11 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
     return CustomScaffold(
       title: 'Job Listings',
       appBarColor: CustomColors.orange,
+      backgroundColor: Color(0xFFDFDFDF),
       body: ListView(
         children: <Widget>[
+          JobSearchBar(),
           sample1(),
-          sample2(),
-          sample2(),
-          sample2(),
-          sample2(),
-          sample2(),
-          sample2(),
           sample2(),
         ],
       ),

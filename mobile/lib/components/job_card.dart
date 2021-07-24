@@ -35,7 +35,7 @@ class _JobCardState extends State<JobCard> {
     return FractionallySizedBox(
       widthFactor: widget.width,
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: EdgeInsets.symmetric(vertical: 10),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Column(
@@ -530,7 +530,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
                             child: Container(
                               padding: EdgeInsets.only(top: 2.5),
                               child: Text(
-                                '${_formatPhone(_worker['phone']!)}',
+                                '${_formatPhone(_worker['phone']!)}\n',
                                 style: TextStyle(
                                   color: CustomColors.white,
                                 ),

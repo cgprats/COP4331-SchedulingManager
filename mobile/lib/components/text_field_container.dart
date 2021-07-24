@@ -7,6 +7,7 @@ class TextFieldContainer extends StatelessWidget {
   final Color color;
   final double? width;
   final double? height;
+  final EdgeInsetsGeometry? margin;
 
   const TextFieldContainer({
     //Key key,
@@ -14,12 +15,13 @@ class TextFieldContainer extends StatelessWidget {
     this.color = CustomColors.white,
     this.width,
     this.height,
+    this.margin,
   }); // : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
+      margin: this.margin,
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       width: this.width,
       height: this.height,
