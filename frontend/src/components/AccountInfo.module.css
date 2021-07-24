@@ -1,0 +1,248 @@
+.card {
+    background-color: transparent;
+    width: 36rem; /* was 300 and 200 */
+    height: 512px;
+    border: 0px;
+    margin:auto;
+    margin-top: 32px;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+.card_active {
+    background-color: transparent;
+    width: 36rem;
+    height: 512px;
+    border: 0px;
+    margin:auto;
+    margin-top: 32px;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.card_inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.card_active .card_inner {
+    transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.card_front, .card_back {
+    position: absolute;
+    background-color: #4d5057;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.card_front {
+    color: black;
+}
+
+/* Style the back side */
+.card_back {
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.label
+{
+    color:white;
+    font-family: 'MetropolisBold';
+    font-size: 24px;
+    padding: 12px;
+    text-align: left;
+}
+
+.label2
+{
+    color:white;
+    font-family: 'MetropolisBold';
+    font-size: 24px;
+    padding: 12px;
+    padding-right: 62px;
+    text-align: left;
+}
+
+.input
+{
+    background-color: lightgray;
+    border-radius:28px;
+    border: 1px solid black;
+    font-family: 'MetropolisRegular';
+    font-size: 16px;
+    padding: 8px 12px;
+    color: black;
+    margin: 4px 0px 24px 0px;
+    width: 20rem;
+}
+
+.input2
+{
+    background-color: lightgray;
+    border-radius:28px;
+    border: 1px solid black;
+    font-family: 'MetropolisRegular';
+    font-size: 16px;
+    padding: 8px 12px;
+    color: black;
+    margin: 4px 0px 24px 0px;
+    width: 20rem;
+}
+
+.button {
+	background-color:#c57b57;
+	border-radius:28px;
+	border:1px solid #cc551e;
+	display: inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'MetropolisBold';
+	font-size:24px;
+	font-weight:bold;
+	padding:12px 28px;
+	text-decoration:none;
+    letter-spacing: 1px;
+    transition: 0.4s;
+    margin: auto;
+    margin-top: 32px;
+    margin-bottom: 24px;
+}
+
+.button:hover {
+	background-color:#cc551e;
+}
+
+.cancel {
+	background-color:white;
+	border-radius:28px;
+	border:1px solid #cc551e;
+	display: inline-block;
+	cursor:pointer;
+	color:#c57b57;
+	font-family:'MetropolisBold';
+	font-size:24px;
+	font-weight:bold;
+	padding:12px 28px;
+	text-decoration:none;
+    letter-spacing: 1px;
+    transition: 0.4s;
+    margin: auto;
+    margin-top: 124px;
+    margin-bottom: 24px;
+    margin-right: 24px;
+}
+
+.cancel:hover {
+	background-color:lightgray;
+}
+
+.h2
+{
+    color: white;
+    font-family: 'MetropolisExtraBold';
+    font-size: 48px;
+    letter-spacing: 2px;
+    margin: 4px 16% 8px;
+    padding-top: 18px;
+}
+
+.error
+{
+    color: red;
+    font-family: 'MetropolisLight';
+    font-size: 16px;
+    text-align: center;
+}
+
+.table
+{
+    width: 100%;
+    color: white;
+}
+
+.first
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    width: 40%;
+}
+
+.second
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    width: 40%;
+}
+
+.first2
+{
+    font-family: 'MetropolisBold';
+    font-size: 24px;
+    text-align: left;
+    padding: 12px;
+    padding-left: 24px;
+    width: 40%;
+}
+
+.second2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 24px;
+    text-align: center;
+    padding: 12px;
+    padding-right: 24px;
+    width: 40%;
+}
+
+.first3
+{
+    font-family: 'MetropolisBold';
+    font-size: 24px;
+    text-align: left;
+    padding: 12px;
+    padding-left: 24px;
+    padding-top: 48px;
+    width: 40%;
+}
+
+.second3
+{
+    font-family: 'MetropolisBold';
+    font-size: 32px;
+    text-align: center;
+    padding: 12px;
+    padding-right: 24px;
+    padding-top: 48px;
+    width: 40%;
+}
+
+.spacer
+{
+    margin-top: 24px;
+}
+
+.back
+{
+    background-color: #9083f4;
+    background-size: cover;
+    height: 100%;
+    min-height: 100vh;
+    width: 100vw;
+    padding-top: 2rem;
+}

@@ -16,7 +16,7 @@ button.link:hover
 }
 
 .right {
-    background-color: #9083f4;
+    background-color: #c57b57;
     display:flex;
     flex-direction:column;
     flex-basis:100%;
@@ -33,7 +33,7 @@ button.link:hover
 
   .right:hover
   {
-    background-color:#6f62de;
+    background-color:#cc551e;
   }
 
   .col

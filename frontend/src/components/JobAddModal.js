@@ -17,7 +17,6 @@ function JobAddModal(props)
     {
         event.preventDefault();
         var user = JSON.parse(localStorage.getItem('user_data'));
-
         const title = titleRef.current.value;
         const address = addressRef.current.value;
         const max = maxRef.current.value;
@@ -28,7 +27,7 @@ function JobAddModal(props)
         const end = endRef.current.value;
         const briefing = briefRef.current.value;
 
-        const companyCode = user.companyCode;
+        const companyCode = user.CompanyCode;
 
         const Data =
         {

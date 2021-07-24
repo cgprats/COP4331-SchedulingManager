@@ -2,6 +2,7 @@ import NavBar from '../components/NavBar';
 import JobSearch from '../components/JobSearch';
 import JobList from '../components/JobList';
 import JobAdd from '../components/JobAdd';
+import classes from './JobPageW.module.css'
 
 const DUMMY_DATA = [
     {
@@ -49,7 +50,7 @@ function JobPageW()
     const userType = 'e';
 
     return (
-        <div>
+        <div className={classes.back}>
             <NavBar end='w'></NavBar>
             {userType=='e' && <JobAdd></JobAdd>}
             <JobSearch utype='e'></JobSearch>

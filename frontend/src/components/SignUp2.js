@@ -68,52 +68,54 @@ function SignUp2(props)
     }
 
     return (
-        <div className='card'>
-            <div className={classes.col}>
-                <h2 className={classes.h2}>SIGN UP</h2>
-                <form onSubmit={submitHandler}>
-                    <div>
-                        <label className={classes.label}>First Name</label><br></br>
-                        <input type='text' className={classes.input} required id='first' ref={fnRef}/>
-                    </div>
-                    <div>
-                        <label className={classes.label}>Last Name</label><br></br>
-                        <input type='text' className={classes.input} required id='last' ref={lnRef}/>
-                    </div>
-                    <div>
-                        <label className={classes.label}>Email</label><br></br>
-                        <input type='email' className={classes.input} required id='email' ref={emailRef}/>
-                    </div>
-                    <div>
-                        <label className={classes.label}>Phone (Format 123-456-7890)</label><br></br>
-                        <input type='text' className={classes.input} required id='phone' pattern = "[0-9]{3}-[0-9]{3}-[0-9]{4}" ref={phoneRef}/>
-                    </div>
-                    <div>
-                        <label className={classes.label}>Company Code</label><br></br>
-                        <input type='text' className={classes.input} required id='code' pattern = "[0-9]{4}" ref={codeRef}/>
-                    </div>
-                    <div>
-                        <label className={classes.label}>Password</label><br></br>
-                        <input type='password' className={classes.input} required id='password' ref={passRef}/>
-                    </div>
-                    <div>
-                            <label className={classes.label}>Confirm Password</label><br></br>
-                            <input type='password' className={classes.input} required id='passwordconf' ref={pass2Ref}/>
+        <div className={classes.back}>
+            <div className='card'>
+                <div className={classes.col}>
+                    <h2 className={classes.h2}>SIGN UP</h2>
+                    <form onSubmit={submitHandler}>
+                        <div>
+                            <label className={classes.label}>First Name</label><br></br>
+                            <input type='text' className={classes.input} required id='first' ref={fnRef}/>
                         </div>
-                
+                        <div>
+                            <label className={classes.label}>Last Name</label><br></br>
+                            <input type='text' className={classes.input} required id='last' ref={lnRef}/>
+                        </div>
+                        <div>
+                            <label className={classes.label}>Email</label><br></br>
+                            <input type='email' className={classes.input} required id='email' ref={emailRef}/>
+                        </div>
+                        <div>
+                            <label className={classes.label}>Phone (Format 123-456-7890)</label><br></br>
+                            <input type='text' className={classes.input} required id='phone' pattern = "[0-9]{3}-[0-9]{3}-[0-9]{4}" ref={phoneRef}/>
+                        </div>
+                        <div>
+                            <label className={classes.label}>Company Code</label><br></br>
+                            <input type='text' className={classes.input} required id='code' pattern = "[0-9]{4}" ref={codeRef}/>
+                        </div>
+                        <div>
+                            <label className={classes.label}>Password</label><br></br>
+                            <input type='password' className={classes.input} required id='password' ref={passRef}/>
+                        </div>
+                        <div>
+                                <label className={classes.label}>Confirm Password</label><br></br>
+                                <input type='password' className={classes.input} required id='passwordconf' ref={pass2Ref}/>
+                            </div>
+                    
+                        <div>
+                            {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
+                            <button className = {classes.myButton}>Sign up</button>
+                        </div>
+                    </form>
                     <div>
-                        {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
-                        <button className = {classes.myButton}>Sign up</button>
+                        <span className={classes.span}>Already have an account? </span>
+                        <Link to='/' className = {classes.link}>Sign in!</Link>
                     </div>
-                </form>
-                <div>
-                    <span className={classes.span}>Already have an account? </span>
-                    <Link to='/' className = {classes.link}>Sign in!</Link>
                 </div>
-            </div>
-            <div className={classes.right}>
-                <img src={workerLogo} className={classes.image}/>
-                <h3 className={classes.h3}>WORKER</h3>
+                <div className={classes.right}>
+                    <img src={workerLogo} className={classes.image}/>
+                    <h3 className={classes.h3}>WORKER</h3>
+                </div>
             </div>
         </div>
     );

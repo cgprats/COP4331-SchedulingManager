@@ -48,7 +48,7 @@
   }
 
   .right {
-    background-color: #9083f4;
+    background-color: #c57b57;
     display:flex;
     flex-direction:column;
     flex-basis:100%;
@@ -113,9 +113,9 @@
 }
 
 .myButton {
-	background-color:#9083f4;
+	background-color:#c57b57;
 	border-radius:28px;
-	border:1px solid #6f62de;
+	border:1px solid #cc551e;
 	display: block;
 	cursor:pointer;
 	color:#ffffff;
@@ -132,7 +132,7 @@
 }
 
 .myButton:hover {
-	background-color:#6f62de;
+	background-color:#cc551e;
 }
 
 .h2

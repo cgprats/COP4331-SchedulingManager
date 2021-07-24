@@ -1,0 +1,159 @@
+.card
+{
+    background-color: #4d5057;
+    margin:auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    width: 60rem;
+}
+
+.cardheading
+{
+    background-color: #c57b57;
+    width: 100%;
+    height: 60px;
+    border-radius: 12px 12px 0px 0px;
+    padding: 0px 0px;
+    margin: 0px;
+}
+
+.h2
+{
+    font-family:'MetropolisBold';
+    color: white;
+    font-size: 28px;
+    padding: 18px 0px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.search
+{
+    background-color: lightgray;
+    border-radius:28px;
+    border: 1px solid black;
+    font-family: 'MetropolisRegular';
+    font-size: 16px;
+    padding: 8px 12px;
+    display: inline-block;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    margin-right: 24px;
+    color: black;
+    width: 24rem;
+}
+
+.button {
+	background-color:#c57b57;
+	border-radius:28px;
+	border:1px solid #cc551e;
+	display: inline;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'MetropolisLight';
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+    letter-spacing: 2px;
+    transition: 0.4s;
+    margin-left: 16px;
+}
+
+.button:hover {
+	background-color:#cc551e;
+}
+
+.first
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    width: 20%;
+}
+
+.first2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    text-align: center;
+    padding: 12px;
+    width: 20%;
+}
+
+.second
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    width: 20%;
+}
+
+.second2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    text-align: center;
+    padding: 12px;
+    width: 20%;
+}
+
+.third
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    width: 20%;
+}
+
+.third2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    text-align: center;
+    padding: 12px;
+    width: 20%;
+}
+
+.fourth
+{
+    font-family: 'MetropolisBold';
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    width: 30%;
+}
+
+.fourth2
+{
+    font-family: 'MetropolisRegular';
+    font-size: 18px;
+    text-align: center;
+    padding: 12px;
+    width: 30%;
+}
+
+.table
+{
+    width: 100%;
+    color: white;
+}
+
+.center
+{
+    text-align: center;
+}
+
+.back
+{
+    background-color: #9083f4;
+    background-size: cover;
+    height: 100%;
+    min-height: 100vh;
+    width: 100vw;
+    padding-top: 2rem;
+}

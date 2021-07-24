@@ -5,6 +5,8 @@ import Verify from './components/Verify';
 import JobPageW from './pages/JobPageW';
 import {Route, Switch} from 'react-router-dom';
 import ForgotPassword from './components/ForgotPassword';
+import AccountInfo from './components/AccountInfo';
+import Workers from './pages/Workers';
 
 function App()
 {
@@ -29,8 +31,11 @@ function App()
         <Route path='/jobs-w' exact>
           <JobPageW/>
         </Route>
-        <Route path='/jobs-e' exact>
-          <SignUpE/>
+        <Route path='/account' exact>
+          <AccountInfo></AccountInfo>
+        </Route>
+        <Route path='/workers' exact>
+          <Workers></Workers>
         </Route>
       </Switch>
     </div>

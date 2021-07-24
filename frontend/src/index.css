@@ -4,8 +4,14 @@
 
 body {
   font-family: 'Metropolis';
-  margin: 3rem;
+  margin: 0;
+  height: 100%;
   background-color: #dfdfdf;
+}
+
+html{
+  height: 100%;
+  margin: 0;
 }
 
 h1, h2 {

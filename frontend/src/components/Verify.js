@@ -8,7 +8,6 @@ function Verify(props)
     const verRef = useRef();
     const [errorMsg, setMsg] = useState("");
     var user = JSON.parse(localStorage.getItem('user_data'));
-
     function dynamicStyle()
     {
         const utypeF = user.Flag;
@@ -45,20 +44,22 @@ function Verify(props)
         if (res.error == '')
         {
             user.Verified = true;
-            localStorage.setItem('user_data', user);
+            localStorage.setItem('user_data', JSON.stringify(user));
             props.history.push('/jobs-w');
         }
     }
 
     return (
-        <div className={classes.card}>
-            <h2 className={classes.h2}>ALMOST DONE</h2>
-            <p className={classes.p}>We've sent you an email with a verification code. Enter it below to complete your registration.</p>
-            <form className={classes.center}>
-                <input type='text' className={classes.input} required id='verify' ref={verRef}/><br></br>
-                <button className={dynamicStyle()} onClick={verifyHandler}>Verify</button>
-            </form>
-            {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
+        <div className={classes.back}>
+            <div className={classes.card}>
+                <h2 className={classes.h2}>ALMOST DONE</h2>
+                <p className={classes.p}>We've sent you an email with a verification code. Enter it below to complete your registration.</p>
+                <form className={classes.center}>
+                    <input type='text' className={classes.input} required id='verify' ref={verRef}/><br></br>
+                    <button className={dynamicStyle()} onClick={verifyHandler}>Verify</button>
+                </form>
+                {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
+            </div>
         </div>
     );
 }

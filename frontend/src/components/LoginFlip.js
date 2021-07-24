@@ -24,13 +24,15 @@ function LoginFlip()
     }
 
     return (
-        <div className={getClassName()}>
-            <div className={classes.flip_card_inner}>
-                <div className={classes.flip_card_front}>
-                   <Login2 onClick={loadBackside}/>
-                </div>
-                <div className={classes.flip_card_back}>
-                    <LoginBackside onClick={loadFrontside}/>
+        <div className={classes.back}>
+            <div className={getClassName()}>
+                <div className={classes.flip_card_inner}>
+                    <div className={classes.flip_card_front}>
+                    <Login2 onClick={loadBackside}/>
+                    </div>
+                    <div className={classes.flip_card_back}>
+                        <LoginBackside onClick={loadFrontside}/>
+                    </div>
                 </div>
             </div>
         </div>
