@@ -851,6 +851,7 @@ exports.setApp = function(app, client) {
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
+	
 	app.post('/api/signon', async(req, res, next) => {
 		// TODO: Add array of worker names to orders
 		// Sign On for an available order unless max workers is reached
@@ -1066,43 +1067,37 @@ exports.setApp = function(app, client) {
 		var jobsMatched = [].concat(jobsAll);
 		jobsMatched.splice(0,jobsMatched.length);
 
-		if (jobsAll.length == 0){
+		if (jobsAll.length == 0)
 			errorMessage = "No Jobs found with given company code"
-		}
 		
 		for(let i = 0; i < jobsAll.length; i++){
 			if (jobsAll[i].title != null)
-				if (jobsAll[i].title.indexOf(input) > -1) {
+				if (jobsAll[i].title.indexOf(input) > -1)
 					jobsMatched[i] = jobsAll[i];
-				}
 		}
 
 		for(let i = 0; i < jobsAll.length; i++){
 			if (jobsAll[i].email != null)
-				if (jobsAll[i].email.indexOf(input) > -1) {
+				if (jobsAll[i].email.indexOf(input) > -1)
 					jobsMatched[i] = jobsAll[i];
-				}
 		}
 		
 		for(let i = 0; i < jobsAll.length; i++){
 			if (jobsAll[i].address != null)
-				if (jobsAll[i].address.indexOf(input) > -1) {
+				if (jobsAll[i].address.indexOf(input) > -1) 
 					jobsMatched[i] = jobsAll[i];
-				}
 		}
 
 		for(let i = 0; i < jobsAll.length; i++){
 			if (jobsAll[i].clientname != null)
-				if (jobsAll[i].clientname.indexOf(input) > -1) {
+				if (jobsAll[i].clientname.indexOf(input) > -1) 
 					jobsMatched[i] = jobsAll[i];
-				}
 		}
 
 		for(let i = 0; i < jobsAll.length; i++){
 			if (jobsAll[i].clientcontact != null)
-				if (jobsAll[i].clientcontact.indexOf(input) > -1) {
+				if (jobsAll[i].clientcontact.indexOf(input) > -1) 
 					jobsMatched[i] = jobsAll[i];
-				}
 		}
 
 		if (start != null){
@@ -1110,9 +1105,8 @@ exports.setApp = function(app, client) {
 			for(let i = 0; i < jobsAll.length; i++){
 				startfield = new Date(jobsAll[i].start);
 
-				if (startfield.getTime() > endinput.getTime()){
+				if (startfield.getTime() > endinput.getTime())
 					jobsMatched[i] = jobsAll[i];
-				}
 			}
 		}
 
@@ -1121,9 +1115,8 @@ exports.setApp = function(app, client) {
 			for(let i = 0; i < jobsAll.length; i++){
 				endfield = new Date(jobsAll[i].end);
 
-				if (endfield.getTime() < startinput.getTime()){
+				if (endfield.getTime() < startinput.getTime())
 					jobsMatched[i] = jobsAll[i];
-				}
 			}
 		}
 
