@@ -4,7 +4,6 @@ import Backdrop from './Backdrop';
 import Notes from './Notes';
 import Timesheet from './Timesheet';
 import Edit from './Edit';
-import { PromiseProvider } from 'mongoose';
 
 const DUMMY_DATA = [
     {
@@ -104,6 +103,37 @@ function Job(props)
         }
     }
 
+    async function deleteJob()
+    {
+        var id = props.key;
+
+        const Data =
+        {
+            "id": id
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/deleteorder', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            setMsg(res.error);
+
+        }catch(e){
+            alert(e.toString());
+        }
+    }
+
+    async function clockEvent()
+    {
+        var dateobj = new Date();
+        var datestr = dateobj.toISOString();
+        var user = JSON.parse(localStorage.getItem('user_data'));
+
+        var time = datestr.substring(0, 10);
+        //COME BACK AND FINISH
+    }
+
     return (
         <div>
             <div className={classes.jobcard}>
@@ -151,8 +181,8 @@ function Job(props)
                     <button className={classes.noteButton} onClick={loadNotes}>Notes</button>
                     <button className={classes.noteButton} onClick={loadTimesheet}>Timesheet</button>
                     {(props.utype == 'w' && !props.completed) && <button className={classes.signButton}>Sign on/off</button>}
-                    {(props.utype == 'w' && !props.completed) && <button className={classes.signButton}>Clock in/out</button>}
-                    {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button}>Delete</button>}
+                    {(props.utype == 'w' && !props.completed) && <button className={classes.signButton} onClick={clockEvent}>Clock in/out</button>}
+                    {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={deleteJob}>Delete</button>}
                     {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={loadEdit}>Edit</button>}
                     {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={markComplete}>Mark Done</button>}
                 </div>
@@ -170,6 +200,7 @@ function Job(props)
                 start = {props.start}
                 end = {props.end}
                 briefing = {props.briefing}
+                jid = {props.key}
                 onClick={closeAll}></Edit>}
         </div>
     );

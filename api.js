@@ -623,7 +623,7 @@ exports.setApp = function(app, client) {
 			// start data, end datae, max workers, briefing
 		// outgoing: error
 		var errorMessage = '';
-		var id = new ObjectID(req.body.id);
+		var id = req.body.id;
 		var title = req.body.title;
 		var email = req.body.email;
 		var address = req.body.address;
@@ -662,7 +662,7 @@ exports.setApp = function(app, client) {
 			}
 
 			else {
-				errorMessage = "Success";
+				errorMessage = "Edits applied!";
 			}
 		}
 
@@ -680,7 +680,7 @@ exports.setApp = function(app, client) {
 		// outgoing: error
 		var errorMessage = '';
 
-		var id = new ObjectID(req.body.id);
+		var id = req.body.id;
 
 
 		try {

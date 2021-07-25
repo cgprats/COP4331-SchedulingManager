@@ -3,8 +3,9 @@ import NavBar from './NavBar';
 
 import { useRef } from "react";
 import { useState } from "react";
+import {withRouter} from 'react-router-dom';
 
-function AccountInfo() {
+function AccountInfo(props) {
 
   var user = JSON.parse(localStorage.getItem('user_data'));
 
@@ -71,6 +72,12 @@ function AccountInfo() {
         }
   }
 
+  function signOut()
+  {
+    localStorage.removeItem('user_data');
+    props.history.push('/');
+  }
+
 
   return (
     <div className={classes.back}>
@@ -107,7 +114,7 @@ function AccountInfo() {
                   </tr>
               </table>
             </div>
-            <button className={classes.cancel2}>Sign Out</button>
+            <button className={classes.cancel2} onClick={signOut}>Sign Out</button>
             <button className={classes.button} onClick={flip}>Edit</button>
           </div>
           <div className={classes.card_back}>
@@ -159,4 +166,4 @@ function AccountInfo() {
   );
 }
 
-export default AccountInfo;
+export default withRouter(AccountInfo);

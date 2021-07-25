@@ -13,9 +13,49 @@ function Edit(props)
     const endRef2 = useRef();
     const briefRef2 = useRef();
 
-    function editHandler()
+    async function editHandler(event)
     {
+        event.preventDefault();
+        var id = props.jid;
+        var title = titleRef2.current.value;
+        var address = addressRef2.current.value;
+        var max = maxRef2.current.value;
+        var clientname = clientNameRef2.current.value;
+        var clientemail = clientEmailRef2.current.value;
+        var clientphone = clientPhoneRef2.current.value;
+        var start = startRef2.current.value;
+        var end = endRef2.current.value;
+        var briefing = briefRef2.current.value;
 
+        const Data =
+        {
+            "id": id,
+            'title': title,
+            "email": clientemail,
+            "address": address,
+            "clientname": clientname,
+            "clientcontact": clientphone,
+            "start": start,
+            "end": end,
+            "briefing": briefing,
+            "max": max
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/editorder', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+
+        }catch(e){
+            alert(e.toString());
+        }
+
+        if(res.error == 'Edits applied!')
+        {
+            var fn = props.onClick;
+            fn();
+        }
     }
 
     return (

@@ -16,7 +16,6 @@ function ForgotPassword(props)
     const [flippedIsOpen, setFlippedIsOpen] = useState(false);
 
     var utype = 'w';
-    var email = '';
 
     function dynamicStyle()
     {
@@ -39,7 +38,7 @@ function ForgotPassword(props)
     async function flip(event)
     {
         event.preventDefault();
-        email = emailRef.current.value;
+        var email = emailRef.current.value;
 
         const Data =
         {
@@ -59,6 +58,7 @@ function ForgotPassword(props)
 
         if (res.error == 'Success')
         {
+            setMsg("");
             setFlippedIsOpen(true);
         }
     }
@@ -66,10 +66,10 @@ function ForgotPassword(props)
     async function submitHandler(event)
     {
         event.preventDefault();
-        var ver = verRef.currentvalue;
+        var ver = verRef.current.value;
         var password = passRef.current.value;
         var passConf = confRef.current.value;
-
+        var email = emailRef.current.value;
         const Data =
         {
             email: email,
@@ -110,7 +110,6 @@ function ForgotPassword(props)
                             <Link to='/' className={classes.link}>Cancel</Link>
                             <button className={classes.button}>Continue</button>
                         </form>
-                        {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
                     </div>
                     <div className={classes.card_back}>
                         <h2 className={classes.h2}>PASSWORD RESET</h2>
@@ -122,10 +121,10 @@ function ForgotPassword(props)
                             <input type='password' className={classes.input2} required id='pass' ref={passRef}/><br></br>
                             <label className={classes.p}>Confirm Password</label> <br></br>
                             <input type='password' className={classes.input2} required id='confpass' ref={confRef}/><br></br>
+                            {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
                             <Link to='/' className={dynamicStyle2()}>Cancel</Link>
                             <button className={dynamicStyle()}>Confirm</button>
                         </form>
-                        {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
                     </div>
                 </div>
             </div>

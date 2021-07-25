@@ -1,5 +1,6 @@
 import classes from './JobSearch.module.css';
 import {useRef} from 'react';
+import {useState} from 'react';
 
 function JobSearch(props)
 {
@@ -8,10 +9,23 @@ function JobSearch(props)
     const endDateRef = useRef();
     const showMineRef = useRef();
     const showCompleteRef = useRef();
+    const [showCompChecked, setCompChecked] = useState(false);
+    const [showMineChecked, setMineChecked] = useState(false);
 
-    function searchHandler()
+    function toggleMine()
     {
+        setMineChecked(!showMineChecked);
+    }
 
+    function toggleComp()
+    {
+        setCompChecked(!showCompChecked);
+    }
+
+    function searchHandler(event)
+    {
+        event.preventDefault();
+        console.log(showCompChecked);
     }
 
     return (
@@ -32,11 +46,11 @@ function JobSearch(props)
                         <input type='date' className={classes.date} id='password' ref={endDateRef}/>
                     </div>
                     <div>
-                        {props.utype == 'w' && <input type='checkbox' className={classes.check} id='showMine' ref={showMineRef}></input>}
+                        {props.utype == 'w' && <input type='checkbox' className={classes.check} id='showMine' onClick={toggleMine}></input>}
                         {props.utype == 'w' && <span className={classes.span2}> Only show jobs I'm signed up for</span>}
                     </div>
                     <div>
-                        <input type='checkbox' className={classes.check} id='showComplete' ref={showCompleteRef}></input>
+                        <input type='checkbox' className={classes.check} id='showComplete' onClick={toggleComp}></input>
                         <span className={classes.span2}> Include completed jobs</span>
                     </div>
                 </form>
