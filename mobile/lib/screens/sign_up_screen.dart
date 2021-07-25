@@ -298,7 +298,7 @@ class _SignUpFormState extends State<_SignUpForm> {
           GlobalData.phone = jsonObj['phone'];
           GlobalData.email = jsonObj['email'];
           GlobalData.accountType = jsonObj['flag'];
-          GlobalData.companyCode = jsonObj['compCode'];
+          GlobalData.companyCode = jsonObj['companyCode'];
           GlobalData.verified = jsonObj['Verified'];
           //TODO: add if verified check
           Navigator.pushNamed(context, Routes.JOBLISTINGSSCREEN);
