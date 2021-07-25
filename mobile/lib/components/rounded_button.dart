@@ -7,6 +7,7 @@ class RoundedButton extends StatefulWidget {
   final Function()? onPressed;
   final Color color, textColor;
   final double? width;
+  final double? height;
   final double? fontSize;
   final EdgeInsetsGeometry padding;
 
@@ -17,6 +18,7 @@ class RoundedButton extends StatefulWidget {
     this.color = CustomColors.purple,
     this.textColor = CustomColors.white,
     this.width,
+    this.height,
     this.fontSize,
     this.padding = EdgeInsets.zero,
   }); // : super(key: key);
@@ -30,6 +32,7 @@ class _RoundedButtonState extends State<RoundedButton> {
   Widget build(BuildContext context) {
     return Container(
       width: widget.width,
+      height: widget.height,
       margin: EdgeInsets.symmetric(vertical: 5),
       child: ElevatedButton(
         style: ButtonStyle(
