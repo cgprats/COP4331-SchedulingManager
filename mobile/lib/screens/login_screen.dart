@@ -8,6 +8,7 @@ import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/components/sign_up_or_login.dart';
+import 'package:mobile/components/custom_scaffold.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -18,27 +19,29 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    return Scaffold(
+    return CustomScaffold(
+      title: 'Sign In',
+      appBarColor: CustomColors.purple,
       backgroundColor: CustomColors.grey,
       body: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
+          // padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
           child: Container(
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "SIGN IN",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: CustomColors.white,
-                    fontSize: 30,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
+                // Text(
+                //   "SIGN IN",
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.bold,
+                //     color: CustomColors.white,
+                //     fontSize: 30,
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 5,
+                // ),
                 _MainPage(),
                 SignUpOrLogin(
                   login: true,
@@ -61,7 +64,7 @@ class _MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<_MainPage> {
-  static final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map _payload = Map();
   bool _visible = false;
   String _errorMessage = '';
@@ -75,14 +78,14 @@ class _MainPageState extends State<_MainPage> {
         children: <Widget>[
           RoundedInputField(
             order: 1,
-            labelText: 'Email',
+            labelText: 'email',
             hintText: 'example@email.com',
             onChanged: (text) {
               _payload['email'] = text;
             },
             width: _size.width * 0.8,
             keyboardType: TextInputType.emailAddress,
-            autofocus: true,
+            // autofocus: true,
           ),
           RoundedInputField(
             order: 2,
@@ -94,7 +97,6 @@ class _MainPageState extends State<_MainPage> {
             obscureText: !_visible,
             width: _size.width * 0.8,
             keyboardType: TextInputType.visiblePassword,
-            autofocus: true,
             onFieldSubmitted: (text) {},
             suffixIcon: IconButton(
               focusNode: FocusNode(skipTraversal: true),
@@ -145,16 +147,17 @@ class _MainPageState extends State<_MainPage> {
       print('oh no :(');
     } else {
       setState(
-        () {
+            () {
           _errorMessage = jsonObj['error'];
           if (_errorMessage.startsWith('Success: ')) {
+            print('login successful!');
             _errorMessage = '';
             GlobalData.firstName = jsonObj['firstName'];
             GlobalData.lastName = jsonObj['lastName'];
             GlobalData.phone = jsonObj['phone'];
-            GlobalData.email = jsonObj['Email'];
-            GlobalData.accountType = jsonObj['flag'];
-            GlobalData.companyCode = jsonObj['companyCode'];
+            GlobalData.email = jsonObj['email'];
+            GlobalData.accountType = int.parse(jsonObj['flag']);
+            GlobalData.companyCode = int.parse(jsonObj['companyCode']);
             GlobalData.companyName = jsonObj['companyName'];
             GlobalData.verified = jsonObj['Verified'];
           }
