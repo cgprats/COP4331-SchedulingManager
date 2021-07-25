@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/custom_colors.dart';
+import 'package:mobile/routes/routes.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/components/sign_up_or_login.dart';
@@ -85,6 +86,7 @@ class _MainPageState extends State<_MainPage> {
             },
             width: _size.width * 0.8,
             keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
             // autofocus: true,
           ),
           RoundedInputField(
@@ -97,7 +99,12 @@ class _MainPageState extends State<_MainPage> {
             obscureText: !_visible,
             width: _size.width * 0.8,
             keyboardType: TextInputType.visiblePassword,
-            onFieldSubmitted: (text) {},
+            textInputAction: TextInputAction.done,
+            onFieldSubmitted: (text) {
+              if (_formKey.currentState!.validate()) {
+                _login(_payload);
+              }
+            },
             suffixIcon: IconButton(
               focusNode: FocusNode(skipTraversal: true),
               icon: Icon(
@@ -156,10 +163,12 @@ class _MainPageState extends State<_MainPage> {
             GlobalData.lastName = jsonObj['lastName'];
             GlobalData.phone = jsonObj['phone'];
             GlobalData.email = jsonObj['email'];
-            GlobalData.accountType = int.parse(jsonObj['flag']);
-            GlobalData.companyCode = int.parse(jsonObj['companyCode']);
+            GlobalData.accountType = jsonObj['flag'];
+            GlobalData.companyCode = jsonObj['companyCode'];
             GlobalData.companyName = jsonObj['companyName'];
             GlobalData.verified = jsonObj['Verified'];
+            //TODO: add if verified check
+            Navigator.pushNamed(context, Routes.JOBLISTINGSSCREEN);
           }
         },
       );
