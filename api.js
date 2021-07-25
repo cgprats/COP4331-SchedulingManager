@@ -1052,8 +1052,10 @@ exports.setApp = function(app, client) {
 
 		if (showCompleted == false)
 			var ret = {jobs:jobsMatchedFinal, error:errorMessage};
-		else
+		else if (useInRange == true)
 			var ret = {jobs:jobsMatchedPostRange, error:errorMessage};
+		else
+			var ret = {jobs:jobsMatched, error:errorMessage};
 		
 		res.status(200).json(ret);
 	});
