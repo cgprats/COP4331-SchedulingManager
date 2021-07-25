@@ -1013,7 +1013,7 @@ exports.setApp = function(app, client) {
 					startfield = new Date(jobsMatched[i].start);
 					endfield = new Date(jobsMatched[i].end);
 	
-					if (startfield.getTime() > endinput.getTime() && endfield.getTime() < startinput.getTime())
+					if (startfield.getTime() < endinput.getTime() && endfield.getTime() > startinput.getTime())
 						jobsMatchedInRange[i] = jobsMatched[i];
 				}
 			}

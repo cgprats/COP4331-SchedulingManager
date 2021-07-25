@@ -57,7 +57,8 @@ function JobSearch(props)
             alert(e.toString());
         }
 
-        console.log(res.jobs);
+        if(res.error == '')
+            localStorage.setItem('jobs', JSON.stringify(res.jobs));
         
     }
 
