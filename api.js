@@ -742,7 +742,7 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/signon', async(req, res, next) => {
+	app.post('/api/signJobs', async(req, res, next) => {
 		// TODO: Add array of worker names to orders
 		// Sign On for an available order unless max workers is reached
 		// incoming: order ID
@@ -942,14 +942,20 @@ exports.setApp = function(app, client) {
 		// Incomming
 		var input = req.body.input;
 		var compCode = req.body.companyCode;
-		var showMine = req.body.showMine;
 		var email = req.body.eamil;
+		var showMine = req.body.showMine;
+		var showCompleted = req.body.showCompleted;
+		// showCompleted == TRUE ( Do Nothing )
+		// showCompleted == FALSE ( Only return completed == false )
 		
 		var start = req.body.start;
 		var end = req.body.end;
 
 		var startinput = new Date(start);
 		var endinput = new Date(end);
+
+		// Indicator if time range search is being done
+		var useInRange = false;
 
 		try {
 			const db = client.db();
@@ -967,27 +973,27 @@ exports.setApp = function(app, client) {
 		if (jobsAll.length == 0)
 			errorMessage = "No Jobs found with given company code"
 		
-		for(let i = 0; i < jobsAll.length; i++)
+		for (let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].title != null)
 				if (jobsAll[i].title.indexOf(input) > -1)
 					jobsMatched[i] = jobsAll[i];
 
-		for(let i = 0; i < jobsAll.length; i++)
+		for (let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].email != null)
 				if (jobsAll[i].email.indexOf(input) > -1)
 					jobsMatched[i] = jobsAll[i];
 		
-		for(let i = 0; i < jobsAll.length; i++)
+		for (let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].address != null)
 				if (jobsAll[i].address.indexOf(input) > -1) 
 					jobsMatched[i] = jobsAll[i];
 
-		for(let i = 0; i < jobsAll.length; i++)
+		for (let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].clientname != null)
 				if (jobsAll[i].clientname.indexOf(input) > -1) 
 					jobsMatched[i] = jobsAll[i];
 
-		for(let i = 0; i < jobsAll.length; i++)
+		for (let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].clientcontact != null)
 				if (jobsAll[i].clientcontact.indexOf(input) > -1) 
 					jobsMatched[i] = jobsAll[i];
@@ -997,7 +1003,11 @@ exports.setApp = function(app, client) {
 
 		if (start != "" && end != ""){
 			var startfield;
-			for(let i = 0; i < jobsAll.length; i++){
+			var endfield;
+
+			useInRange = true;
+
+			for (let i = 0; i < jobsAll.length; i++){
 				startfield = new Date(jobsAll[i].start);
 				endfield = new Date(jobsAll[i].end);
 
@@ -1006,12 +1016,45 @@ exports.setApp = function(app, client) {
 			}
 		}
 		
+		// Filter for showing jobs the user is signed on for
+		if (showMine == true){
+			if (useInRange == true){
+				var jobsMatchedPostRange = [].concat(jobsMatchedInRange);
+				jobsMatchedPostRange.splice(0,jobsMatchedPostRange.length);
+
+				for (let i = 0; i < jobsMatchedInRange.length; i++)
+					for (let j = 0; j < jobsMatchedInRange[i].workers.length; j++)
+						if (jobsMatchedInRange[i].workers[j].email.indexOf(email) > -1)
+							jobsMatchedPostRange[i] = jobsMatchedInRange[i];
+			}
+
+			if (useInRange == false){
+				var jobsMatchedPostRange = [].concat(jobsMatched);
+				jobsMatchedPostRange.splice(0,jobsMatchedPostRange.length);
+
+				for (let i = 0; i < jobsMatched.length; i++)
+					for (let j = 0; j < jobsMatched[i].workers.length; j++)
+						if (jobsMatched[i].workers[j].email.indexOf(email) > -1)
+							jobsMatchedPostRange[i] = jobsMatched[i];
+			}
+		}
+		else
+			var jobsMatchedPostRange = [].concat(jobsMatchedInRange);
+
 		
+		// Filter for completed jobs
+		var jobsMatchedFinal = [].concat(jobsMatchedPostRange);
+		jobsMatchedFinal.splice(0,jobsMatchedFinal.length);
 
-		// Await filter for completed jobs
-		// Await filter for showing jobs the user is signed on for
+		for (let i = 0; i < jobsMatchedPostRange.length; i++)
+			if (jobsMatchedPostRange[i].completed == false)
+				jobsMatchedFinal[i] = jobsMatchedPostRange[i];
 
-		var ret = {jobs:jobsMatchedInRange, error:errorMessage};
+		if (showCompleted == false)
+			var ret = {jobs:jobsMatchedFinal, error:errorMessage};
+		else
+			var ret = {jobs:jobsMatchedPostRange, error:errorMessage};
+		
 		res.status(200).json(ret);
 	});
 }
