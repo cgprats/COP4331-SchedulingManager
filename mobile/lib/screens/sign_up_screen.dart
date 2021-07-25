@@ -293,6 +293,13 @@ class _SignUpFormState extends State<_SignUpForm> {
           print('register successful!');
           _errorMessage =
               jsonObj['error'].startsWith('Success: ') ? '' : jsonObj['error'];
+          GlobalData.firstName = jsonObj['firstName'];
+          GlobalData.lastName = jsonObj['lastName'];
+          GlobalData.phone = jsonObj['phone'];
+          GlobalData.email = jsonObj['email'];
+          GlobalData.accountType = jsonObj['flag'];
+          GlobalData.companyCode = jsonObj['compCode'];
+          GlobalData.verified = jsonObj['Verified'];
           //TODO: add if verified check
           Navigator.pushNamed(context, Routes.JOBLISTINGSSCREEN);
         },
