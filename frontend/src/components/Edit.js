@@ -1,5 +1,6 @@
 import classes from './Edit.module.css';
 import {useRef} from 'react';
+import {useState} from 'react';
 
 function Edit(props)
 {
@@ -12,6 +13,8 @@ function Edit(props)
     const startRef2 = useRef();
     const endRef2 = useRef();
     const briefRef2 = useRef();
+
+    const [errorMsg, setMsg] = useState("");
 
     async function editHandler(event)
     {

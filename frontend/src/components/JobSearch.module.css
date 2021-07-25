@@ -97,3 +97,12 @@
 .button:hover {
 	background-color:#cc551e;
 }
+
+
+.error
+{
+    color: red;
+    font-family: 'MetropolisLight';
+    font-size: 16px;
+    text-align: center;
+}

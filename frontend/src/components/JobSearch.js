@@ -7,10 +7,10 @@ function JobSearch(props)
     const searchTextRef = useRef();
     const startDateRef = useRef();
     const endDateRef = useRef();
-    const showMineRef = useRef();
-    const showCompleteRef = useRef();
     const [showCompChecked, setCompChecked] = useState(false);
     const [showMineChecked, setMineChecked] = useState(false);
+
+    const [errorMsg, setMsg] = useState("");
 
     function toggleMine()
     {
@@ -25,6 +25,39 @@ function JobSearch(props)
     async function searchHandler(event)
     {
         event.preventDefault();
+        var user = JSON.parse(localStorage.getItem('user_data'));
+
+        var search = searchTextRef.current.value;
+        var start = startDateRef.current.value;
+        var end = endDateRef.current.value;
+        var showMine = showMineChecked;
+        var showComp = showCompChecked;
+        var code = user.CompanyCode;
+        var email = user.Email;
+
+        const Data =
+        {
+            email: email,
+            input: search,
+            companyCode: code,
+            showMine: showMine,
+            showCompleted: showComp,
+            start: start,
+            end: end
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/searchJobs', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            setMsg(res.error);
+
+        }catch(e){
+            alert(e.toString());
+        }
+
+        console.log(res.jobs[0].title);
         
     }
 
@@ -52,6 +85,7 @@ function JobSearch(props)
                     <div>
                         <input type='checkbox' className={classes.check} id='showComplete' onClick={toggleComp}></input>
                         <span className={classes.span2}> Include completed jobs</span>
+                        {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
                     </div>
                 </form>
             </div>
