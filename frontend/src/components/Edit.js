@@ -26,35 +26,41 @@ function Edit(props)
         var start = startRef2.current.value;
         var end = endRef2.current.value;
         var briefing = briefRef2.current.value;
-
-        const Data =
+        if (max < props.current)
         {
-            "id": id,
-            'title': title,
-            "email": clientemail,
-            "address": address,
-            "clientname": clientname,
-            "clientcontact": clientphone,
-            "start": start,
-            "end": end,
-            "briefing": briefing,
-            "max": max
-        };
-
-        var js = JSON.stringify(Data);
-        try{
-            const response = await fetch('https://cop4331group2.herokuapp.com/api/editorder', 
-            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
-            var res = JSON.parse(await response.text());
-
-        }catch(e){
-            alert(e.toString());
+            setMsg("Cannot lower max # of workers");
         }
+        else{
 
-        if(res.error == 'Edits applied!')
-        {
-            var fn = props.onClick;
-            fn();
+            const Data =
+            {
+                "id": id,
+                'title': title,
+                "email": clientemail,
+                "address": address,
+                "clientname": clientname,
+                "clientcontact": clientphone,
+                "start": start,
+                "end": end,
+                "briefing": briefing,
+                "max": max
+            };
+
+            var js = JSON.stringify(Data);
+            try{
+                const response = await fetch('https://cop4331group2.herokuapp.com/api/editorder', 
+                {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+                var res = JSON.parse(await response.text());
+
+            }catch(e){
+                alert(e.toString());
+            }
+
+            if(res.error == 'Edits applied!')
+            {
+                var fn = props.onClick;
+                fn();
+            }
         }
     }
 
@@ -94,6 +100,7 @@ function Edit(props)
                         <input type='date' className={classes.date} required id='start2' ref={startRef2} defaultValue={props.start}></input>
                         <input type='date' className={classes.date} required id='end2' ref={endRef2} defaultValue={props.end}></input> <br></br>
                         <textarea rows='5' cols='75' className={classes.ta} required ref={briefRef2} defaultValue={props.briefing}></textarea> <br></br>
+                        {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
                         <button className={classes.button}>Apply Edits</button>
                     </div>
                 </form>

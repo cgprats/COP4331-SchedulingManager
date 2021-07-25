@@ -126,12 +126,64 @@ function Job(props)
 
     async function clockEvent()
     {
+        // COME BACK AND FINISH
         var dateobj = new Date();
+        var timestr = dateobj.toLocaleTimeString([], {hour: 'numeric' ,minute: '2-digit'});
+        var user = JSON.parse(localStorage.getItem('user_data'));
         var datestr = dateobj.toISOString();
+
+        var date = datestr.substring(0, 10);
+        
+        const Data =
+        {
+            email: user.Email,
+            fooid: props.key,
+            time: timestr,
+            date: date,
+            title: props.title
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/deleteorder', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            setMsg(res.error);
+
+        }catch(e){
+            alert(e.toString());
+        }
+    }
+
+    async function signEvent()
+    {
+        // COME BACK AND FINISH
         var user = JSON.parse(localStorage.getItem('user_data'));
 
-        var time = datestr.substring(0, 10);
-        //COME BACK AND FINISH
+        var email = user.Email;
+        var fn = user.FirstName;
+        var ln = user.LastName;
+        var phone = user.Phone;
+
+        const Data =
+        {
+            email: email,
+            id: props.key,
+            firstName: fn,
+            lastName: ln,
+            phone: phone
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/deleteorder', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            setMsg(res.error);
+
+        }catch(e){
+            alert(e.toString());
+        }
     }
 
     return (
@@ -180,7 +232,7 @@ function Job(props)
                 <div className={classes.cardfooter}>
                     <button className={classes.noteButton} onClick={loadNotes}>Notes</button>
                     <button className={classes.noteButton} onClick={loadTimesheet}>Timesheet</button>
-                    {(props.utype == 'w' && !props.completed) && <button className={classes.signButton}>Sign on/off</button>}
+                    {(props.utype == 'w' && !props.completed) && <button className={classes.signButton} onClick={signEvent}>Sign on/off</button>}
                     {(props.utype == 'w' && !props.completed) && <button className={classes.signButton} onClick={clockEvent}>Clock in/out</button>}
                     {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={deleteJob}>Delete</button>}
                     {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={loadEdit}>Edit</button>}
@@ -201,6 +253,7 @@ function Job(props)
                 end = {props.end}
                 briefing = {props.briefing}
                 jid = {props.key}
+                current = {props.workers.length}
                 onClick={closeAll}></Edit>}
         </div>
     );

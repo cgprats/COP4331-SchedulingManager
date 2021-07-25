@@ -216,3 +216,11 @@
     margin-left: 124px;
     display: inline-block;
 }
+
+.error
+{
+    color: red;
+    font-family: 'MetropolisLight';
+    font-size: 16px;
+    text-align: center;
+}

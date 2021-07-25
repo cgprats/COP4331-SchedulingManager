@@ -1007,12 +1007,15 @@ exports.setApp = function(app, client) {
 
 			useInRange = true;
 
-			for (let i = 0; i < jobsAll.length; i++){
-				startfield = new Date(jobsAll[i].start);
-				endfield = new Date(jobsAll[i].end);
-
-				if (startfield.getTime() > endinput.getTime() && endfield.getTime() < startinput.getTime())
-					jobsMatchedInRange[i] = jobsMatched[i];
+			for (let i = 0; i < jobsMatched.length; i++){
+				if (jobsMatched[i] != null)
+				{
+					startfield = new Date(jobsMatched[i].start);
+					endfield = new Date(jobsMatched[i].end);
+	
+					if (startfield.getTime() > endinput.getTime() && endfield.getTime() < startinput.getTime())
+						jobsMatchedInRange[i] = jobsMatched[i];
+				}
 			}
 		}
 		
@@ -1023,9 +1026,10 @@ exports.setApp = function(app, client) {
 				jobsMatchedPostRange.splice(0,jobsMatchedPostRange.length);
 
 				for (let i = 0; i < jobsMatchedInRange.length; i++)
-					for (let j = 0; j < jobsMatchedInRange[i].workers.length; j++)
-						if (jobsMatchedInRange[i].workers[j].email.indexOf(email) > -1)
-							jobsMatchedPostRange[i] = jobsMatchedInRange[i];
+					if (jobsMatchedInRange[i] != null)
+						for (let j = 0; j < jobsMatchedInRange[i].workers.length; j++)
+							if (jobsMatchedInRange[i].workers[j].email.indexOf(email) > -1)
+								jobsMatchedPostRange[i] = jobsMatchedInRange[i];
 			}
 
 			if (useInRange == false){
@@ -1033,9 +1037,10 @@ exports.setApp = function(app, client) {
 				jobsMatchedPostRange.splice(0,jobsMatchedPostRange.length);
 
 				for (let i = 0; i < jobsMatched.length; i++)
-					for (let j = 0; j < jobsMatched[i].workers.length; j++)
-						if (jobsMatched[i].workers[j].email.indexOf(email) > -1)
-							jobsMatchedPostRange[i] = jobsMatched[i];
+					if (jobsMatched[i] != null)
+						for (let j = 0; j < jobsMatched[i].workers.length; j++)
+							if (jobsMatched[i].workers[j].email.indexOf(email) > -1)
+								jobsMatchedPostRange[i] = jobsMatched[i];
 			}
 		}
 		else
@@ -1047,8 +1052,9 @@ exports.setApp = function(app, client) {
 		jobsMatchedFinal.splice(0,jobsMatchedFinal.length);
 
 		for (let i = 0; i < jobsMatchedPostRange.length; i++)
-			if (jobsMatchedPostRange[i].completed == false)
-				jobsMatchedFinal[i] = jobsMatchedPostRange[i];
+			if(jobsMatchedPostRange[i] != null)
+				if (jobsMatchedPostRange[i].completed == false)
+					jobsMatchedFinal[i] = jobsMatchedPostRange[i];
 
 		if (showCompleted == false)
 			var ret = {jobs:jobsMatchedFinal, error:errorMessage};

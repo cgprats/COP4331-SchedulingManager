@@ -49,14 +49,14 @@ const DUMMY_DATA = [
 ];
 function JobPageW()
 {
-    const userType = 'e';
+    const userType = 'w';
 
     return (
         <div className={classes.back}>
             <NavBar end='w'></NavBar>
             {userType=='e' && <JobAdd></JobAdd>}
             <JobSearch utype='e'></JobSearch>
-            <JobList jobs={DUMMY_DATA} utype='e'></JobList>
+            <JobList jobs={DUMMY_DATA} utype='w'></JobList>
         </div>
     );
 }

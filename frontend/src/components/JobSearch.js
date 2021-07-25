@@ -22,10 +22,10 @@ function JobSearch(props)
         setCompChecked(!showCompChecked);
     }
 
-    function searchHandler(event)
+    async function searchHandler(event)
     {
         event.preventDefault();
-        console.log(showCompChecked);
+        
     }
 
     return (
