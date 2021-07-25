@@ -942,7 +942,7 @@ exports.setApp = function(app, client) {
 		// Incomming
 		var input = req.body.input;
 		var compCode = req.body.companyCode;
-		var email = req.body.eamil;
+		var email = req.body.email;
 		var showMine = req.body.showMine;
 		var showCompleted = req.body.showCompleted;
 		// showCompleted == TRUE ( Do Nothing )
@@ -1044,7 +1044,13 @@ exports.setApp = function(app, client) {
 			}
 		}
 		else
-			var jobsMatchedPostRange = [].concat(jobsMatchedInRange);
+		{
+			if (useInRange == true)
+				var jobsMatchedPostRange = [].concat(jobsMatchedInRange);
+			else
+				var jobsMatchedPostRange = [].concat(jobsMatched);
+		}
+			
 
 		
 		// Filter for completed jobs

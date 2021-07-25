@@ -57,7 +57,7 @@ function JobSearch(props)
             alert(e.toString());
         }
 
-        console.log(res.jobs[0].title);
+        console.log(res.jobs);
         
     }
 
