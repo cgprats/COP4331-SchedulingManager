@@ -246,3 +246,27 @@
     width: 100vw;
     padding-top: 2rem;
 }
+
+.cancel2 {
+	background-color:white;
+	border-radius:28px;
+	border:1px solid #cc551e;
+	display: inline-block;
+	cursor:pointer;
+	color:#c57b57;
+	font-family:'MetropolisBold';
+	font-size:24px;
+	font-weight:bold;
+	padding:12px 28px;
+	text-decoration:none;
+    letter-spacing: 1px;
+    transition: 0.4s;
+    margin: auto;
+    margin-top: 32px;
+    margin-bottom: 24px;
+    margin-right: 24px;
+}
+
+.cancel2:hover {
+	background-color:lightgray;
+}

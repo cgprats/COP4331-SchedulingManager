@@ -19,6 +19,7 @@ const DUMMY_DATA = [
 
         ],
         briefing: 'This is a very short example briefing with no formatting',
+        completed: true
     },
     {
         id: 2,
@@ -43,6 +44,7 @@ const DUMMY_DATA = [
             }
         ],
         briefing: 'This is a longer briefing. It has formatting in the form of this list. Definitely going to need word wrap to make this look nice, because ho boy just look how long its getting',
+        completed: false
     }
 ];
 function JobPageW()

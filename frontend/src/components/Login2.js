@@ -3,6 +3,7 @@ import workerLogo from '../icons/Workers.png';
 import {useRef} from 'react';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 function Login2(props)
 {
@@ -32,11 +33,22 @@ function Login2(props)
         }catch(e){
             alert(e.toString());
         }
-    }
 
-    function resetHandler(event)
-    {
-        event.preventDefault();
+        if (res.error != 'Login/Password incorrect'){
+            var user = {
+                Email: res.email,
+                FirstName: res.firstName,
+                LastName: res.lastName,
+                Phone: res.phone,
+                CompanyCode: res.companyCode,
+                Flag: res.flag,
+                Verified: res.verified,
+            }
+            localStorage.setItem('user_data', JSON.stringify(user));
+            if (!user.Verified)
+                props.history.push('/verify');
+            props.history.push('/jobs-w');
+        }
     }
 
     return (
@@ -68,7 +80,7 @@ function Login2(props)
             </div>
             <div className={classes.right}>
                     <img src={workerLogo} className={classes.image2}/>
-                    <h3 className={classes.second}>WORKER</h3>
+                    <h3 className={classes.second}>WORKHORSE</h3>
             </div>
             
             
@@ -76,4 +88,4 @@ function Login2(props)
     );
 }
 
-export default Login2;
+export default withRouter(Login2);

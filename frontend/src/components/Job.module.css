@@ -230,3 +230,33 @@
 .signButton:hover {
     background-color:#cc551e;
 }
+
+.sign2Button {
+    background-color:#7ca982;
+    border-radius:28px;
+    border:1px solid #3f994b;
+    display: inline;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:'MetropolisLight';
+    font-size:16px;
+    font-weight:bold;
+    padding:10px 20px;
+    text-decoration:none;
+    letter-spacing: 2px;
+    transition: 0.4s;
+    margin-right: 16px;
+    float: right;
+}
+
+.sign2Button:hover {
+    background-color:#3f994b;
+}
+
+.error
+{
+    color: white;
+    font-family: 'MetropolisLight';
+    font-size: 16px;
+    text-align: center;
+}

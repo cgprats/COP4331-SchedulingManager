@@ -19,6 +19,7 @@ function JobList(props)
                     workers={job.workers}
                     briefing={job.briefing}
                     utype = {props.utype}
+                    completed = {job.completed}
                 ></Job>)}
             </ul>
         </div>

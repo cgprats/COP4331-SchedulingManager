@@ -31,6 +31,46 @@ function AccountInfo() {
     setFlippedIsOpen(false);
   }
 
+  function flipBack2()
+  {
+    setFlippedIsOpen(false);
+  }
+
+  async function editHandler()
+  {
+    var fn = firstNameRef.current.value;
+    var ln = lastNameRef.current.value;
+    var phone = phoneRef.current.value;
+    var email = user.Email;
+
+    const Data =
+        {
+            "ln": ln,
+            "fn": fn,
+            "phone": phone,
+            "email": email
+        };
+
+        var js = JSON.stringify(Data);
+
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/editaccount', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+        }catch(e){
+            alert(e.toString());
+        }
+
+        if (res.error == 'Edits applied!')
+        {
+          user.FirstName = fn;
+          user.LastName = ln;
+          user.Phone = phone;
+          localStorage.setItem('user_data', JSON.stringify(user));
+          flipBack2();
+        }
+  }
+
 
   return (
     <div className={classes.back}>
@@ -67,6 +107,7 @@ function AccountInfo() {
                   </tr>
               </table>
             </div>
+            <button className={classes.cancel2}>Sign Out</button>
             <button className={classes.button} onClick={flip}>Edit</button>
           </div>
           <div className={classes.card_back}>
@@ -107,7 +148,7 @@ function AccountInfo() {
                 />
               </div>
               <button className={classes.cancel} onClick={flipBack}>Cancel</button>
-              <button className={classes.button}>Confirm</button>
+              <button className={classes.button} onClick={editHandler}>Confirm</button>
             </form>
           </div>
            

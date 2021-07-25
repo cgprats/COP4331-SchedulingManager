@@ -4,6 +4,7 @@ import Backdrop from './Backdrop';
 import Notes from './Notes';
 import Timesheet from './Timesheet';
 import Edit from './Edit';
+import { PromiseProvider } from 'mongoose';
 
 const DUMMY_DATA = [
     {
@@ -82,6 +83,27 @@ function Job(props)
         return (month + '/' + day + '/' + year);
     }
 
+    async function markComplete()
+    {
+        var fooid = props.key;
+
+        const Data =
+        {
+            "fooid": fooid
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/markorder', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            setMsg(res.error);
+
+        }catch(e){
+            alert(e.toString());
+        }
+    }
+
     return (
         <div>
             <div className={classes.jobcard}>
@@ -128,15 +150,15 @@ function Job(props)
                 <div className={classes.cardfooter}>
                     <button className={classes.noteButton} onClick={loadNotes}>Notes</button>
                     <button className={classes.noteButton} onClick={loadTimesheet}>Timesheet</button>
-                    {props.utype == 'w' && <button className={classes.signButton}>Sign on/off</button>}
-                    {props.utype == 'w' && <button className={classes.signButton}>Clock in/out</button>}
-                    {props.utype == 'e' && <button className={classes.signButton}>Delete</button>}
-                    {props.utype == 'e' && <button className={classes.signButton} onClick={loadEdit}>Edit</button>}
-                    {props.utype == 'e' && <button className={classes.signButton}>Mark Done</button>}
+                    {(props.utype == 'w' && !props.completed) && <button className={classes.signButton}>Sign on/off</button>}
+                    {(props.utype == 'w' && !props.completed) && <button className={classes.signButton}>Clock in/out</button>}
+                    {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button}>Delete</button>}
+                    {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={loadEdit}>Edit</button>}
+                    {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={markComplete}>Mark Done</button>}
                 </div>
             </div>
             {backdropIsVisible && <Backdrop onClick={closeAll}></Backdrop>}
-            {notesAreVisible && <Notes input={DUMMY_DATA} onClick={closeAll}></Notes>}
+            {notesAreVisible && <Notes input={DUMMY_DATA} completed={props.completed} jid={props.key} title={props.title} onClick={closeAll}></Notes>}
             {timesheetIsVisible && <Timesheet input={DUMMY_DATA2} onClick={closeAll}></Timesheet>}
             {editIsVisible && <Edit 
                 title = {props.title}

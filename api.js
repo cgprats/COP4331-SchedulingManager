@@ -11,7 +11,6 @@ var math = require("mathjs");
 // 4: Clock In / Clock Out - MUST be 1 function for both clock in and clock out
 // 5: Get Individual Timesheet - Same as Individual Notes -> handle time range 
 // 6: Finish Search Order (Mostly done)
-// 7: Edit Account Info, 1 end point instead of multiple
 
 // Other stuff
 // 1: Handle date stuff for add / edit order (I got this)
@@ -330,8 +329,8 @@ exports.setApp = function(app, client) {
 	app.post('/api/changepassword', async(req, res, next) => {
 		// incoming: login, password
 		// outgoing: error
-		var login = req.body.login;
-		var password = req.body.password;
+		var email = req.body.email;
+		var ver = req.body.ver;
 		var new_password = req.body.new_password;
 		var new_password_confirm = req.body.new_password_confirm;
 		var errorMessage = '';
@@ -342,8 +341,8 @@ exports.setApp = function(app, client) {
 
 		else {
 			var account = {
-				Login: login,
-				Password: password
+				Email: email,
+				VerificationCode: ver
 			}
 
 			var data = {
@@ -356,10 +355,14 @@ exports.setApp = function(app, client) {
 			//Set verify to true
 			try {
 				const db = client.db();
-				const results = await db.collection('workers').updateOne(account, data);
+				var results = await db.collection('workers').updateOne(account, data);
 
 				if (!results.matchedCount) {
-					errorMessage = "No match";
+					results = await db.collection('employers').updateOne(account, data);
+				}
+
+				if(!results.matchedCount){
+					errorMessage = "Verification code invalid";
 				}
 
 				else if (!results.modifiedCount) {
@@ -367,7 +370,7 @@ exports.setApp = function(app, client) {
 				}
 
 				else {
-					errorMessage = "Success";
+					errorMessage = "Password changed, redirecting to login";
 				}
 			}
 
@@ -380,209 +383,100 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/changefirstname', async(req, res, next) => {
-		// incoming: login, password
+	app.post('/api/sendcode', async(req, res, next) => {
+		// incoming: email
 		// outgoing: error
-		var login = req.body.login;
-		var password = req.body.password;
-		var new_FirstName = req.body.new_FirstName;
+		var email = req.body.email;
 		var errorMessage = '';
+		var code = getRandomInt().toString();
 
-		if (new_password.localeCompare(new_password_confirm)) {
-			errorMessage = "Passwords do not match";
+		var account = {
+			Email: email
 		}
 
-		else {
-			var account = {
-				Login: login,
-				Password: password
-			}
-
-			var data = {
-				//$set is needed to make the data atomic
-				$set: {
-					FirstName: new_FirstName
-				}
-			}
-
-			//Set verify to true
-			try {
-				const db = client.db();
-				const results = await db.collection('workers').updateOne(account, data);
-
-				if (!results.matchedCount) {
-					errorMessage = "No match";
-				}
-
-				else if (!results.modifiedCount) {
-					errorMessage = "No modifications - matched " + results.matchedCount;
-				}
-
-				else {
-					errorMessage = "Success";
-				}
-			}
-
-			catch(e) {
-				errorMessage = e.toString();
+		var data = {
+			//$set is needed to make the data atomic
+			$set: {
+				VerificationCode: code
 			}
 		}
+
+		//Set new verification code
+		try {
+			const db = client.db();
+			var results = await db.collection('workers').updateOne(account, data);
+
+			if (!results.matchedCount) {
+				results = await db.collection('employers').updateOne(account, data);
+			}
+
+			if(!results.matchedCount){
+				errorMessage = "Invalid email address";
+			}
+
+			else if (!results.modifiedCount) {
+				errorMessage = "No modifications - matched " + results.matchedCount;
+			}
+
+			else {
+				errorMessage = "Success";
+				sendVerificationLink(email, code);
+			}
+		}
+
+		catch(e) {
+			errorMessage = e.toString();
+		}
+		
 
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/changelastname', async(req, res, next) => {
+	app.post('/api/editaccount', async(req, res, next) => {
 		// incoming: login, password
 		// outgoing: error
-		var login = req.body.login;
-		var password = req.body.password;
-		var new_LastName = req.body.new_LastName;
+		var email = req.body.email;
+		var new_LastName = req.body.ln;
+		var new_FirstName = req.body.fn;
+		var new_Phone = req.body.phone;
 		var errorMessage = '';
 
-		if (new_password.localeCompare(new_password_confirm)) {
-			errorMessage = "Passwords do not match";
+		var account = {
+			Email: email
 		}
 
-		else {
-			var account = {
-				Login: login,
-				Password: password
-			}
-
-			var data = {
-				//$set is needed to make the data atomic
-				$set: {
-					LastName: new_LastName
-				}
-			}
-
-			//Set verify to true
-			try {
-				const db = client.db();
-				const results = await db.collection('workers').updateOne(account, data);
-
-				if (!results.matchedCount) {
-					errorMessage = "No match";
-				}
-
-				else if (!results.modifiedCount) {
-					errorMessage = "No modifications - matched " + results.matchedCount;
-				}
-
-				else {
-					errorMessage = "Success";
-				}
-			}
-
-			catch(e) {
-				errorMessage = e.toString();
+		var data = {
+			//$set is needed to make the data atomic
+			$set: {
+				firstName: new_FirstName,
+				lastName: new_LastName,
+				phone: new_Phone
 			}
 		}
 
-		var ret = {error: errorMessage};
-		res.status(200).json(ret);
-	});
+		//Set verify to true
+		try {
+			const db = client.db();
+			var results = await db.collection('workers').updateOne(account, data);
 
-	app.post('/api/changephone', async(req, res, next) => {
-		// incoming: login, password
-		// outgoing: error
-		var login = req.body.login;
-		var password = req.body.password;
-		var new_phone = req.body.new_phone;
-		var errorMessage = '';
-
-		if (new_password.localeCompare(new_password_confirm)) {
-			errorMessage = "Passwords do not match";
-		}
-
-		else {
-			var account = {
-				Login: login,
-				Password: password
+			if (!results.matchedCount) {
+				var results = await db.collection('employers').updateOne(account, data);
 			}
 
-			var data = {
-				//$set is needed to make the data atomic
-				$set: {
-					phone: new_phone
-				}
+			if (!results.matchedCount) {
+				errorMessage = "No match";
 			}
 
-			//Set verify to true
-			try {
-				const db = client.db();
-				const results = await db.collection('workers').updateOne(account, data);
-
-				if (!results.matchedCount) {
-					errorMessage = "No match";
-				}
-
-				else if (!results.modifiedCount) {
-					errorMessage = "No modifications - matched " + results.matchedCount;
-				}
-
-				else {
-					errorMessage = "Success";
-				}
-			}
-
-			catch(e) {
-				errorMessage = e.toString();
+			else {
+				errorMessage = "Edits applied!";
 			}
 		}
 
-		var ret = {error: errorMessage};
-		res.status(200).json(ret);
-	});
-
-	app.post('/api/changeemail', async(req, res, next) => {
-		// incoming: login, password
-		// outgoing: error
-		var login = req.body.login;
-		var password = req.body.password;
-		var new_email = req.body.new_email;
-		var errorMessage = '';
-
-		if (new_password.localeCompare(new_password_confirm)) {
-			errorMessage = "Passwords do not match";
+		catch(e) {
+			errorMessage = e.toString();
 		}
-
-		else {
-			var account = {
-				Login: login,
-				Password: password
-			}
-
-			var data = {
-				//$set is needed to make the data atomic
-				$set: {
-					email: new_email
-				}
-			}
-
-			//Set verify to true
-			try {
-				const db = client.db();
-				const results = await db.collection('workers').updateOne(account, data);
-
-				if (!results.matchedCount) {
-					errorMessage = "No match";
-				}
-
-				else if (!results.modifiedCount) {
-					errorMessage = "No modifications - matched " + results.matchedCount;
-				}
-
-				else {
-					errorMessage = "Success";
-				}
-			}
-
-			catch(e) {
-				errorMessage = e.toString();
-			}
-		}
+		
 
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
@@ -818,16 +712,16 @@ exports.setApp = function(app, client) {
 		// incoming: 0 or 1
 		// outgoing: error
 
-		var status = req.body.status;
+		var fooid = req.body.fooid;
 		var errorMessage = '';
-		var filter_var = "TempFilter";
 
 		var joborder = {
+			"_id": fooid
 		}
 
 		var data = {
 			$set: {
-				"status" : status
+				"completed" : true
 			}
 		}
 
@@ -836,7 +730,7 @@ exports.setApp = function(app, client) {
 			const db = client.db();
 			const results = await db.collection('jobs').updateOne(joborder, data);
 
-			errorMessage = "Success";
+			errorMessage = "Job completed!";
 		}
 
 		// Catch update error
@@ -978,22 +872,28 @@ exports.setApp = function(app, client) {
 
 		var fooid = req.body.fooid;
 		var email = req.body.email;
-		var time = req.body.time;
+		var fn = req.body.fn;
+		var ln = req.body.ln;
+		var date = req.body.date;
+		var title = req.body.title;
 		var note = req.body.note;
 
 
 		var data = {
 			"fooid" : fooid,
 			"email" : email,
-			"time" : time,
-			"note" : note
+			"date" : date,
+			"note" : note,
+			"firstName" : fn,
+			"lastName": ln,
+			"title": title
 		}
 
 		try {
 			const db = client.db();
 			const results = await db.collection('notes').insertOne(data);
 
-			errorMessage = "Success";
+			errorMessage = "Note added!";
 		}
 
 		catch(e) {
