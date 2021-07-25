@@ -942,6 +942,7 @@ exports.setApp = function(app, client) {
 		// Incomming
 		var input = req.body.input;
 		var compCode = req.body.companyCode;
+		var showMine = req.body.showMine;
 		var email = req.body.eamil;
 		
 		var start = req.body.start;
@@ -966,60 +967,51 @@ exports.setApp = function(app, client) {
 		if (jobsAll.length == 0)
 			errorMessage = "No Jobs found with given company code"
 		
-		for(let i = 0; i < jobsAll.length; i++){
+		for(let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].title != null)
 				if (jobsAll[i].title.indexOf(input) > -1)
 					jobsMatched[i] = jobsAll[i];
-		}
 
-		for(let i = 0; i < jobsAll.length; i++){
+		for(let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].email != null)
 				if (jobsAll[i].email.indexOf(input) > -1)
 					jobsMatched[i] = jobsAll[i];
-		}
 		
-		for(let i = 0; i < jobsAll.length; i++){
+		for(let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].address != null)
 				if (jobsAll[i].address.indexOf(input) > -1) 
 					jobsMatched[i] = jobsAll[i];
-		}
 
-		for(let i = 0; i < jobsAll.length; i++){
+		for(let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].clientname != null)
 				if (jobsAll[i].clientname.indexOf(input) > -1) 
 					jobsMatched[i] = jobsAll[i];
-		}
 
-		for(let i = 0; i < jobsAll.length; i++){
+		for(let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].clientcontact != null)
 				if (jobsAll[i].clientcontact.indexOf(input) > -1) 
 					jobsMatched[i] = jobsAll[i];
-		}
 
-		if (start != null){
+		var jobsMatchedInRange = [].concat(jobsMatched);
+		jobsMatchedInRange.splice(0,jobsMatchedInRange.length);
+
+		if (start != "" && end != ""){
 			var startfield;
 			for(let i = 0; i < jobsAll.length; i++){
 				startfield = new Date(jobsAll[i].start);
-
-				if (startfield.getTime() > endinput.getTime())
-					jobsMatched[i] = jobsAll[i];
-			}
-		}
-
-		if (end != null){
-			var startfield;
-			for(let i = 0; i < jobsAll.length; i++){
 				endfield = new Date(jobsAll[i].end);
 
-				if (endfield.getTime() < startinput.getTime())
-					jobsMatched[i] = jobsAll[i];
+				if (startfield.getTime() > endinput.getTime() && endfield.getTime() < startinput.getTime())
+					jobsMatchedInRange[i] = jobsMatched[i];
 			}
 		}
+		
+		
 
 		// Await filter for completed jobs
 		// Await filter for showing jobs the user is signed on for
 
-		var ret = {jobs:jobsMatched, error:errorMessage};
+		var ret = {jobs:jobsMatchedInRange, error:errorMessage};
 		res.status(200).json(ret);
 	});
 }
