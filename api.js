@@ -952,7 +952,7 @@ exports.setApp = function(app, client) {
 		}
 
 		try {
-			const db = client.db();
+			var db = client.db();
 			var results = await db.collection('timesheet').find(data).toArray();
 		}
 		catch(e) {
@@ -973,6 +973,7 @@ exports.setApp = function(app, client) {
 			}
 
 			try {
+				var db = client.db();
 				var results = await db.collection('timesheet').insertOne(data2);
 				errorMessage = 'Clocked in';
 			}
@@ -989,6 +990,7 @@ exports.setApp = function(app, client) {
 			}
 
 			try {
+				var db = client.db();
 				var results = await db.collection('timesheet').updateOne(data, data2);
 				errorMessage = 'Clocked out';
 			}

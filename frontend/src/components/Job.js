@@ -232,7 +232,7 @@ function Job(props)
                         <ul className={classes.ul}>
                             {props.workers.map(worker => 
                                 <li className={classes.worker} key={worker.email}>
-                                    <span className={classes.info}>{worker.name}</span>
+                                    <span className={classes.info}>{worker.firstName} {worker.lastName}</span>
                                     <span className={classes.info}>{worker.email}</span>
                                     <span className={classes.info}>{worker.phone}</span>
                                 </li>
