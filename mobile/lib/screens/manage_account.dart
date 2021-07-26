@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/custom_colors.dart';
+import 'package:mobile/routes/routes.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/components/custom_scaffold.dart';
 import 'package:mobile/components/textfield_widget.dart';
@@ -260,7 +261,15 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                               padding: EdgeInsets.symmetric(
                                                   vertical: 20, horizontal: 20),
                                               onPressed: () {
-                                                
+                                                GlobalData.firstName = null;
+                                                GlobalData.lastName = null;
+                                                GlobalData.phone = null;
+                                                GlobalData.email = null;
+                                                GlobalData.accountType = 0;
+                                                GlobalData.companyCode = null;
+                                                GlobalData.companyName = null;
+                                                GlobalData.verified = null;
+                                                Navigator.pushNamed(context, Routes.LOGINSCREEN);
                                               },
                                             ),
                                             SizedBox(
