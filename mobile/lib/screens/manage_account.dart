@@ -6,11 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/custom_colors.dart';
-import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/components/rounded_button.dart';
-import 'package:mobile/components/job_card.dart';
 import 'package:mobile/components/custom_scaffold.dart';
-import 'package:mobile/components/job_search_bar.dart';
 import 'package:mobile/components/textfield_widget.dart';
 
 class ManageAccountScreen extends StatefulWidget {
@@ -101,8 +98,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                             child: Container(
                                               height: 30,
                                               child: Text(
-                                                //GlobalData.firstName!,
-                                                'John',
+                                                GlobalData.firstName!,
                                                 style: TextStyle(
                                                   color: CustomColors.white,
                                                 ),
@@ -129,8 +125,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                             child: Container(
                                               height: 30,
                                               child: Text(
-                                                //GlobalData.lastName!,
-                                                'Doe',
+                                                GlobalData.lastName!,
                                                 style: TextStyle(
                                                   color: CustomColors.white,
                                                 ),
@@ -161,8 +156,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                               padding:
                                                   EdgeInsets.only(top: 2.5),
                                               child: Text(
-                                                // GlobalData.email!,
-                                                'johndoe@gmail.com',
+                                                GlobalData.email!,
                                                 style: TextStyle(
                                                   color: CustomColors.white,
                                                 ),
@@ -193,8 +187,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                               padding:
                                                   EdgeInsets.only(top: 2.5),
                                               child: Text(
-                                                //GlobalData.phone!,
-                                                '1234567890',
+                                                GlobalData.phone!,
                                                 style: TextStyle(
                                                   color: CustomColors.white,
                                                 ),
@@ -225,8 +218,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                               padding:
                                                   EdgeInsets.only(top: 2.5),
                                               child: Text(
-                                                //GlobalData.companyCode!.toString(),
-                                                '1234',
+                                                GlobalData.companyCode.toString(), 
                                                 style: TextStyle(
                                                   color: CustomColors.white,
                                                   fontWeight: FontWeight.bold,
@@ -298,7 +290,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                       label: 'First Name',
                                       text: GlobalData.firstName,
                                       onChanged: (text) {
-                                        _payload['firstName'] = text;
+                                        _payload['fn'] = text;
                                       },
                                     ),
                                     const SizedBox(height: 24),
@@ -306,7 +298,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                       label: 'Last Name',
                                       text: GlobalData.lastName,
                                       onChanged: (text) {
-                                        _payload['lastName'] = text;
+                                        _payload['ln'] = text;
                                       },
                                     ),
                                     const SizedBox(height: 24),
