@@ -30,7 +30,7 @@ class _JobSearchBarState extends State<JobSearchBar>
   Size _searchBarSize = Size(0, 0);
   GlobalKey _searchBarKey = GlobalKey();
   GlobalKey _filterMenu = GlobalKey();
-  String? _input;
+  String _input = '';
   DateTime? _startDate, _endDate;
   bool _showSignedUpJobs = false;
   bool _showNotSignedUpJobs = false;

@@ -21,7 +21,15 @@ class JobCardContainerState extends State<JobCardContainer> {
   List<JobCard> jobs = [];
 
   void addJobCard(JobCard jobCard) {
-    jobs.add(jobCard);
+    setState(() {
+      jobs.add(jobCard);
+    });
+  }
+
+  void clearJobCards() {
+    setState(() {
+      jobs = [];
+    });
   }
 
   @override

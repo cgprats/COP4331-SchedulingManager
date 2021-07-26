@@ -14,22 +14,21 @@ import 'package:mobile/components/job_search_bar.dart';
 import 'package:mobile/components/add_job_modal.dart';
 
 class JobListingsScreen extends StatefulWidget {
-  final GlobalKey<JobListingsScreenState> key;
-  JobListingsScreen({required this.key}) : super(key: key);
+  final GlobalKey<JobListingsScreenState> key = GlobalKey();
+  final GlobalKey<JobCardContainerState> _jobListKey = GlobalKey();
+
+  JobListingsScreen(key) : super(key: key);
 
   @override
   JobListingsScreenState createState() => JobListingsScreenState();
 }
 
 class JobListingsScreenState extends State<JobListingsScreen> {
-  Map _addPayload = Map();
-  Map _searchPayload = Map();
   String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    GlobalKey<JobCardContainerState> _jobListKey = GlobalKey();
     return CustomScaffold(
       title: 'Job Listings',
       appBarColor: CustomColors.orange,
@@ -48,36 +47,24 @@ class JobListingsScreenState extends State<JobListingsScreen> {
                     color: CustomColors.orange,
                   ),
                   onPressed: () {
-                    // _jobListKey.currentState!.addJobCard(sample1());
-                    _addPayload['title'] = 'api title';
-                    _addPayload['email'] = GlobalData.email;
-                    _addPayload['address'] = 'an address';
-                    _addPayload['clientname'] = '${GlobalData.firstName} ${GlobalData.lastName}';
-                    _addPayload['clientcontact'] = GlobalData.phone;
-                    _addPayload['start'] = '2021-07-03';
-                    _addPayload['end'] = '2021-07-29';
-                    _addPayload['companyCode'] = GlobalData.companyCode;
-                    _addPayload['max'] = 4;
-                    _addPayload['briefing'] = 'briefing!';
-                    _addOrder(_addPayload);
-                    // showDialog(
-                    //   context: context,
-                    //   builder: (BuildContext context) {
-                    //     return AddJobModal(jobListKey: _jobListKey);
-                    //   },
-                    // );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AddJobModal(jobScreenKey: widget.key);
+                      },
+                    );
                   },
                 ),
               ),
             ],
           ),
-          JobCardContainer(key: _jobListKey),
+          JobCardContainer(key: widget._jobListKey),
         ],
       ),
     );
   }
 
-  void _addOrder(Map _payload) async {
+  void addOrder(Map _payload) async {
     print('addorder!');
     String dir = '/addorder';
     String ret = await API.getJson(dir, _payload);
@@ -88,10 +75,10 @@ class JobListingsScreenState extends State<JobListingsScreen> {
       print('oh no :(');
     } else {
       setState(
-            () {
+        () {
           print('addorder successful!');
           _errorMessage =
-          jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
+              jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
         },
       );
     }
@@ -102,16 +89,45 @@ class JobListingsScreenState extends State<JobListingsScreen> {
     String dir = '/searchJobs';
     String ret = await API.getJson(dir, _payload);
     print(ret);
+    print(_payload);
     var jsonObj = json.decode(ret);
     print(jsonObj);
     if (ret.isEmpty) {
       print('oh no :(');
     } else {
       setState(
-            () {
+        () {
           print('searchJobs successful!');
-          _errorMessage =
-          jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
+          _errorMessage = jsonObj['error'];
+          if (_errorMessage.isEmpty) {
+            widget._jobListKey.currentState!.clearJobCards();
+            for (var job in jsonObj['jobs']) {
+              if (job == null) continue;
+              print(job);
+              widget._jobListKey.currentState!.addJobCard(
+                JobCard(
+                  width: 0.8,
+                  title: '${job['title']}',
+                  clientInfo: {
+                    'firstName': job['clientname'],
+                    'lastName': '',
+                    'phone': job['clientcontact'],
+                    'email': job['email'],
+                  },
+                  startDate: (job['start'] != null && job['start'] != '')
+                      ? DateTime.parse(job['start'])
+                      : null,
+                  endDate: (job['end'] != null && job['end'] != '')
+                      ? DateTime.parse(job['end'])
+                      : null,
+                  address: '${job['address']}',
+                  workers: [],
+                  maxWorkers: job['maxworkers'] != null ? job['maxworkers'] : 0,
+                  details: '${job['briefing']}',
+                ),
+              );
+            }
+          }
         },
       );
     }

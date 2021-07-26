@@ -7,7 +7,7 @@ import 'package:mobile/utils/global_data.dart';
 class JobCard extends StatefulWidget {
   final String title, address, details;
   final double? width, height;
-  final DateTime startDate, endDate;
+  final DateTime? startDate, endDate;
   final Map<String, String> clientInfo;
   final int maxWorkers;
   final List<Map<String, String>> workers;
@@ -15,8 +15,8 @@ class JobCard extends StatefulWidget {
   const JobCard({
     required this.title,
     required this.address,
-    required this.startDate,
-    required this.endDate,
+    this.startDate,
+    this.endDate,
     required this.clientInfo,
     required this.maxWorkers,
     required this.workers,
@@ -106,15 +106,15 @@ class _JobCardTitleState extends State<_JobCardTitle> {
 
 class _JobCardBody extends StatefulWidget {
   final String address, details;
-  final DateTime startDate, endDate;
+  final DateTime? startDate, endDate;
   final Map<String, String> clientInfo;
   final int maxWorkers;
   final List<Map<String, String>> workers;
 
   const _JobCardBody({
     required this.address,
-    required this.startDate,
-    required this.endDate,
+    this.startDate,
+    this.endDate,
     required this.clientInfo,
     required this.maxWorkers,
     required this.workers,
@@ -607,7 +607,8 @@ class _JobCardBodyState extends State<_JobCardBody> {
     );
   }
 
-  String _formatDate(DateTime dateTime) {
+  String _formatDate(DateTime? dateTime) {
+    if (dateTime == null) return 'None';
     return '${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}/${dateTime.year}';
   }
 

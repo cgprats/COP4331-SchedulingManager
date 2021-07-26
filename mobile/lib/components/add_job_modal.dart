@@ -8,28 +8,40 @@ import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/components/job_card_container.dart';
+import 'package:mobile/screens/job_listings_screen.dart';
 import 'package:mobile/components/job_card.dart';
 import 'package:mobile/components/custom_scaffold.dart';
 
 class AddJobModal extends StatelessWidget {
-  final GlobalKey<JobCardContainerState> jobListKey;
+  final GlobalKey<JobListingsScreenState> jobScreenKey;
 
-  const AddJobModal({
-    required this.jobListKey,
+  final Map _payload = Map();
+
+  AddJobModal({
+    required this.jobScreenKey,
   });
 
   @override
   Widget build(BuildContext context) {
+    _payload['title'] = '';
+    _payload['address'] = '';
+    _payload['maxworkers'] = 0;
+    _payload['briefing'] = '';
     return AlertDialog(
-      content: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Column(
-          children: <Widget>[
-            _AddJobTitle(),
-            _AddJobBody(jobListKey: jobListKey),
-          ],
-        ),
+      title: _AddJobTitle(),
+      titlePadding: EdgeInsets.zero,
+      content: _AddJobBody(
+        jobScreenKey: jobScreenKey,
+        payload: _payload,
       ),
+      contentPadding: EdgeInsets.zero,
+      actions: <Widget>[
+        _AddJobActions(payload: _payload, jobScreenKey: jobScreenKey),
+      ],
+      backgroundColor: CustomColors.grey,
+      clipBehavior: Clip.hardEdge,
+      scrollable: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     );
   }
 }
@@ -42,24 +54,32 @@ class _AddJobTitle extends StatelessWidget {
       decoration: BoxDecoration(
         color: CustomColors.orange,
       ),
-      child: Text(
-        'Add New Job',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: CustomColors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              'Add New Job',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: CustomColors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class _AddJobBody extends StatefulWidget {
-  final GlobalKey<JobCardContainerState> jobListKey;
+  final GlobalKey<JobListingsScreenState> jobScreenKey;
+  final Map payload;
 
   const _AddJobBody({
-    required this.jobListKey,
+    required this.jobScreenKey,
+    required this.payload,
   });
 
   @override
@@ -68,8 +88,6 @@ class _AddJobBody extends StatefulWidget {
 
 class _AddJobBodyState extends State<_AddJobBody> {
   DateTime? _startDate, _endDate;
-  String? _title, _address, _details;
-  int? _maxWorkers;
   GlobalKey<FormState> _formKey = GlobalKey();
 
   Future<void> _selectDate(BuildContext context,
@@ -93,9 +111,6 @@ class _AddJobBodyState extends State<_AddJobBody> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: CustomColors.grey,
-      ),
       child: Form(
         key: _formKey,
         child: Column(
@@ -104,14 +119,14 @@ class _AddJobBodyState extends State<_AddJobBody> {
               labelText: 'Title',
               labelColor: CustomColors.orange,
               onChanged: (value) {
-                this._title = value;
+                widget.payload['title'] = value;
               },
             ),
             RoundedInputField(
               labelText: 'Address',
               labelColor: CustomColors.orange,
               onChanged: (value) {
-                this._address = value;
+                widget.payload['address'] = value;
               },
             ),
             Row(
@@ -130,7 +145,7 @@ class _AddJobBodyState extends State<_AddJobBody> {
                     label: Text(
                       this._startDate == null
                           ? 'beginning'
-                          : _formatDate(this._startDate!),
+                          : _formatDate1(this._startDate!),
                       style: TextStyle(
                         color: CustomColors.white,
                       ),
@@ -153,6 +168,7 @@ class _AddJobBodyState extends State<_AddJobBody> {
                         context,
                         isStartDate: true,
                       );
+                      widget.payload['start'] = _formatDate2(this._startDate);
                     },
                   ),
                 ),
@@ -174,7 +190,7 @@ class _AddJobBodyState extends State<_AddJobBody> {
                     label: Text(
                       this._endDate == null
                           ? 'end'
-                          : _formatDate(this._endDate!),
+                          : _formatDate1(this._endDate!),
                       style: TextStyle(
                         color: CustomColors.white,
                       ),
@@ -197,6 +213,7 @@ class _AddJobBodyState extends State<_AddJobBody> {
                         context,
                         isStartDate: false,
                       );
+                      widget.payload['end'] = _formatDate2(this._endDate);
                     },
                   ),
                 ),
@@ -206,38 +223,14 @@ class _AddJobBodyState extends State<_AddJobBody> {
               labelText: 'Max Workers',
               labelColor: CustomColors.orange,
               onChanged: (value) {
-                this._maxWorkers = int.parse(value);
+                widget.payload['maxworkers'] = int.parse(value);
               },
             ),
             RoundedInputField(
               labelText: 'Details',
               labelColor: CustomColors.orange,
               onChanged: (value) {
-                this._details = value;
-              },
-            ),
-            RoundedButton(
-              text: 'Add Job',
-              color: CustomColors.orange,
-              onPressed: () {
-                widget.jobListKey.currentState!.addJobCard(
-                  JobCard(
-                    title: this._title!,
-                    address: this._address!,
-                    startDate: this._startDate!,
-                    endDate: this._endDate!,
-                    clientInfo: {
-                      'firstName': 'Bobby',
-                      'lastName': 'Dylan',
-                      'email': 'BobDill@gmail.com',
-                      'phone': '305-519-8560',
-                    },
-                    maxWorkers: this._maxWorkers!,
-                    workers: <Map<String, String>>[],
-                    details: this._details!,
-                  ),
-                );
-                widget.jobListKey.currentState!.setState(() {});
+                widget.payload['briefing'] = value;
               },
             ),
           ],
@@ -246,7 +239,48 @@ class _AddJobBodyState extends State<_AddJobBody> {
     );
   }
 
-  String _formatDate(DateTime dateTime) {
+  String _formatDate1(DateTime dateTime) {
     return '${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}/${dateTime.year}';
+  }
+
+  String _formatDate2(DateTime? dateTime) {
+    if (dateTime == null) return '';
+    return '${dateTime.year.toString().padLeft(4, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}';
+  }
+}
+
+class _AddJobActions extends StatelessWidget {
+  final GlobalKey<JobListingsScreenState> jobScreenKey;
+  final Map payload;
+
+  _AddJobActions({
+    required this.payload,
+    required this.jobScreenKey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: RoundedButton(
+        text: 'Add Job',
+        width: double.infinity,
+        color: CustomColors.orange,
+        fontSize: 24,
+        onPressed: () {
+          print('pressed!');
+          payload['email'] = GlobalData.email;
+          payload['clientname'] =
+          '${GlobalData.firstName} ${GlobalData.lastName}';
+          payload['clientcontact'] = _formatPhone(GlobalData.phone!);
+          payload['companyCode'] = GlobalData.companyCode;
+          this.jobScreenKey.currentState!.addOrder(payload);
+        },
+      ),
+    );
+  }
+
+  String _formatPhone([String phone = '']) {
+    phone = phone.replaceAll(new RegExp('\\D'), '').padLeft(10, '0');
+    return '(${phone.substring(0, 3)}) ${phone.substring(3, 6)}-${phone.substring(6)}';
   }
 }

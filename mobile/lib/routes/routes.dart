@@ -18,7 +18,7 @@ class Routes {
         LOGINSCREEN: (context) => LoginScreen(),
         SIGNUPSCREEN: (context) => SignUpScreen(),
         JOBLISTINGSSCREEN: (context) =>
-            JobListingsScreen(key: GlobalKey<JobListingsScreenState>()),
+            JobListingsScreen(GlobalKey<JobListingsScreenState>()),
         MANAGEACCOUNTSCREEN: (context) => ManageAccountScreen(),
         EMPLOYEESEARCHSCREEN: (context) => EmployeeSearchScreen(),
       };
