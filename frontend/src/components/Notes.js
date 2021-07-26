@@ -53,6 +53,12 @@ function Notes(props)
         }catch(e){
             alert(e.toString());
         }
+
+        if(res.error == 'Note added!')
+        {
+            var fn = props.onClick;
+            fn();
+        }
     }
 
     return (

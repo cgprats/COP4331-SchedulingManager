@@ -126,7 +126,6 @@ function Job(props)
 
     async function clockEvent()
     {
-        // COME BACK AND FINISH
         var dateobj = new Date();
         var timestr = dateobj.toLocaleTimeString([], {hour: 'numeric' ,minute: '2-digit'});
         var user = JSON.parse(localStorage.getItem('user_data'));
@@ -140,30 +139,47 @@ function Job(props)
             fooid: props.id,
             time: timestr,
             date: date,
-            title: props.title
+            title: props.title,
+            fn: user.FirstName,
+            ln: user.LastName
         };
 
-        var js = JSON.stringify(Data);
-        try{
-            const response = await fetch('https://cop4331group2.herokuapp.com/api/deleteorder', 
-            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
-            var res = JSON.parse(await response.text());
-            setMsg(res.error);
-
-        }catch(e){
-            alert(e.toString());
+        var signedup = false;
+        for(let i = 0; i < props.workers.length; i++)
+        {
+            if(props.workers[i].email == email)
+                signedup = true;
         }
+
+        if(!signedup){
+            setMsg("Must be signed up to clock in");
+
+        }else{
+            var js = JSON.stringify(Data);
+            try{
+                const response = await fetch('https://cop4331group2.herokuapp.com/api/clockEvent', 
+                {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+                var res = JSON.parse(await response.text());
+                setMsg(res.error);
+    
+            }catch(e){
+                alert(e.toString());
+            }
+        }
+
+        
     }
 
     async function signEvent()
     {
-        // COME BACK AND FINISH
         var user = JSON.parse(localStorage.getItem('user_data'));
 
         var email = user.Email;
         var fn = user.FirstName;
         var ln = user.LastName;
         var phone = user.Phone;
+        var current = props.workers.length;
+        var max = props.maxWorkers;
 
         const Data =
         {
@@ -171,12 +187,14 @@ function Job(props)
             id: props.id,
             firstName: fn,
             lastName: ln,
-            phone: phone
+            phone: phone,
+            current: current,
+            max: max
         };
 
         var js = JSON.stringify(Data);
         try{
-            const response = await fetch('https://cop4331group2.herokuapp.com/api/deleteorder', 
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/signJob', 
             {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
             var res = JSON.parse(await response.text());
             setMsg(res.error);

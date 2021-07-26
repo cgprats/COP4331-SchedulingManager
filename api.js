@@ -750,19 +750,24 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/signJobs', async(req, res, next) => {
+	app.post('/api/signJob', async(req, res, next) => {
 		// TODO: Add array of worker names to orders
 		// Sign On for an available order unless max workers is reached
 		// incoming: order ID
 		// outgoing: error
 
-		var sign = req.body.sign;
-		var id = new ObjectID(req.body.id);
-		var maxw = 0; // Max Workers for job
-		var currw = 0; // Current amount of Workers signed on
+		var email = req.body.email;
+		var id = req.body.id;
+		var fn = req.body.firstName;
+		var ln = req.body.lastName;
+		var phone = req.body.phone;
+		var current = req.body.current;
+		var max = req.body.max;
+
+		var mongo = require('mongodb');
+		var o_id = new mongo.ObjectID(id);
+		
 		var errorMessage = '';
-		var ret = '';
-		var filter_var = "TempFilter";
 
 		const db = client.db();
 
@@ -772,44 +777,59 @@ exports.setApp = function(app, client) {
 			var results = await db.collection('jobs').find({_id:id}).toArray();
 		}
 		catch(e) {
-			errorMessage = e.toString();
-			ret = {error: errorMessage};
-			res.status(200).json(ret);
-		}
-
-		if (results.length > 0){
-			maxw = results[0].maxworkers;
-			currw = results[0].currentworkers + 1;
-		}
-		else{
 			errorMessage = "Job ID not valid";
 			ret = {error: errorMessage};
 			res.status(200).json(ret);
-
 		}
 
-		if (currw > maxw){
-			errorMessage = "Too many workers";
-			ret = {error: errorMessage};
-			res.status(200).json(ret);
+		var workers = results[0].workers;
+		var inArray = false;
+		for (let i = 0; i < workers.length; i++)
+		{
+			if(workers[i].email == email)
+				inArray = true;
 		}
 
-		var data = {
-			$set: {
-				"currentworkers" :currw,
+		if (!inArray && current == max){
+			errorMessage = "Job is at worker limit";
+
+		}else{
+			if(inArray)
+			{
+				var data = {
+					$pull: { 
+						workers: {email: email}
+					}
+				}
+
+				try {
+					var results = await db.collection('jobs').updateOne({id:_id}, data);
+					errorMessage = "Removed from team";
+				}
+		
+				// Catch update error
+				catch(e) {
+					errorMessage = e.toString();
+				}
 			}
-		}
+			else{
 
-		// Attempt to update order
-		try {
-			const results = await db.collection('jobs').updateOne({id:_id}, data);
+				var data = {
+					$push: { 
+						workers: {email: email, firstName: fn, lastName: ln, phone: phone}
+					}
+				}
 
-			errorMessage = "Success";
-		}
-
-		// Catch update error
-		catch(e) {
-			errorMessage = e.toString();
+				try {
+					const results = await db.collection('jobs').updateOne({id:_id}, data);
+					errorMessage = "Added to team";
+				}
+		
+				// Catch update error
+				catch(e) {
+					errorMessage = e.toString();
+				}
+			}
 		}
 
 		var ret = {error: errorMessage};
@@ -906,6 +926,77 @@ exports.setApp = function(app, client) {
 
 		catch(e) {
 			errorMessage = e.toString();
+		}
+
+		var ret = {error: errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/clockEvent', async(req, res, next) =>{
+		// incoming: fooid, email, time, note
+		// outgoing: error
+		var errorMessage = '';
+
+		var fooid = req.body.fooid;
+		var email = req.body.email;
+		var fn = req.body.fn;
+		var ln = req.body.ln;
+		var date = req.body.date;
+		var title = req.body.title;
+		var time = req.body.time;
+
+
+		var data = {
+			"fooid" : fooid,
+			"email" : email,
+			"end": 'XXXXX'
+		}
+
+		try {
+			const db = client.db();
+			var results = await db.collection('timesheet').find(data).toArray();
+		}
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		if (results.length < 1)
+		{
+			var data2 = {
+				"fooid": fooid,
+				"email": email,
+				"firstName": fn,
+				"lastName": ln,
+				"start": time,
+				"end": 'XXXXX',
+				"date": date,
+				"title": title
+			}
+
+			try {
+				var results = await db.collection('timesheet').insertOne(data2);
+				errorMessage = 'Clocked in';
+			}
+			catch(e) {
+				errorMessage = e.toString();
+			}
+
+		}else{
+			var data2 = {
+				$set: 
+				{
+					"end": time
+				}
+			}
+
+			try {
+				var results = await db.collection('timesheet').updateOne(data, data2);
+				errorMessage = 'Clocked out';
+			}
+			catch(e) {
+				errorMessage = e.toString();
+			}
+
 		}
 
 		var ret = {error: errorMessage};
@@ -1036,7 +1127,7 @@ exports.setApp = function(app, client) {
 				for (let i = 0; i < jobsMatchedInRange.length; i++)
 					if (jobsMatchedInRange[i] != null)
 						for (let j = 0; j < jobsMatchedInRange[i].workers.length; j++)
-							if (jobsMatchedInRange[i].workers[j].email.indexOf(email) > -1)
+							if (jobsMatchedInRange[i].workers[j].email == email)
 								jobsMatchedPostRange[i] = jobsMatchedInRange[i];
 			}
 
@@ -1047,7 +1138,7 @@ exports.setApp = function(app, client) {
 				for (let i = 0; i < jobsMatched.length; i++)
 					if (jobsMatched[i] != null)
 						for (let j = 0; j < jobsMatched[i].workers.length; j++)
-							if (jobsMatched[i].workers[j].email.indexOf(email) > -1)
+							if (jobsMatched[i].workers[j].email == email)
 								jobsMatchedPostRange[i] = jobsMatched[i];
 			}
 		}
