@@ -12,6 +12,8 @@ var math = require("mathjs");
 // 5: Get Individual Timesheet - Same as Individual Notes -> handle time range 
 // 6: Finish Search Order (Mostly done)
 
+//This comment is for commit purposes
+
 // Other stuff
 // 1: Handle date stuff for add / edit order (I got this)
 // 2: Help Front End with JWT
