@@ -1071,7 +1071,7 @@ exports.setApp = function(app, client) {
 		jobsMatched.splice(0,jobsMatched.length);
 
 		if (jobsAll.length == 0)
-			errorMessage = "No Jobs found with given company code"
+			errorMessage = "No Jobs found with given company code";
 		
 		for (let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].title != null)
@@ -1169,6 +1169,57 @@ exports.setApp = function(app, client) {
 		else
 			var ret = {jobs:jobsMatched, error:errorMessage};
 		
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/searchWorkers', async(req, res, next) =>{
+		// TODO: Do not return jobs the user does not have access too 
+		// Outgoing: Any relevant job orders
+
+		var errorMessage = '';
+		
+		// Incomming
+		var input = req.body.input;
+		var compCode = req.body.companyCode;
+
+		try {
+			const db = client.db();
+			var workersAll = await db.collection('workers').find({companyCode:compCode}).toArray();
+		}
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		// Copy over all found jobs to new array
+		// Then empty all elements so they can be filled if matched
+		var workersMatched = [].concat(workersAll);
+		workersMatched.splice(0,workersMatched.length);
+
+		if (workersAll.length == 0)
+			errorMessage = "No workers found in company";
+		
+		for (let i = 0; i < workersAll.length; i++)
+			if (workersAll[i].firstName != null)
+				if (workersAll[i].firstName.indexOf(input) > -1)
+					workersMatched[i] = workersAll[i];
+
+		for (let i = 0; i < workersAll.length; i++)
+			if (workersAll[i].lastName != null)
+				if (workersAll[i].lastName.indexOf(input) > -1)
+					workersMatched[i] = workersAll[i];
+		
+		for (let i = 0; i < workersAll.length; i++)
+			if (workersAll[i].Email != null)
+				if (workersAll[i].Email.indexOf(input) > -1)
+					workersMatched[i] = workersAll[i];
+
+		for (let i = 0; i < workersAll.length; i++)
+			if (workersAll[i].phone != null)
+				if (workersAll[i].phone.indexOf(input) > -1)
+					workersMatched[i] = workersAll[i];
+
+		
+		var ret = {workers: workersMatched, error: errorMessage};
 		res.status(200).json(ret);
 	});
 }
