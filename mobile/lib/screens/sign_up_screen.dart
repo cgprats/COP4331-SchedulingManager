@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/utils/get_api.dart';
+import 'package:mobile/routes/routes.dart';
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/components/animated_rounded_button.dart';
@@ -277,6 +278,7 @@ class _SignUpFormState extends State<_SignUpForm> {
   }
 
   void _register(Map _payload) async {
+    _payload['flag'] = GlobalData.accountType;
     print('register!');
     String dir = '/register';
     String ret = await API.getJson(dir, _payload);
@@ -291,6 +293,15 @@ class _SignUpFormState extends State<_SignUpForm> {
           print('register successful!');
           _errorMessage =
               jsonObj['error'].startsWith('Success: ') ? '' : jsonObj['error'];
+          GlobalData.firstName = jsonObj['FirstName'];
+          GlobalData.lastName = jsonObj['LastName'];
+          GlobalData.phone = jsonObj['Phone'];
+          GlobalData.email = jsonObj['Email'];
+          GlobalData.accountType = jsonObj['Flag'];
+          GlobalData.companyCode = jsonObj['CompanyCode'];
+          GlobalData.verified = jsonObj['Verified'];
+          //TODO: add if verified check
+          Navigator.pushNamed(context, Routes.JOBLISTINGSSCREEN);
         },
       );
     }

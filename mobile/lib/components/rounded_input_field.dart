@@ -4,7 +4,7 @@ import 'package:mobile/utils/custom_colors.dart';
 import 'text_field_container.dart';
 
 class RoundedInputField extends StatefulWidget {
-  final String? hintText, labelText, errorMessage;
+  final String? hintText, labelText, errorMessage, text;
   final Color? labelColor;
   final double? width, height;
   final Function(String)? onChanged, onFieldSubmitted;
@@ -19,6 +19,7 @@ class RoundedInputField extends StatefulWidget {
     Key? key,
     this.hintText,
     this.labelText,
+    this.text,
     this.labelColor,
     this.errorMessage = 'Field cannot be empty',
     this.width,
@@ -43,6 +44,7 @@ class RoundedInputField extends StatefulWidget {
 
 class _RoundedInputFieldState extends State<RoundedInputField> {
   late FocusNode focusNode;
+
 
   @override
   void initState() {

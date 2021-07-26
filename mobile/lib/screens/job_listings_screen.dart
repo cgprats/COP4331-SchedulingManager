@@ -9,7 +9,9 @@ import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/components/job_card.dart';
 import 'package:mobile/components/custom_scaffold.dart';
+import 'package:mobile/components/job_card_container.dart';
 import 'package:mobile/components/job_search_bar.dart';
+import 'package:mobile/components/add_job_modal.dart';
 
 class JobListingsScreen extends StatefulWidget {
   @override
@@ -17,21 +19,100 @@ class JobListingsScreen extends StatefulWidget {
 }
 
 class _JobListingsScreenState extends State<JobListingsScreen> {
+  Map _payload = Map();
+  String _errorMessage = '';
+
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
+    GlobalKey<JobCardContainerState> _jobListKey = GlobalKey();
     return CustomScaffold(
       title: 'Job Listings',
       appBarColor: CustomColors.orange,
       backgroundColor: Color(0xFFDFDFDF),
       body: ListView(
         children: <Widget>[
-          JobSearchBar(),
-          sample1(),
-          sample2(),
+          Stack(
+            alignment: Alignment.centerLeft,
+            children: <Widget>[
+              JobSearchBar(),
+              Visibility(
+                visible: GlobalData.accountType == 1,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: CustomColors.orange,
+                  ),
+                  onPressed: () {
+                    // _jobListKey.currentState!.addJobCard(sample1());
+                    _payload['title'] = 'api title';
+                    _payload['email'] = GlobalData.email;
+                    _payload['address'] = 'an address';
+                    _payload['clientname'] = '${GlobalData.firstName} ${GlobalData.lastName}';
+                    _payload['clientcontact'] = GlobalData.phone;
+                    _payload['start'] = '2021-07-03';
+                    _payload['end'] = '2021-07-29';
+                    _payload['companyCode'] = GlobalData.companyCode;
+                    _payload['max'] = 4;
+                    _payload['briefing'] = 'briefing!';
+                    _addOrder(_payload);
+                    _searchTitle();
+                    _jobListKey.currentState!.setState(() {});
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (BuildContext context) {
+                    //     return AddJobModal(jobListKey: _jobListKey);
+                    //   },
+                    // );
+                  },
+                ),
+              ),
+            ],
+          ),
+          JobCardContainer(key: _jobListKey),
         ],
       ),
     );
+  }
+
+  void _addOrder(Map _payload) async {
+    print('addorder!');
+    String dir = '/addorder';
+    String ret = await API.getJson(dir, _payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+    if (ret.isEmpty) {
+      print('oh no :(');
+    } else {
+      setState(
+            () {
+          print('addorder successful!');
+          _errorMessage =
+          jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
+        },
+      );
+    }
+  }
+
+  void _searchTitle() async {
+    print('searchTitle!');
+    String dir = '/searchTitle';
+    String ret = await API.getJson(dir, {'title': 'api title'});
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+    if (ret.isEmpty) {
+      print('oh no :(');
+    } else {
+      setState(
+            () {
+          print('searchTitle successful!');
+          // _errorMessage =
+          // jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
+        },
+      );
+    }
   }
 
   JobCard sample1() {

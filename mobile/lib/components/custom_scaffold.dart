@@ -103,6 +103,15 @@ class _CustomScaffoldState extends State<CustomScaffold>
                   Navigator.pushNamed(context, _route);
               },
             ),
+            ListTile(
+              title: Text('Manage Account'),
+              onTap: () {
+                String _route = Routes.MANAGEACCOUNTSCREEN;
+                Navigator.pop(context);
+                if (ModalRoute.of(context)!.settings.name != _route)
+                  Navigator.pushNamed(context, _route);
+              }
+            )
           ],
         ),
       ),
