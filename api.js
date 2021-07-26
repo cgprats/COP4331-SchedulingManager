@@ -801,7 +801,7 @@ exports.setApp = function(app, client) {
 
 				try {
 					var db = client.db();
-					var results = await db.collection('jobs').updateOne({id:_id}, data);
+					var results = await db.collection('jobs').updateOne({_id:o_id}, data);
 					errorMessage = "Removed from team";
 				}
 		
@@ -820,7 +820,7 @@ exports.setApp = function(app, client) {
 
 				try {
 					var db = client.db();
-					var results = await db.collection('jobs').updateOne({id:_id}, data);
+					var results = await db.collection('jobs').updateOne({_id:o_id}, data);
 					errorMessage = "Added to team";
 				}
 		
