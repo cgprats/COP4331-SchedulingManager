@@ -2,7 +2,8 @@ import NavBar from '../components/NavBar';
 import JobSearch from '../components/JobSearch';
 import JobList from '../components/JobList';
 import JobAdd from '../components/JobAdd';
-import classes from './JobPageW.module.css'
+import classes from './JobPageW.module.css';
+import {useState} from 'react';
 
 const DUMMY_DATA = [
     {
@@ -47,16 +48,23 @@ const DUMMY_DATA = [
         completed: false
     }
 ];
+
 function JobPageW()
 {
     const userType = 'e';
+    const [jobs, setJobs] = useState([]);
+
+    function rerender()
+    {
+        setJobs(JSON.parse(localStorage.getItem('jobs')));
+    }
 
     return (
         <div className={classes.back}>
             <NavBar end='w'></NavBar>
             {userType=='e' && <JobAdd></JobAdd>}
-            <JobSearch utype='e'></JobSearch>
-            <JobList jobs={DUMMY_DATA} utype='e'></JobList>
+            <JobSearch utype='e' fn={rerender}></JobSearch>
+            <JobList jobs={jobs} utype='e'></JobList>
         </div>
     );
 }

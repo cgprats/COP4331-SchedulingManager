@@ -54,6 +54,7 @@ function Edit(props)
                 const response = await fetch('https://cop4331group2.herokuapp.com/api/editorder', 
                 {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
                 var res = JSON.parse(await response.text());
+                setMsg(res.error);
 
             }catch(e){
                 alert(e.toString());

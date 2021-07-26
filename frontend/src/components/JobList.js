@@ -2,20 +2,25 @@ import classes from './JobList.module.css';
 import Job from './Job';
 function JobList(props)
 {
+    var arr = props.jobs;
+    var filtered = arr.filter(function (el) {
+        return el != null;
+    });
+    
     return(
         <div>
             <ul className={classes.ul}>
-                {props.jobs.map(job =>
+                {filtered.map(job =>
                 <Job
-                    key={job.id}
+                    key={job._id}
                     title={job.title}
                     address={job.address}
                     start={job.start}
                     end={job.end}
-                    client={job.client}
+                    client={job.clientname}
                     email={job.email}
-                    phone={job.phone}
-                    maxWorkers={job.maxWorkers}
+                    phone={job.clientcontact}
+                    maxWorkers={job.maxworkers}
                     workers={job.workers}
                     briefing={job.briefing}
                     utype = {props.utype}

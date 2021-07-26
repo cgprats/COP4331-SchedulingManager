@@ -58,7 +58,12 @@ function JobSearch(props)
         }
 
         if(res.error == '')
+        {
             localStorage.setItem('jobs', JSON.stringify(res.jobs));
+            var func = props.fn;
+            func();
+        }
+            
         
     }
 

@@ -634,6 +634,9 @@ exports.setApp = function(app, client) {
 		var max = req.body.max;
 		var briefing = req.body.briefing;
 
+		var mongo = require('mongodb');
+		var o_id = new mongo.ObjectID(id);
+
 		var data = {
 			$set: {
 			"title" : title,
@@ -651,7 +654,7 @@ exports.setApp = function(app, client) {
 		// Attempt to update order
 		try {
 			const db = client.db();
-			const results = await db.collection('jobs').updateOne({_id: id}, data);
+			const results = await db.collection('jobs').updateOne({_id: o_id}, data);
 
 			if (!results.matchedCount) {
 				errorMessage = "No match";
