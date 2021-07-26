@@ -819,7 +819,7 @@ exports.setApp = function(app, client) {
 				}
 
 				try {
-					const results = await db.collection('jobs').updateOne({id:_id}, data);
+					var results = await db.collection('jobs').updateOne({id:_id}, data);
 					errorMessage = "Added to team";
 				}
 		
