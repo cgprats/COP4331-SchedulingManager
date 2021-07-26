@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/employee_search_screen.dart';
 
 import 'package:mobile/screens/sign_up_screen.dart';
 import 'package:mobile/screens/job_listings_screen.dart';
@@ -10,6 +11,7 @@ class Routes {
   static const String LOGINSCREEN = '/login';
   static const String JOBLISTINGSSCREEN = '/jobListings';
   static const String MANAGEACCOUNTSCREEN = '/manageAccount';
+  static const String EMPLOYEESEARCHSCREEN = '/employeeSearch';
 
   static Map<String, Widget Function(BuildContext)> get getRoutes => {
         // '/': (context) => LoginScreen(),
@@ -18,5 +20,6 @@ class Routes {
         JOBLISTINGSSCREEN: (context) =>
             JobListingsScreen(key: GlobalKey<JobListingsScreenState>()),
         MANAGEACCOUNTSCREEN: (context) => ManageAccountScreen(),
+        EMPLOYEESEARCHSCREEN: (context) => EmployeeSearchScreen(),
       };
 }

@@ -104,7 +104,18 @@ class _CustomScaffoldState extends State<CustomScaffold>
               },
             ),
             ListTile(
+              title: Text('Employee Search'),
+              trailing: Icon(Icons.groups),
+              onTap: () {
+                String _route = Routes.EMPLOYEESEARCHSCREEN;
+                Navigator.pop(context);
+                if (ModalRoute.of(context)!.settings.name != _route)
+                  Navigator.pushNamed(context, _route);
+              },
+            ),
+            ListTile(
               title: Text('Manage Account'),
+                trailing: Icon(Icons.account_box),
               onTap: () {
                 String _route = Routes.MANAGEACCOUNTSCREEN;
                 Navigator.pop(context);
