@@ -772,7 +772,7 @@ exports.setApp = function(app, client) {
 		// Checking for order using the given ID
 		try {
 			const db = client.db();
-			var results = await db.collection('jobs').find({_id:id}).toArray();
+			var results = await db.collection('jobs').find({_id:o_id}).toArray();
 		}
 		catch(e) {
 			errorMessage = "Job ID not valid";
