@@ -147,7 +147,7 @@ function Job(props)
         var signedup = false;
         for(let i = 0; i < props.workers.length; i++)
         {
-            if(props.workers[i].email == email)
+            if(props.workers[i].email == user.Email)
                 signedup = true;
         }
 
