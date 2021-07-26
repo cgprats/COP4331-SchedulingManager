@@ -14,12 +14,16 @@ import 'package:mobile/components/job_search_bar.dart';
 import 'package:mobile/components/add_job_modal.dart';
 
 class JobListingsScreen extends StatefulWidget {
+  final GlobalKey<JobListingsScreenState> key;
+  JobListingsScreen({required this.key}) : super(key: key);
+
   @override
-  _JobListingsScreenState createState() => _JobListingsScreenState();
+  JobListingsScreenState createState() => JobListingsScreenState();
 }
 
-class _JobListingsScreenState extends State<JobListingsScreen> {
-  Map _payload = Map();
+class JobListingsScreenState extends State<JobListingsScreen> {
+  Map _addPayload = Map();
+  Map _searchPayload = Map();
   String _errorMessage = '';
 
   @override
@@ -35,7 +39,7 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
           Stack(
             alignment: Alignment.centerLeft,
             children: <Widget>[
-              JobSearchBar(),
+              JobSearchBar(jobScreenKey: widget.key),
               Visibility(
                 visible: GlobalData.accountType == 1,
                 child: IconButton(
@@ -45,19 +49,17 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                   ),
                   onPressed: () {
                     // _jobListKey.currentState!.addJobCard(sample1());
-                    _payload['title'] = 'api title';
-                    _payload['email'] = GlobalData.email;
-                    _payload['address'] = 'an address';
-                    _payload['clientname'] = '${GlobalData.firstName} ${GlobalData.lastName}';
-                    _payload['clientcontact'] = GlobalData.phone;
-                    _payload['start'] = '2021-07-03';
-                    _payload['end'] = '2021-07-29';
-                    _payload['companyCode'] = GlobalData.companyCode;
-                    _payload['max'] = 4;
-                    _payload['briefing'] = 'briefing!';
-                    _addOrder(_payload);
-                    _searchTitle();
-                    _jobListKey.currentState!.setState(() {});
+                    _addPayload['title'] = 'api title';
+                    _addPayload['email'] = GlobalData.email;
+                    _addPayload['address'] = 'an address';
+                    _addPayload['clientname'] = '${GlobalData.firstName} ${GlobalData.lastName}';
+                    _addPayload['clientcontact'] = GlobalData.phone;
+                    _addPayload['start'] = '2021-07-03';
+                    _addPayload['end'] = '2021-07-29';
+                    _addPayload['companyCode'] = GlobalData.companyCode;
+                    _addPayload['max'] = 4;
+                    _addPayload['briefing'] = 'briefing!';
+                    _addOrder(_addPayload);
                     // showDialog(
                     //   context: context,
                     //   builder: (BuildContext context) {
@@ -95,10 +97,10 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
     }
   }
 
-  void _searchTitle() async {
-    print('searchTitle!');
-    String dir = '/searchTitle';
-    String ret = await API.getJson(dir, {'title': 'api title'});
+  void searchJobs(Map _payload) async {
+    print('searchJobs!');
+    String dir = '/searchJobs';
+    String ret = await API.getJson(dir, _payload);
     print(ret);
     var jsonObj = json.decode(ret);
     print(jsonObj);
@@ -107,9 +109,9 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
     } else {
       setState(
             () {
-          print('searchTitle successful!');
-          // _errorMessage =
-          // jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
+          print('searchJobs successful!');
+          _errorMessage =
+          jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
         },
       );
     }
