@@ -707,9 +707,6 @@ exports.setApp = function(app, client) {
 		catch(e) {
 			errorMessage = e.toString;
 		}
-		finally {
-			await client.close();
-		}
 
 		var ret = {error: errorMessage};
 		res.status(200).json(ret);
