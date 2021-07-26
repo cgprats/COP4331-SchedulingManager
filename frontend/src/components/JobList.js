@@ -6,13 +6,14 @@ function JobList(props)
     var filtered = arr.filter(function (el) {
         return el != null;
     });
-    
+
     return(
         <div>
             <ul className={classes.ul}>
                 {filtered.map(job =>
                 <Job
                     key={job._id}
+                    id={job._id}
                     title={job.title}
                     address={job.address}
                     start={job.start}

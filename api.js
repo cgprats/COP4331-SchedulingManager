@@ -685,10 +685,13 @@ exports.setApp = function(app, client) {
 
 		var id = req.body.id;
 
+		var mongo = require('mongodb');
+		var o_id = new mongo.ObjectID(id);
+
 
 		try {
 			const db = client.db();
-			var results = await db.collection('jobs').deleteOne({ _id:id });
+			var results = await db.collection('jobs').deleteOne({ _id:o_id });
 
 			if (results.deletedCount == 1) {
 				errorMessage = "Success";
@@ -718,8 +721,11 @@ exports.setApp = function(app, client) {
 		var fooid = req.body.fooid;
 		var errorMessage = '';
 
+		var mongo = require('mongodb');
+		var o_id = new mongo.ObjectID(fooid);
+
 		var joborder = {
-			"_id": fooid
+			"_id": o_id
 		}
 
 		var data = {

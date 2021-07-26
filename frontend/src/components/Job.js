@@ -84,7 +84,7 @@ function Job(props)
 
     async function markComplete()
     {
-        var fooid = props.key;
+        var fooid = props.id;
 
         const Data =
         {
@@ -105,7 +105,7 @@ function Job(props)
 
     async function deleteJob()
     {
-        var id = props.key;
+        var id = props.id;
 
         const Data =
         {
@@ -137,7 +137,7 @@ function Job(props)
         const Data =
         {
             email: user.Email,
-            fooid: props.key,
+            fooid: props.id,
             time: timestr,
             date: date,
             title: props.title
@@ -168,7 +168,7 @@ function Job(props)
         const Data =
         {
             email: email,
-            id: props.key,
+            id: props.id,
             firstName: fn,
             lastName: ln,
             phone: phone
@@ -240,7 +240,7 @@ function Job(props)
                 </div>
             </div>
             {backdropIsVisible && <Backdrop onClick={closeAll}></Backdrop>}
-            {notesAreVisible && <Notes input={DUMMY_DATA} completed={props.completed} jid={props.key} title={props.title} onClick={closeAll}></Notes>}
+            {notesAreVisible && <Notes input={DUMMY_DATA} completed={props.completed} jid={props.id} title={props.title} onClick={closeAll}></Notes>}
             {timesheetIsVisible && <Timesheet input={DUMMY_DATA2} onClick={closeAll}></Timesheet>}
             {editIsVisible && <Edit 
                 title = {props.title}
@@ -252,7 +252,7 @@ function Job(props)
                 start = {props.start}
                 end = {props.end}
                 briefing = {props.briefing}
-                jid = {props.key}
+                jid = {props.id}
                 current = {props.workers.length}
                 onClick={closeAll}></Edit>}
         </div>
