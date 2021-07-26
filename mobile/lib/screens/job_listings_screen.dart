@@ -107,6 +107,8 @@ class JobListingsScreenState extends State<JobListingsScreen> {
               widget._jobListKey.currentState!.addJobCard(
                 JobCard(
                   width: 0.8,
+                  jobListKey: widget._jobListKey,
+                  id: job['_id'],
                   title: '${job['title']}',
                   clientInfo: {
                     'firstName': job['clientname'],
@@ -122,7 +124,7 @@ class JobListingsScreenState extends State<JobListingsScreen> {
                       : null,
                   address: '${job['address']}',
                   workers: [],
-                  maxWorkers: job['maxworkers'] != null ? job['maxworkers'] : 0,
+                  maxWorkers: job['maxworkers'] != null ? job['maxworkers'] : '0',
                   details: '${job['briefing']}',
                 ),
               );
@@ -133,57 +135,57 @@ class JobListingsScreenState extends State<JobListingsScreen> {
     }
   }
 
-  JobCard sample1() {
-    return JobCard(
-      width: 0.8,
-      title: 'This is an example title',
-      address: '4000 Central Florida Blvd, Orlando, Fl, 32816',
-      startDate: DateTime(2021, 7, 18),
-      endDate: DateTime(2021, 7, 21),
-      clientInfo: {
-        'firstName': 'Bobby',
-        'lastName': 'Dylan',
-        'email': 'BobDill@gmail.com',
-        'phone': '305-519-8560',
-      },
-      maxWorkers: 4,
-      workers: <Map<String, String>>[],
-      details: 'This is a very short example briefing with no formatting',
-    );
-  }
-
-  JobCard sample2() {
-    return JobCard(
-      width: 0.8,
-      title: 'This is a second example title',
-      address: '9000 SW 196 Dr',
-      startDate: DateTime(2021, 7, 25),
-      endDate: DateTime(2021, 8, 2),
-      clientInfo: {
-        'firstName': 'Biggie',
-        'lastName': 'Smalls',
-        'email': 'biggieDaGoat@hotmail.com',
-        'phone': '305-804-0523',
-      },
-      maxWorkers: 6,
-      workers: <Map<String, String>>[
-        {
-          'firstName': 'Sean',
-          'lastName': 'Bennett',
-          'email': 'seanmbmiami@gmail.com',
-          'phone': '305-519-8560',
-        },
-        {
-          'firstName': 'Trish',
-          'lastName': 'Nigrelli',
-          'email': 'kmbmiami@gmail.com',
-          'phone': '786-367-6792',
-        },
-      ],
-      details:
-          'This is a longer briefing. It has formatting in the form of this list. '
-          'Definitely going to need word wrap to make this look nice, because ho boy '
-          'just look how long its getting',
-    );
-  }
+  // JobCard sample1() {
+  //   return JobCard(
+  //     width: 0.8,
+  //     title: 'This is an example title',
+  //     address: '4000 Central Florida Blvd, Orlando, Fl, 32816',
+  //     startDate: DateTime(2021, 7, 18),
+  //     endDate: DateTime(2021, 7, 21),
+  //     clientInfo: {
+  //       'firstName': 'Bobby',
+  //       'lastName': 'Dylan',
+  //       'email': 'BobDill@gmail.com',
+  //       'phone': '305-519-8560',
+  //     },
+  //     maxWorkers: 4,
+  //     workers: <Map<String, String>>[],
+  //     details: 'This is a very short example briefing with no formatting',
+  //   );
+  // }
+  //
+  // JobCard sample2() {
+  //   return JobCard(
+  //     width: 0.8,
+  //     title: 'This is a second example title',
+  //     address: '9000 SW 196 Dr',
+  //     startDate: DateTime(2021, 7, 25),
+  //     endDate: DateTime(2021, 8, 2),
+  //     clientInfo: {
+  //       'firstName': 'Biggie',
+  //       'lastName': 'Smalls',
+  //       'email': 'biggieDaGoat@hotmail.com',
+  //       'phone': '305-804-0523',
+  //     },
+  //     maxWorkers: 6,
+  //     workers: <Map<String, String>>[
+  //       {
+  //         'firstName': 'Sean',
+  //         'lastName': 'Bennett',
+  //         'email': 'seanmbmiami@gmail.com',
+  //         'phone': '305-519-8560',
+  //       },
+  //       {
+  //         'firstName': 'Trish',
+  //         'lastName': 'Nigrelli',
+  //         'email': 'kmbmiami@gmail.com',
+  //         'phone': '786-367-6792',
+  //       },
+  //     ],
+  //     details:
+  //         'This is a longer briefing. It has formatting in the form of this list. '
+  //         'Definitely going to need word wrap to make this look nice, because ho boy '
+  //         'just look how long its getting',
+  //   );
+  // }
 }

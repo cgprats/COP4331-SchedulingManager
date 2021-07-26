@@ -25,7 +25,7 @@ class AddJobModal extends StatelessWidget {
   Widget build(BuildContext context) {
     _payload['title'] = '';
     _payload['address'] = '';
-    _payload['maxworkers'] = 0;
+    _payload['max'] = '';
     _payload['briefing'] = '';
     return AlertDialog(
       title: _AddJobTitle(),
@@ -100,10 +100,13 @@ class _AddJobBodyState extends State<_AddJobBody> {
     );
     if (pickedDate != null)
       setState(() {
-        if (isStartDate)
+        if (isStartDate) {
           this._startDate = pickedDate;
-        else
+          widget.payload['start'] = _formatDate2(this._startDate);
+        } else {
           this._endDate = pickedDate;
+          widget.payload['end'] = _formatDate2(this._endDate);
+        }
       });
   }
 
@@ -168,7 +171,6 @@ class _AddJobBodyState extends State<_AddJobBody> {
                         context,
                         isStartDate: true,
                       );
-                      widget.payload['start'] = _formatDate2(this._startDate);
                     },
                   ),
                 ),
@@ -213,7 +215,6 @@ class _AddJobBodyState extends State<_AddJobBody> {
                         context,
                         isStartDate: false,
                       );
-                      widget.payload['end'] = _formatDate2(this._endDate);
                     },
                   ),
                 ),
@@ -223,7 +224,7 @@ class _AddJobBodyState extends State<_AddJobBody> {
               labelText: 'Max Workers',
               labelColor: CustomColors.orange,
               onChanged: (value) {
-                widget.payload['maxworkers'] = int.parse(value);
+                widget.payload['max'] = value;
               },
             ),
             RoundedInputField(
@@ -270,7 +271,7 @@ class _AddJobActions extends StatelessWidget {
           print('pressed!');
           payload['email'] = GlobalData.email;
           payload['clientname'] =
-          '${GlobalData.firstName} ${GlobalData.lastName}';
+              '${GlobalData.firstName} ${GlobalData.lastName}';
           payload['clientcontact'] = _formatPhone(GlobalData.phone!);
           payload['companyCode'] = GlobalData.companyCode;
           this.jobScreenKey.currentState!.addOrder(payload);

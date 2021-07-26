@@ -26,9 +26,20 @@ class JobCardContainerState extends State<JobCardContainer> {
     });
   }
 
+  void removeJobCard(String id) {
+    setState(() {
+      for (JobCard job in jobs) {
+        if (job.id == id) {
+          jobs.remove(job);
+          break;
+        }
+      }
+    });
+  }
+
   void clearJobCards() {
     setState(() {
-      jobs = [];
+      jobs.clear();
     });
   }
 

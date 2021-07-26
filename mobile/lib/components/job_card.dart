@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/components/job_card_container.dart';
 
 import 'package:mobile/utils/custom_colors.dart';
+import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/global_data.dart';
 
 class JobCard extends StatefulWidget {
@@ -9,8 +13,10 @@ class JobCard extends StatefulWidget {
   final double? width, height;
   final DateTime? startDate, endDate;
   final Map<String, String> clientInfo;
-  final int maxWorkers;
+  final String? maxWorkers;
   final List<Map<String, String>> workers;
+  final String id;
+  final GlobalKey<JobCardContainerState> jobListKey;
 
   const JobCard({
     required this.title,
@@ -23,6 +29,8 @@ class JobCard extends StatefulWidget {
     required this.details,
     this.width,
     this.height,
+    required this.id,
+    required this.jobListKey,
   });
 
   @override
@@ -42,6 +50,8 @@ class _JobCardState extends State<JobCard> {
             children: <Widget>[
               _JobCardTitle(
                 title: widget.title,
+                id: widget.id,
+                jobListKey: widget.jobListKey,
               ),
               _JobCardBody(
                 address: widget.address,
@@ -62,9 +72,13 @@ class _JobCardState extends State<JobCard> {
 
 class _JobCardTitle extends StatefulWidget {
   final String title;
+  final String id;
+  final GlobalKey<JobCardContainerState> jobListKey;
 
   const _JobCardTitle({
     required this.title,
+    required this.id,
+    required this.jobListKey,
   });
 
   @override
@@ -96,7 +110,10 @@ class _JobCardTitleState extends State<_JobCardTitle> {
           ),
           Align(
             alignment: Alignment.centerRight,
-            child: _JobCardButtons(),
+            child: _JobCardButtons(
+              id: widget.id,
+              jobListKey: widget.jobListKey,
+            ),
           ),
         ],
       ),
@@ -108,7 +125,7 @@ class _JobCardBody extends StatefulWidget {
   final String address, details;
   final DateTime? startDate, endDate;
   final Map<String, String> clientInfo;
-  final int maxWorkers;
+  final String? maxWorkers;
   final List<Map<String, String>> workers;
 
   const _JobCardBody({
@@ -619,11 +636,19 @@ class _JobCardBodyState extends State<_JobCardBody> {
 }
 
 class _JobCardButtons extends StatefulWidget {
+  final String id;
+  final GlobalKey<JobCardContainerState> jobListKey;
+
+  const _JobCardButtons({
+    required this.id,
+    required this.jobListKey,
+  });
+
   @override
   _JobCardButtonsState createState() => _JobCardButtonsState();
 }
 
-enum menu {
+enum Menu {
   notes,
   timesheet,
   edit,
@@ -636,45 +661,94 @@ enum menu {
 class _JobCardButtonsState extends State<_JobCardButtons> {
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
+    return PopupMenuButton<Menu>(
+      onSelected: (Menu result) {
+        print(result);
+        switch (result) {
+          case Menu.notes:
+            // TODO: Handle this case.
+            break;
+          case Menu.timesheet:
+            // TODO: Handle this case.
+            break;
+          case Menu.edit:
+            // TODO: Handle this case.
+            break;
+          case Menu.delete:
+            _deleteOrder(
+              {
+                'id': widget.id,
+              },
+            );
+            break;
+          case Menu.markCompleted:
+            // TODO: Handle this case.
+            break;
+          case Menu.signOnOff:
+            // TODO: Handle this case.
+            break;
+          case Menu.clockInOut:
+            // TODO: Handle this case.
+            break;
+        }
+      },
       icon: Icon(
         Icons.more_vert,
         color: CustomColors.white,
         size: 30,
       ),
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<menu>>[
-        const PopupMenuItem<menu>(
-          value: menu.notes,
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
+        const PopupMenuItem<Menu>(
+          value: Menu.notes,
           child: Text('Notes'),
         ),
-        const PopupMenuItem<menu>(
-          value: menu.timesheet,
+        const PopupMenuItem<Menu>(
+          value: Menu.timesheet,
           child: Text('Timesheet'),
         ),
         if (GlobalData.accountType == 1) ...[
-          const PopupMenuItem<menu>(
-            value: menu.notes,
+          const PopupMenuItem<Menu>(
+            value: Menu.edit,
             child: Text('Edit'),
           ),
-          const PopupMenuItem<menu>(
-            value: menu.notes,
+          const PopupMenuItem<Menu>(
+            value: Menu.delete,
             child: Text('Delete'),
           ),
-          const PopupMenuItem<menu>(
-            value: menu.notes,
+          const PopupMenuItem<Menu>(
+            value: Menu.markCompleted,
             child: Text('Mark as Completed'),
           ),
         ] else ...[
-          const PopupMenuItem<menu>(
-            value: menu.notes,
+          const PopupMenuItem<Menu>(
+            value: Menu.signOnOff,
             child: Text('Sign On'),
           ),
-          const PopupMenuItem<menu>(
-            value: menu.notes,
+          const PopupMenuItem<Menu>(
+            value: Menu.clockInOut,
             child: Text('Clock In'),
           ),
         ]
       ],
     );
+  }
+
+  void _deleteOrder(Map _payload) async {
+    print('deleteorder!');
+    String dir = '/deleteorder';
+    String ret = await API.getJson(dir, _payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+    if (ret.isEmpty) {
+      print('oh no :(');
+    } else {
+      setState(
+        () {
+          widget.jobListKey.currentState!.removeJobCard(widget.id);
+          print('deleteorder successful!');
+        },
+      );
+    }
   }
 }
