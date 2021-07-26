@@ -771,13 +771,12 @@ exports.setApp = function(app, client) {
 
 		// Checking for order using the given ID
 		try {
-			const db = client.db();
+			var db = client.db();
 			var results = await db.collection('jobs').find({_id:o_id}).toArray();
 		}
 		catch(e) {
 			errorMessage = "Job ID not valid";
 			ret = {error: errorMessage};
-			res.status(200).json(ret);
 		}
 
 		var workers = results[0].workers;
@@ -801,6 +800,7 @@ exports.setApp = function(app, client) {
 				}
 
 				try {
+					var db = client.db();
 					var results = await db.collection('jobs').updateOne({id:_id}, data);
 					errorMessage = "Removed from team";
 				}
@@ -819,6 +819,7 @@ exports.setApp = function(app, client) {
 				}
 
 				try {
+					var db = client.db();
 					var results = await db.collection('jobs').updateOne({id:_id}, data);
 					errorMessage = "Added to team";
 				}
