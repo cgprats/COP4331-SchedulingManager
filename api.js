@@ -769,11 +769,9 @@ exports.setApp = function(app, client) {
 		
 		var errorMessage = '';
 
-		const db = client.db();
-
 		// Checking for order using the given ID
 		try {
-			
+			const db = client.db();
 			var results = await db.collection('jobs').find({_id:id}).toArray();
 		}
 		catch(e) {

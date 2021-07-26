@@ -51,7 +51,7 @@ const DUMMY_DATA = [
 
 function JobPageW()
 {
-    const userType = 'e';
+    const userType = 'w';
     const [jobs, setJobs] = useState([]);
 
     function rerender()
@@ -63,8 +63,8 @@ function JobPageW()
         <div className={classes.back}>
             <NavBar end='w'></NavBar>
             {userType=='e' && <JobAdd></JobAdd>}
-            <JobSearch utype='e' fn={rerender}></JobSearch>
-            <JobList jobs={jobs} utype='e'></JobList>
+            <JobSearch utype='w' fn={rerender}></JobSearch>
+            <JobList jobs={jobs} utype='w'></JobList>
         </div>
     );
 }
