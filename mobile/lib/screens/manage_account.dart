@@ -18,7 +18,11 @@ class ManageAccountScreen extends StatefulWidget {
 class _ManageAccountScreenState extends State<ManageAccountScreen> {
   bool isBack = true;
   double angle = 0;
-  Map _payload = Map();
+  Map _payload = {
+    'fn': GlobalData.firstName,
+    'ln': GlobalData.lastName,
+    'phone': GlobalData.phone,
+  };
   String _errorMessage = '';
 
   void flip() {
@@ -26,7 +30,6 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
       angle = (angle + pi) % (2 * pi);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +76,9 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                         fontSize: 30,
                                         color: Colors.white),
                                   ),
-                                  SizedBox(height: 50,),
+                                  SizedBox(
+                                    height: 50,
+                                  ),
                                   Table(
                                     columnWidths: const <int, TableColumnWidth>{
                                       0: FractionColumnWidth(0.50),
@@ -218,7 +223,8 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                               padding:
                                                   EdgeInsets.only(top: 2.5),
                                               child: Text(
-                                                GlobalData.companyCode.toString(), 
+                                                GlobalData.companyCode
+                                                    .toString(),
                                                 style: TextStyle(
                                                   color: CustomColors.white,
                                                   fontWeight: FontWeight.bold,
@@ -230,7 +236,9 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 20,),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
                                   Container(
                                     child: Row(
                                       mainAxisAlignment:
@@ -288,7 +296,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                     ),
                                     TextFieldWidget(
                                       label: 'First Name',
-                                      text: GlobalData.firstName,
+                                      text: _payload['fn'],
                                       onChanged: (text) {
                                         _payload['fn'] = text;
                                       },
@@ -296,7 +304,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                     const SizedBox(height: 24),
                                     TextFieldWidget(
                                       label: 'Last Name',
-                                      text: GlobalData.lastName,
+                                      text: _payload['ln'],
                                       onChanged: (text) {
                                         _payload['ln'] = text;
                                       },
@@ -304,7 +312,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                     const SizedBox(height: 24),
                                     TextFieldWidget(
                                       label: 'Phone Number',
-                                      text: GlobalData.phone,
+                                      text: _payload['phone'],
                                       onChanged: (text) {
                                         _payload['phone'] = text;
                                       },
@@ -341,7 +349,8 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 10, horizontal: 20),
                                             onPressed: () {
-                                              _payload['email'] = GlobalData.email;
+                                              _payload['email'] =
+                                                  GlobalData.email;
                                               _edit(_payload);
                                               flip();
                                             },
@@ -363,24 +372,26 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
       ),
     );
   }
+
   void _edit(Map _payload) async {
     print('edit!');
     String dir = '/editaccount';
     String ret = await API.getJson(dir, _payload);
     print(ret);
+    print(_payload);
     var jsonObj = json.decode(ret);
     print(jsonObj);
     if (ret.isEmpty) {
       print('oh no :(');
     } else {
       setState(
-            () {
+        () {
           _errorMessage = jsonObj['error'];
-          if (_errorMessage.startsWith('Success: ')) {
+          if (_errorMessage == 'Edits applied!') {
             _errorMessage = '';
-            GlobalData.firstName = jsonObj['firstName'];
-            GlobalData.lastName = jsonObj['lastName'];
-            GlobalData.phone = jsonObj['phone'];
+            GlobalData.firstName = _payload['fn'];
+            GlobalData.lastName = _payload['ln'];
+            GlobalData.phone = _payload['phone'];
           }
         },
       );

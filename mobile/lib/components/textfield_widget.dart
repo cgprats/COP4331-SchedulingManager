@@ -4,7 +4,7 @@ class TextFieldWidget extends StatefulWidget {
   final int maxLines;
   final String label;
   final String? text;
-  final ValueChanged<String> onChanged;
+  final Function(String) onChanged;
 
   const TextFieldWidget({
     Key? key,
@@ -50,6 +50,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           controller: controller,
           style: TextStyle(fontSize: 15, color: Colors.white),
           maxLines: widget.maxLines,
+          onChanged: widget.onChanged,
         ),
       ),
     ],
