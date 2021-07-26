@@ -269,7 +269,7 @@ class _ManageAccountScreenState extends State<ManageAccountScreen> {
                                                 GlobalData.companyCode = null;
                                                 GlobalData.companyName = null;
                                                 GlobalData.verified = null;
-                                                Navigator.pushNamed(context, Routes.LOGINSCREEN);
+                                                Navigator.popAndPushNamed(context, Routes.LOGINSCREEN);
                                               },
                                             ),
                                             SizedBox(
