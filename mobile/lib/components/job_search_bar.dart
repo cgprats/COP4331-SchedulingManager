@@ -9,8 +9,15 @@ import 'package:mobile/components/rounded_input_field.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/components/job_card.dart';
 import 'package:mobile/components/custom_scaffold.dart';
+import 'package:mobile/screens/job_listings_screen.dart';
 
 class JobSearchBar extends StatefulWidget {
+  final GlobalKey<JobListingsScreenState> jobScreenKey;
+
+  const JobSearchBar({
+    required this.jobScreenKey,
+  });
+
   @override
   _JobSearchBarState createState() => _JobSearchBarState();
 }
@@ -23,7 +30,7 @@ class _JobSearchBarState extends State<JobSearchBar>
   Size _searchBarSize = Size(0, 0);
   GlobalKey _searchBarKey = GlobalKey();
   GlobalKey _filterMenu = GlobalKey();
-  String? _searchQuery;
+  String? _input;
   DateTime? _startDate, _endDate;
   bool _showSignedUpJobs = false;
   bool _showNotSignedUpJobs = false;
@@ -84,12 +91,19 @@ class _JobSearchBarState extends State<JobSearchBar>
                     key: _searchBarKey,
                     hintText: 'Search...',
                     margin: EdgeInsets.zero,
+                    onChanged: (value) {
+                      this._input = value;
+                    },
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (value) {
+                      _search();
+                    },
                     suffixIcon: IconButton(
                       icon: Icon(
                         Icons.search,
                         color: CustomColors.orange,
                       ),
-                      onPressed: () {},
+                      onPressed: _search,
                     ),
                   ),
                 ),
@@ -148,7 +162,7 @@ class _JobSearchBarState extends State<JobSearchBar>
                             label: Text(
                               this._startDate == null
                                   ? 'beginning'
-                                  : _formatDate(this._startDate!),
+                                  : _formatDate1(this._startDate!),
                               style: TextStyle(
                                 color: CustomColors.white,
                               ),
@@ -193,7 +207,7 @@ class _JobSearchBarState extends State<JobSearchBar>
                             label: Text(
                               this._endDate == null
                                   ? 'end'
-                                  : _formatDate(this._endDate!),
+                                  : _formatDate1(this._endDate!),
                               style: TextStyle(
                                 color: CustomColors.white,
                               ),
@@ -394,236 +408,6 @@ class _JobSearchBarState extends State<JobSearchBar>
                     ),
                   ],
                 ),
-                // Table(
-                //   // border: TableBorder.all(
-                //   //   color: CustomColors.white,
-                //   // ),
-                //   columnWidths: <int, TableColumnWidth>{
-                //     0: FlexColumnWidth(1),
-                //     1: FlexColumnWidth(2),
-                //   },
-                //   defaultVerticalAlignment:
-                //       TableCellVerticalAlignment.middle,
-                //   children: <TableRow>[
-                //     TableRow(
-                //       children: <TableCell>[
-                //         TableCell(
-                //           child: Text(
-                //             'Start Date:',
-                //             style: TextStyle(
-                //               color: CustomColors.white,
-                //             ),
-                //           ),
-                //         ),
-                //         TableCell(
-                //           child: OutlinedButton.icon(
-                //             label: Text(
-                //               this._startDate == null
-                //                   ? 'beginning'
-                //                   : _formatDate(this._startDate!),
-                //               style: TextStyle(
-                //                 color: CustomColors.white,
-                //               ),
-                //             ),
-                //             icon: Icon(
-                //               Icons.calendar_today,
-                //               color: CustomColors.orange,
-                //             ),
-                //             style: ButtonStyle(
-                //               alignment: Alignment.centerLeft,
-                //             ),
-                //             onPressed: () {
-                //               this._selectDate(
-                //                 context,
-                //                 isStartDate: true,
-                //               );
-                //             },
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //     TableRow(
-                //       children: <TableCell>[
-                //         TableCell(
-                //           child: Text(
-                //             'End Date:',
-                //             style: TextStyle(
-                //               color: CustomColors.white,
-                //             ),
-                //           ),
-                //         ),
-                //         TableCell(
-                //           child: OutlinedButton.icon(
-                //             label: Text(
-                //               this._endDate == null
-                //                   ? 'end'
-                //                   : _formatDate(this._endDate!),
-                //               style: TextStyle(
-                //                 color: CustomColors.white,
-                //               ),
-                //             ),
-                //             icon: Icon(
-                //               Icons.calendar_today,
-                //               color: CustomColors.orange,
-                //             ),
-                //             style: ButtonStyle(
-                //               alignment: Alignment.centerLeft,
-                //             ),
-                //             onPressed: () {
-                //               this._selectDate(
-                //                 context,
-                //                 isStartDate: false,
-                //               );
-                //             },
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ],
-                // ),
-                // Table(
-                //   columnWidths: <int, TableColumnWidth> {
-                //     0: FlexColumnWidth(1),
-                //     1: FlexColumnWidth(3),
-                // },
-                //   children: <TableRow>[
-                //     TableRow(
-                //       children: <TableCell>[
-                //         TableCell(
-                //           child: Text(
-                //             'Show:',
-                //             style: TextStyle(
-                //               color: CustomColors.white,
-                //             ),
-                //           ),
-                //         ),
-                //         TableCell(
-                //           child: Row(
-                //             children: <Widget>[
-                //               SizedBox(
-                //                 height: Checkbox.width + 5,
-                //                 width: Checkbox.width + 5,
-                //                 child: Checkbox(
-                //                   value: this._showCompleted,
-                //                   fillColor: MaterialStateProperty.all<Color>(
-                //                     CustomColors.orange,
-                //                   ),
-                //                   onChanged: (bool? value) {
-                //                     setState(() {
-                //                       this._showCompleted = value!;
-                //                     });
-                //                   },
-                //                 ),
-                //               ),
-                //               Text(
-                //                 'Completed Jobs',
-                //                 style: TextStyle(
-                //                   color: CustomColors.white,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ],
-                // ),
-                // Row(
-                //   children: <Widget>[
-                //     Expanded(
-                //       flex: 1,
-                //       child: Text(
-                //         'Show:',
-                //         style: TextStyle(
-                //           color: CustomColors.white,
-                //         ),
-                //       ),
-                //     ),
-                //     Expanded(
-                //       flex: 3,
-                //       child: Column(
-                //         children: <Widget>[
-                //           Row(
-                //             children: <Widget>[
-                //               SizedBox(
-                //                 height: Checkbox.width + 5,
-                //                 width: Checkbox.width + 5,
-                //                 child: Checkbox(
-                //                   value: this._showCompleted,
-                //                   fillColor:
-                //                       MaterialStateProperty.all<Color>(
-                //                     CustomColors.orange,
-                //                   ),
-                //                   onChanged: (bool? value) {
-                //                     setState(() {
-                //                       this._showCompleted = value!;
-                //                     });
-                //                   },
-                //                 ),
-                //               ),
-                //               Text(
-                //                 'Completed',
-                //                 style: TextStyle(
-                //                   color: CustomColors.white,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //           Row(
-                //             children: <Widget>[
-                //               SizedBox(
-                //                 height: Checkbox.width + 5,
-                //                 width: Checkbox.width + 5,
-                //                 child: Checkbox(
-                //                   value: this._showUncompleted,
-                //                   fillColor: MaterialStateProperty.all<Color>(
-                //                     CustomColors.orange,
-                //                   ),
-                //                   onChanged: (bool? value) {
-                //                     setState(() {
-                //                       this._showUncompleted = value!;
-                //                     });
-                //                   },
-                //                 ),
-                //               ),
-                //               Text(
-                //                 'Not Completed',
-                //                 style: TextStyle(
-                //                   color: CustomColors.white,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // Row(
-                //   children: <Widget>[
-                //     SizedBox(
-                //       height: Checkbox.width + 5,
-                //       width: Checkbox.width + 5,
-                //       child: Checkbox(
-                //         value: this._showSignedUpOnly,
-                //         fillColor: MaterialStateProperty.all<Color>(
-                //           CustomColors.orange,
-                //         ),
-                //         onChanged: (bool? value) {
-                //           setState(() {
-                //             this._showSignedUpOnly = value!;
-                //           });
-                //         },
-                //       ),
-                //     ),
-                //     Text(
-                //       "Only show jobs I'm signed up for",
-                //       style: TextStyle(
-                //         color: CustomColors.white,
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ),
             ),
           ),
@@ -632,7 +416,24 @@ class _JobSearchBarState extends State<JobSearchBar>
     );
   }
 
-  String _formatDate(DateTime dateTime) {
+  void _search() {
+    Map _payload = Map();
+    _payload['input'] = this._input;
+    _payload['companyCode'] = GlobalData.companyCode;
+    _payload['email'] = GlobalData.email;
+    _payload['showMine'] = this._showSignedUpJobs;
+    _payload['showCompleted'] = this._showCompleted;
+    _payload['start'] = _formatDate2(this._startDate);
+    _payload['end'] = _formatDate2(this._endDate);
+    widget.jobScreenKey.currentState!.searchJobs(_payload);
+  }
+
+  String _formatDate1(DateTime dateTime) {
     return '${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}/${dateTime.year}';
+  }
+
+  String _formatDate2(DateTime? dateTime) {
+    if (dateTime == null) return '';
+    return '${dateTime.year.toString().padLeft(4, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}';
   }
 }

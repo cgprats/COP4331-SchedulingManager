@@ -12,11 +12,11 @@ class Routes {
   static const String MANAGEACCOUNTSCREEN = '/manageAccount';
 
   static Map<String, Widget Function(BuildContext)> get getRoutes => {
-    // '/': (context) => LoginScreen(),
-    LOGINSCREEN: (context) => LoginScreen(),
-    SIGNUPSCREEN: (context) => SignUpScreen(),
-    JOBLISTINGSSCREEN: (context) => JobListingsScreen(),
-    MANAGEACCOUNTSCREEN: (context) => ManageAccountScreen(),
-  };
+        // '/': (context) => LoginScreen(),
+        LOGINSCREEN: (context) => LoginScreen(),
+        SIGNUPSCREEN: (context) => SignUpScreen(),
+        JOBLISTINGSSCREEN: (context) =>
+            JobListingsScreen(key: GlobalKey<JobListingsScreenState>()),
+        MANAGEACCOUNTSCREEN: (context) => ManageAccountScreen(),
+      };
 }
-
