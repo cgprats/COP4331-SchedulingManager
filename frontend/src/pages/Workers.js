@@ -11,6 +11,8 @@ function Workers()
     const [backdropIsVisible, setBackdropVisiblity] = useState(false);
     const [notesAreVisible, setNoteVisibility] = useState(false);
     const [timesheetIsVisible, setTimesheetVisibility] = useState(false);
+    const [errorMsg, setMsg] = useState("");
+    const [filtered, setFiltered] = useState([]);
 
     const searchTextRef = useRef();
 
@@ -45,7 +47,7 @@ function Workers()
         }
     ];
 
-    var workers = [
+    var workersDummy = [
         {
             FirstName: 'Sean',
             LastName: 'Bennett',
@@ -83,9 +85,47 @@ function Workers()
         setTimesheetVisibility(true);
     }
 
-    function searchHandler(event)
+    async function searchHandler(event)
     {
         event.preventDefault();
+        var user = JSON.parse(localStorage.getItem('user_data'));
+
+        var search = searchTextRef.current.value;
+        var code = user.CompanyCode;
+
+        const Data =
+        {
+            input: search,
+            companyCode: code,
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/searchWorkers', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            setMsg(res.error);
+
+        }catch(e){
+            alert(e.toString());
+        }
+
+        if(res.error == '')
+        {
+            localStorage.setItem('workers', JSON.stringify(res.workers));
+            
+            var arr = JSON.parse(localStorage.getItem('workers'));
+            var filt = arr.filter(function (el) {
+                return el != null;
+            });
+
+            rerender(filt);
+        }
+    }
+
+    function rerender(arr)
+    {
+        setFiltered(arr);
     }
 
     return (
@@ -101,6 +141,7 @@ function Workers()
                             <input type='text' className={classes.search} placeholder='Name, email, phone, etc.' id='searchText' ref={searchTextRef}/>
                             <button className={classes.button}>Search</button>
                         </div>
+                        {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
                     </form>
                 </div>
                 <div>
@@ -111,14 +152,14 @@ function Workers()
                             <th className={classes.third}>Phone</th>
                             <th className={classes.fourth}></th>
                         </tr>
-                        {workers.map(worker => 
+                        {filtered.map(worker => 
                             <tr>
-                                <td className={classes.first2}>{worker.FirstName} {worker.LastName}</td>
+                                <td className={classes.first2}>{worker.firstName} {worker.lastName}</td>
                                 <td className={classes.second2}>{worker.Email}</td>
-                                <td className={classes.third2}>{worker.Phone}</td>
+                                <td className={classes.third2}>{worker.phone}</td>
                                 <td className={classes.fourth2}>
-                                    <button className={classes.button} onClick={()=> loadNotes(worker.Email, worker.FirstName)}>Notes</button>
-                                    <button className={classes.button} onClick={()=> loadTimes(worker.Email, worker.FirstName)}>Timesheet</button>
+                                    <button className={classes.button} onClick={()=> loadNotes(worker.Email, worker.firstName)}>Notes</button>
+                                    <button className={classes.button} onClick={()=> loadTimes(worker.Email, worker.firstName)}>Timesheet</button>
                                 </td>
                             </tr>
                         )}
