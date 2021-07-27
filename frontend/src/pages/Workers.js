@@ -13,10 +13,12 @@ function Workers()
     const [timesheetIsVisible, setTimesheetVisibility] = useState(false);
     const [errorMsg, setMsg] = useState("");
     const [filtered, setFiltered] = useState([]);
+    const [activeName, setName] = useState("");
+    const [notes, setNotes] = useState([]);
+    const [times, setTimes] = useState([]);
 
     const searchTextRef = useRef();
 
-    var activeName = 'Worker';
 
     var activeNotes = [
         {
@@ -71,18 +73,75 @@ function Workers()
         setTimesheetVisibility(false);
     }
 
-    function loadNotes(email, name)
+    function renderNotes()
     {
-        activeName = name;
-        setBackdropVisiblity(true);
         setNoteVisibility(true);
+        setBackdropVisiblity(true);
     }
 
-    function loadTimes(email, name)
+    function loadTimesheet()
     {
-        activeName = name;
-        setBackdropVisiblity(true);
         setTimesheetVisibility(true);
+        setBackdropVisiblity(true);
+    }
+
+    async function loadNotes(email, name)
+    {
+        var email = email;
+
+        const Data =
+        {
+            "email": email
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/searchIndividualNotes', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            
+            if(res.error == 'Success')
+            {
+                setNotes(res.notes);
+            }else{
+                setNotes([]);
+            }
+
+        }catch(e){
+            alert(e.toString());
+        }
+
+        setName(name);
+        renderNotes();
+    }
+
+    async function loadTimes(email, name)
+    {
+        var email = email;
+
+        const Data =
+        {
+            "email": email
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/searchIndividualTimesheet', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            
+            if(res.error == 'Success')
+            {
+                setTimes(res.times);
+            }else{
+                setTimes([]);
+            }
+
+        }catch(e){
+            alert(e.toString());
+        }
+
+        loadTimesheet();
     }
 
     async function searchHandler(event)
@@ -167,8 +226,8 @@ function Workers()
                 </div>
                 <div>
                     {backdropIsVisible && <Backdrop onClick={closeAll}></Backdrop>}
-                    {notesAreVisible && <WorkerNotes input={activeNotes} name = {activeName} onClick={closeAll}></WorkerNotes>}
-                    {timesheetIsVisible && <WorkerTimes input={activeTimes} name = {activeName} onClick={closeAll}></WorkerTimes>}
+                    {notesAreVisible && <WorkerNotes input={notes} name = {activeName} onClick={closeAll}></WorkerNotes>}
+                    {timesheetIsVisible && <WorkerTimes input={times} name = {activeName} onClick={closeAll}></WorkerTimes>}
                 </div>
             </div>
         </div>

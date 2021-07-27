@@ -20,7 +20,7 @@ function Timesheet(props)
                         <tr>
                             <td className={classes.first2}>{info.date}</td>
                             <td className={classes.second2}>{info.start} - {info.end}</td>
-                            <td className={classes.third2}>{info.name}</td>
+                            <td className={classes.third2}>{info.firstName} {info.lastName}</td>
                         </tr>
                     )}
                 </table>

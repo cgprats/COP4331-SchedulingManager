@@ -47,35 +47,11 @@ function Job(props)
     const [notesAreVisible, setNoteVisibility] = useState(false);
     const [timesheetIsVisible, setTimesheetVisibility] = useState(false);
     const [editIsVisible, setEditVisibility] = useState(false);
+    const [notes, setNotes] = useState([]);
+    const [times, setTimes] = useState([]);
 
-    var notes = [];
-
-    async function loadNotes()
+    function renderNotes()
     {
-        var fooid = props.id;
-
-        const Data =
-        {
-            "fooid": fooid
-        };
-
-        var js = JSON.stringify(Data);
-        try{
-            const response = await fetch('https://cop4331group2.herokuapp.com/api/searchNotes', 
-            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
-            var res = JSON.parse(await response.text());
-
-            if(res.error == 'Success')
-            {
-                notes = res.notes;
-            }
-
-        }catch(e){
-            alert(e.toString());
-        }
-
-        notes = [];
-
         setNoteVisibility(true);
         setBackdropVisiblity(true);
     }
@@ -106,6 +82,64 @@ function Job(props)
         const month = input.substring(5, 7);
         const day = input.substring(8, 10);
         return (month + '/' + day + '/' + year);
+    }
+
+    async function loadNotes()
+    {
+        var fooid = props.id;
+
+        const Data =
+        {
+            "fooid": fooid
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/searchNotes', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            
+            if(res.error == 'Success')
+            {
+                setNotes(res.notes);
+            }else{
+                setNotes([]);
+            }
+
+        }catch(e){
+            alert(e.toString());
+        }
+
+        renderNotes();
+    }
+
+    async function loadTimes()
+    {
+        var fooid = props.id;
+
+        const Data =
+        {
+            "fooid": fooid
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/searchTimesheet', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+            
+            if(res.error == 'Success')
+            {
+                setTimes(res.times);
+            }else{
+                setTimes([]);
+            }
+
+        }catch(e){
+            alert(e.toString());
+        }
+
+        loadTimesheet();
     }
 
     async function markComplete()
@@ -275,7 +309,7 @@ function Job(props)
                 </div>
                 <div className={classes.cardfooter}>
                     <button className={classes.noteButton} onClick={loadNotes}>Notes</button>
-                    <button className={classes.noteButton} onClick={loadTimesheet}>Timesheet</button>
+                    <button className={classes.noteButton} onClick={loadTimes}>Timesheet</button>
                     {(props.utype == 'w' && !props.completed) && <button className={classes.signButton} onClick={signEvent}>Sign on/off</button>}
                     {(props.utype == 'w' && !props.completed) && <button className={classes.signButton} onClick={clockEvent}>Clock in/out</button>}
                     {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={deleteJob}>Delete</button>}
@@ -285,7 +319,7 @@ function Job(props)
             </div>
             {backdropIsVisible && <Backdrop onClick={closeAll}></Backdrop>}
             {notesAreVisible && <Notes notes={notes} completed={props.completed} jid={props.id} title={props.title} onClick={closeAll}></Notes>}
-            {timesheetIsVisible && <Timesheet input={DUMMY_DATA2} onClick={closeAll}></Timesheet>}
+            {timesheetIsVisible && <Timesheet input={times} onClick={closeAll}></Timesheet>}
             {editIsVisible && <Edit 
                 title = {props.title}
                 address = {props.address}

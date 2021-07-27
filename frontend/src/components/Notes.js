@@ -84,7 +84,7 @@ function Notes(props)
                 }
                 <ul className={classes.ul}>
                     {props.notes.map(info => 
-                        <li className={classes.item} key={info.desc}>
+                        <li className={classes.item} key={info.note}>
                             <span className={classes.span}>{info.firstName} {info.lastName}</span>
                             <span className={classes.span}>{info.date}</span>
                             <p className={classes.p}>{info.note}</p>

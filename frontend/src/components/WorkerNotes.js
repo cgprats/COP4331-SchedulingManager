@@ -12,10 +12,10 @@ function WorkerNotes(props)
             <div>
                 <ul className={classes.ul}>
                     {props.input.map(info => 
-                        <li className={classes.item} key={info.desc}>
+                        <li className={classes.item} key={info.note}>
                             <span className={classes.span}>{info.title}</span>
                             <span className={classes.span}>{info.date}</span>
-                            <p className={classes.p}>{info.desc}</p>
+                            <p className={classes.p}>{info.note}</p>
                         </li>
                     )}
                 </ul>
