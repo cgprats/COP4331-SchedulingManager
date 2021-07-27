@@ -835,22 +835,43 @@ exports.setApp = function(app, client) {
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/searchnotesEmail', async(req, res, next) =>{
-		// incoming: fooid, "array of emails"
-		// outgoing: all notes w/ matching fooid and email from array
+	app.post('/api/searchNotes', async(req, res, next) =>{
+		
 		var errorMessage = '';
 
 		var fooid = req.body.fooid;
+
+		try {
+			const db = client.db();
+			const results = await db.collection('notes').find({fooid:fooid}).toArray();
+
+			if (results.length > 0) {
+				results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+
+				errorMessage = "Success";
+			}
+		}
+
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {notes:results, error:errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/searchIndividualNotes', async(req, res, next) =>{
+		
+		var errorMessage = '';
+
 		var email = req.body.email;
 
 		try {
 			const db = client.db();
-			const results = await db.collection('notes').find({fooid:fooid,email:email}).toArray();
-
-			var data = -1;
+			const results = await db.collection('notes').find({email:email}).toArray();
 
 			if (results.length > 0) {
-				data = results[0].note;
+				results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
 
 				errorMessage = "Success";
 			}
@@ -860,37 +881,10 @@ exports.setApp = function(app, client) {
 			errorMessage = e.toString();
 		}
 
-		var ret = {note:data, error:errorMessage};
+		var ret = {notes:results, error:errorMessage};
 		res.status(200).json(ret);
 	});
 
-	app.post('/api/searchnotesTime', async(req, res, next) =>{
-		// incoming: email, start time, end time
-		// outgoing: all notes from time range
-		var errorMessage = '';
-
-		var time = req.body.time;
-
-		try {
-			const db = client.db();
-			const results = await db.collection('notes').find({time:time}).toArray();
-
-			var data = -1;
-
-			if (results.length > 0) {
-				data = results[0].note;
-
-				errorMessage = "Success";
-			}
-		}
-
-		catch(e) {
-			errorMessage = e.toString();
-		}
-
-		var ret = {note:data, error:errorMessage};
-		res.status(200).json(ret);
-	});
 
 	app.post('/api/addnote', async(req, res, next) =>{
 		// incoming: fooid, email, time, note
@@ -1005,20 +999,17 @@ exports.setApp = function(app, client) {
 	});
 
 	app.post('/api/searchTimesheet', async(req, res, next) =>{
-		// incoming: fooid
-		// outgoing: All timesheets with matching id (?)
+		
 		var errorMessage = '';
 
 		var fooid = req.body.fooid;
 
 		try {
 			const db = client.db();
-			const results = await db.collection('notes').find({_id:fooid}).toArray();
-
-			var data = -1;
+			const results = await db.collection('timesheet').find({fooid:fooid}).toArray();
 
 			if (results.length > 0) {
-				// data = 
+				results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
 
 				errorMessage = "Success";
 			}
@@ -1028,7 +1019,32 @@ exports.setApp = function(app, client) {
 			errorMessage = e.toString();
 		}
 
-		var ret = {timesheet:data, error:errorMessage};
+		var ret = {times:results, error:errorMessage};
+		res.status(200).json(ret);
+	});
+
+	app.post('/api/searchIndividualTimesheet', async(req, res, next) =>{
+		
+		var errorMessage = '';
+
+		var email = req.body.email;
+
+		try {
+			const db = client.db();
+			const results = await db.collection('timesheet').find({email:email}).toArray();
+
+			if (results.length > 0) {
+				results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
+
+				errorMessage = "Success";
+			}
+		}
+
+		catch(e) {
+			errorMessage = e.toString();
+		}
+
+		var ret = {times:results, error:errorMessage};
 		res.status(200).json(ret);
 	});
 	
