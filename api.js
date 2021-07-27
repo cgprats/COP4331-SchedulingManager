@@ -843,7 +843,7 @@ exports.setApp = function(app, client) {
 
 		try {
 			const db = client.db();
-			const results = await db.collection('notes').find({fooid:fooid}).toArray();
+			var results = await db.collection('notes').find({fooid:fooid}).toArray();
 
 			if (results.length > 0) {
 				results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
@@ -868,7 +868,7 @@ exports.setApp = function(app, client) {
 
 		try {
 			const db = client.db();
-			const results = await db.collection('notes').find({email:email}).toArray();
+			var results = await db.collection('notes').find({email:email}).toArray();
 
 			if (results.length > 0) {
 				results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
@@ -1006,7 +1006,7 @@ exports.setApp = function(app, client) {
 
 		try {
 			const db = client.db();
-			const results = await db.collection('timesheet').find({fooid:fooid}).toArray();
+			var results = await db.collection('timesheet').find({fooid:fooid}).toArray();
 
 			if (results.length > 0) {
 				results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));
@@ -1031,7 +1031,7 @@ exports.setApp = function(app, client) {
 
 		try {
 			const db = client.db();
-			const results = await db.collection('timesheet').find({email:email}).toArray();
+			var results = await db.collection('timesheet').find({email:email}).toArray();
 
 			if (results.length > 0) {
 				results.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0));

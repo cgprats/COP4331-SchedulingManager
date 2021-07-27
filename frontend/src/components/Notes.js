@@ -6,6 +6,7 @@ function Notes(props)
 {
     const [formVisible, setFormVisibility] = useState(false);
     const [msg, setMsg] = useState('');
+
     const noteRef = useRef();
 
     function loadNew()
@@ -82,11 +83,11 @@ function Notes(props)
                     </div>
                 }
                 <ul className={classes.ul}>
-                    {props.input.map(info => 
+                    {props.notes.map(info => 
                         <li className={classes.item} key={info.desc}>
-                            <span className={classes.span}>{info.name}</span>
+                            <span className={classes.span}>{info.firstName} {info.lastName}</span>
                             <span className={classes.span}>{info.date}</span>
-                            <p className={classes.p}>{info.desc}</p>
+                            <p className={classes.p}>{info.note}</p>
                         </li>
                     )}
                 </ul>

@@ -48,8 +48,34 @@ function Job(props)
     const [timesheetIsVisible, setTimesheetVisibility] = useState(false);
     const [editIsVisible, setEditVisibility] = useState(false);
 
-    function loadNotes()
+    var notes = [];
+
+    async function loadNotes()
     {
+        var fooid = props.id;
+
+        const Data =
+        {
+            "fooid": fooid
+        };
+
+        var js = JSON.stringify(Data);
+        try{
+            const response = await fetch('https://cop4331group2.herokuapp.com/api/searchNotes', 
+            {method: 'POST', body:js, headers:{'Content-Type': 'application/json'}});
+            var res = JSON.parse(await response.text());
+
+            if(res.error == 'Success')
+            {
+                notes = res.notes;
+            }
+
+        }catch(e){
+            alert(e.toString());
+        }
+
+        notes = [];
+
         setNoteVisibility(true);
         setBackdropVisiblity(true);
     }
@@ -258,7 +284,7 @@ function Job(props)
                 </div>
             </div>
             {backdropIsVisible && <Backdrop onClick={closeAll}></Backdrop>}
-            {notesAreVisible && <Notes input={DUMMY_DATA} completed={props.completed} jid={props.id} title={props.title} onClick={closeAll}></Notes>}
+            {notesAreVisible && <Notes notes={notes} completed={props.completed} jid={props.id} title={props.title} onClick={closeAll}></Notes>}
             {timesheetIsVisible && <Timesheet input={DUMMY_DATA2} onClick={closeAll}></Timesheet>}
             {editIsVisible && <Edit 
                 title = {props.title}
