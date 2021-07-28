@@ -32,23 +32,28 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Text(
-                //   "SIGN IN",
-                //   style: TextStyle(
-                //     fontWeight: FontWeight.bold,
-                //     color: CustomColors.white,
-                //     fontSize: 30,
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: 5,
-                // ),
+
                 _MainPage(),
                 SignUpOrLogin(
                   login: true,
                 ),
                 SizedBox(
-                  height: _size.height * 0.03,
+                  height: _size.height * 0.01,
+                ),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/forgotpassword',
+                      );
+                    },
+                    child: Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          color: CustomColors.white,
+                          fontWeight: FontWeight.bold,
+                        )
+                    )
                 ),
               ],
             ),

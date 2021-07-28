@@ -10,17 +10,23 @@ import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/components/custom_scaffold.dart';
 import 'package:mobile/components/employee_card.dart';
+import 'package:mobile/components/employee_card_container.dart';
 import 'package:mobile/components/textfield_widget.dart';
 
 class EmployeeSearchScreen extends StatefulWidget {
+  final GlobalKey<EmployeeSearchScreenState> key = GlobalKey();
+  final GlobalKey<EmployeeCardContainerState> _employeeListKey = GlobalKey();
+
+  EmployeeSearchScreen(key) : super(key: key);
+
   @override
-  _EmployeeSearchScreenState createState() => _EmployeeSearchScreenState();
+  EmployeeSearchScreenState createState() => EmployeeSearchScreenState();
 }
 
-class _EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
+class EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
   String? _input;
   String _errorMessage = '';
-  List<EmployeeCard> employees = [];
+
 
 
   @override
@@ -42,8 +48,8 @@ class _EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
                 hintText: 'Search...',
                 margin: EdgeInsets.zero,
                 width: _size.width * 0.8,
-                onChanged: (value) {
-                  this._input = value;
+                onChanged: (text) {
+                  this._input = text;
                 },
                 textInputAction: TextInputAction.done,
                 onFieldSubmitted: (value) {
@@ -57,7 +63,7 @@ class _EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
                   onPressed: _search,
                 ),
               ),
-              //employees,
+              EmployeeCardContainer(key: widget._employeeListKey),
             ],
           ),
         ),
@@ -72,22 +78,38 @@ class _EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
     _payload['compCode'] = GlobalData.companyCode;
     String dir = '/searchWorkers';
     String ret = await API.getJson(dir, _payload);
+    print(ret);
+    print(_payload);
     var jsonObj = json.decode(ret);
-    //print(jsonObj);
+    print(jsonObj);
     if (ret.isEmpty) {
       print('oh no :(');
     } else {
       setState(
-        () {
-          print('searchJobs successful!');
-          _errorMessage =
-              jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
+            () {
+          print('search successful!');
+          _errorMessage = jsonObj['error'];
+          if (_errorMessage.isEmpty) {
+            widget._employeeListKey.currentState!.clearEmployeeCards();
+            for (var employee in jsonObj['workersAll']) {
+              if (employee == null) continue;
+              print(employee);
+              widget._employeeListKey.currentState!.addEmployeeCard(
+                EmployeeCard(
+                  width: 0.8,
+                  clientInfo: {
+                    'firstName': employee['firstName'],
+                    'lastName': employee['lastName'],
+                    'phone': employee['phone'],
+                    'email': employee['Email'],
+                  },
+                ),
+              );
+            }
+          }
         },
       );
     }
-  }
-  void addEmployee() {
-    employees.add(sample1());
   }
   EmployeeCard sample1() {
     return EmployeeCard(

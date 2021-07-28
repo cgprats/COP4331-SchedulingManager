@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/employee_search_screen.dart';
 
+import 'package:mobile/screens/login_screen.dart';
 import 'package:mobile/screens/sign_up_screen.dart';
 import 'package:mobile/screens/job_listings_screen.dart';
-import 'package:mobile/screens/login_screen.dart';
+import 'package:mobile/screens/employee_search_screen.dart';
 import 'package:mobile/screens/manage_account.dart';
 
 class Routes {
@@ -20,6 +20,7 @@ class Routes {
         JOBLISTINGSSCREEN: (context) =>
             JobListingsScreen(GlobalKey<JobListingsScreenState>()),
         MANAGEACCOUNTSCREEN: (context) => ManageAccountScreen(),
-        EMPLOYEESEARCHSCREEN: (context) => EmployeeSearchScreen(),
+        EMPLOYEESEARCHSCREEN: (context) =>
+            EmployeeSearchScreen(GlobalKey<EmployeeSearchScreenState>()),
       };
 }
