@@ -35,6 +35,7 @@ class _RoundedButtonState extends State<RoundedButton> {
       height: widget.height,
       margin: EdgeInsets.symmetric(vertical: 5),
       child: ElevatedButton(
+        clipBehavior: Clip.hardEdge,
         style: ButtonStyle(
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
             widget.padding,
@@ -50,6 +51,7 @@ class _RoundedButtonState extends State<RoundedButton> {
         ),
         child: Text(
           widget.text,
+          maxLines: 1,
           style: TextStyle(
             color: widget.textColor,
             fontSize: widget.fontSize,

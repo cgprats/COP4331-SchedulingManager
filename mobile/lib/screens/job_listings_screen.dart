@@ -12,6 +12,7 @@ import 'package:mobile/components/custom_scaffold.dart';
 import 'package:mobile/components/job_card_container.dart';
 import 'package:mobile/components/job_search_bar.dart';
 import 'package:mobile/components/add_job_modal.dart';
+import 'package:mobile/components/job_notes_modal.dart';
 
 class JobListingsScreen extends StatefulWidget {
   final GlobalKey<JobListingsScreenState> key = GlobalKey();
@@ -109,6 +110,7 @@ class JobListingsScreenState extends State<JobListingsScreen> {
                   width: 0.8,
                   jobListKey: widget._jobListKey,
                   id: job['_id'],
+                  isComplete: job['completed'],
                   title: '${job['title']}',
                   clientInfo: {
                     'firstName': job['clientname'],

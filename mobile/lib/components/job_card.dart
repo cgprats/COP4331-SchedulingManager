@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/components/job_card_container.dart';
 
+import 'package:mobile/components/job_card_container.dart';
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/global_data.dart';
+import 'package:mobile/components/job_notes_modal.dart';
 
 class JobCard extends StatefulWidget {
   final String title, address, details;
@@ -16,6 +17,7 @@ class JobCard extends StatefulWidget {
   final String? maxWorkers;
   final List<Map<String, String>> workers;
   final String id;
+  final bool isComplete;
   final GlobalKey<JobCardContainerState> jobListKey;
 
   const JobCard({
@@ -30,6 +32,7 @@ class JobCard extends StatefulWidget {
     this.width,
     this.height,
     required this.id,
+    required this.isComplete,
     required this.jobListKey,
   });
 
@@ -51,6 +54,7 @@ class _JobCardState extends State<JobCard> {
               _JobCardTitle(
                 title: widget.title,
                 id: widget.id,
+                isComplete: widget.isComplete,
                 jobListKey: widget.jobListKey,
               ),
               _JobCardBody(
@@ -73,11 +77,13 @@ class _JobCardState extends State<JobCard> {
 class _JobCardTitle extends StatefulWidget {
   final String title;
   final String id;
+  final bool isComplete;
   final GlobalKey<JobCardContainerState> jobListKey;
 
   const _JobCardTitle({
     required this.title,
     required this.id,
+    required this.isComplete,
     required this.jobListKey,
   });
 
@@ -112,6 +118,7 @@ class _JobCardTitleState extends State<_JobCardTitle> {
             alignment: Alignment.centerRight,
             child: _JobCardButtons(
               id: widget.id,
+              isComplete: widget.isComplete,
               jobListKey: widget.jobListKey,
             ),
           ),
@@ -637,10 +644,12 @@ class _JobCardBodyState extends State<_JobCardBody> {
 
 class _JobCardButtons extends StatefulWidget {
   final String id;
+  bool isComplete;
   final GlobalKey<JobCardContainerState> jobListKey;
 
-  const _JobCardButtons({
+  _JobCardButtons({
     required this.id,
+    required this.isComplete,
     required this.jobListKey,
   });
 
@@ -666,7 +675,14 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
         print(result);
         switch (result) {
           case Menu.notes:
-            // TODO: Handle this case.
+            // TODO: Update state after adding note
+            // TODO: Limit the size of the body of the modal
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return JobNotes(id: widget.id);
+              },
+            );
             break;
           case Menu.timesheet:
             // TODO: Handle this case.
@@ -675,6 +691,7 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
             // TODO: Handle this case.
             break;
           case Menu.delete:
+            // TODO: Delete Confirmation
             _deleteOrder(
               {
                 'id': widget.id,
@@ -682,7 +699,14 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
             );
             break;
           case Menu.markCompleted:
-            // TODO: Handle this case.
+            _markOrder(
+              {
+                'fooid': widget.id,
+              },
+            );
+            setState(() {
+              widget.isComplete = true;
+            });
             break;
           case Menu.signOnOff:
             // TODO: Handle this case.
@@ -715,10 +739,12 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
             value: Menu.delete,
             child: Text('Delete'),
           ),
-          const PopupMenuItem<Menu>(
-            value: Menu.markCompleted,
-            child: Text('Mark as Completed'),
-          ),
+          if (!widget.isComplete) ...[
+            const PopupMenuItem<Menu>(
+              value: Menu.markCompleted,
+              child: Text('Mark as Completed'),
+            ),
+          ]
         ] else ...[
           const PopupMenuItem<Menu>(
             value: Menu.signOnOff,
@@ -749,6 +775,34 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
           print('deleteorder successful!');
         },
       );
+    }
+  }
+
+  void _markOrder(Map _payload) async {
+    print('markorder!');
+    String dir = '/markorder';
+    String ret = await API.getJson(dir, _payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+    if (ret.isEmpty) {
+      print('oh no :(');
+    } else {
+      print('markorder successful!');
+    }
+  }
+
+  void _searchNotes(Map _payload) async {
+    print('searchNotes!');
+    String dir = '/searchNotes';
+    String ret = await API.getJson(dir, _payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+    if (ret.isEmpty) {
+      print('oh no :(');
+    } else {
+      print('searchNotes successful!');
     }
   }
 }
