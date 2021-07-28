@@ -91,7 +91,7 @@ class EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
           _errorMessage = jsonObj['error'];
           if (_errorMessage.isEmpty) {
             widget._employeeListKey.currentState!.clearEmployeeCards();
-            for (var employee in jsonObj['workersAll']) {
+            for (var employee in jsonObj['workers']) {
               if (employee == null) continue;
               print(employee);
               widget._employeeListKey.currentState!.addEmployeeCard(
