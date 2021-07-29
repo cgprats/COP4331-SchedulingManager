@@ -57,6 +57,7 @@ function ForgotPassword(props)
 
         if (res.error == 'Success')
         {
+            setMsg('');
             setutype(res.flag);
             setFlippedIsOpen(true);
         }

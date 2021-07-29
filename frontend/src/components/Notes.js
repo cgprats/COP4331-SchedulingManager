@@ -20,6 +20,14 @@ function Notes(props)
         setFormVisibility(false);
     }
 
+    function reformatDate(input)
+    {
+        const year = input.substring(0, 4);
+        const month = input.substring(5, 7);
+        const day = input.substring(8, 10);
+        return (month + '/' + day + '/' + year);
+    }
+
     async function addHandler(event)
     {
         event.preventDefault();
@@ -74,11 +82,11 @@ function Notes(props)
                     {(!formVisible && !props.completed) && <button className={classes.button} onClick={loadNew}>Add Note</button>}
                 </div>
                 {formVisible && 
-                    <div className={classes.center}>
+                    <div className={classes.center} onSubmit={addHandler}>
                         <form>
-                            <textarea rows='5' cols='75' className={classes.ta} placeholder='Note text' ref={noteRef}></textarea><br></br>
+                            <textarea rows='5' cols='75' className={classes.ta} required placeholder='Note text' ref={noteRef}></textarea><br></br>
                             <button className={classes.cancel} onClick={closeNew}>Cancel</button>
-                            <button className={classes.conf} onClick={addHandler}>Add Note</button>
+                            <input type='submit' className={classes.conf} value='Add note'></input>
                         </form>
                     </div>
                 }
@@ -86,7 +94,7 @@ function Notes(props)
                     {props.notes.map(info => 
                         <li className={classes.item} key={info.note}>
                             <span className={classes.span}>{info.firstName} {info.lastName}</span>
-                            <span className={classes.span}>{info.date}</span>
+                            <span className={classes.span}>{reformatDate(info.date)}</span>
                             <p className={classes.p}>{info.note}</p>
                         </li>
                     )}

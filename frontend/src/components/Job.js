@@ -275,11 +275,11 @@ function Job(props)
                 <div className={classes.cardfooter}>
                     <button className={classes.noteButton} onClick={loadNotes}>Notes</button>
                     <button className={classes.noteButton} onClick={loadTimes}>Timesheet</button>
-                    {(props.utype == 'w' && !props.completed) && <button className={classes.signButton} onClick={signEvent}>Sign on/off</button>}
-                    {(props.utype == 'w' && !props.completed) && <button className={classes.signButton} onClick={clockEvent}>Clock in/out</button>}
-                    {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={deleteJob}>Delete</button>}
-                    {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={loadEdit}>Edit</button>}
-                    {(props.utype == 'e' && !props.completed) && <button className={classes.sign2Button} onClick={markComplete}>Mark Done</button>}
+                    {(props.utype == 0 && !props.completed) && <button className={classes.signButton} onClick={signEvent}>Sign on/off</button>}
+                    {(props.utype == 0 && !props.completed) && <button className={classes.signButton} onClick={clockEvent}>Clock in/out</button>}
+                    {(props.utype == 1 && !props.completed) && <button className={classes.sign2Button} onClick={deleteJob}>Delete</button>}
+                    {(props.utype == 1 && !props.completed) && <button className={classes.sign2Button} onClick={loadEdit}>Edit</button>}
+                    {(props.utype == 1 && !props.completed) && <button className={classes.sign2Button} onClick={markComplete}>Mark Done</button>}
                 </div>
             </div>
             {backdropIsVisible && <Backdrop onClick={closeAll}></Backdrop>}
