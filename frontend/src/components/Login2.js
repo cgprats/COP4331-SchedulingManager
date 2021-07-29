@@ -1,5 +1,5 @@
 import classes from './Login2.module.css';
-import workerLogo from '../icons/Workers.png';
+import Logo from '../icons/Logo.PNG';
 import {useRef} from 'react';
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
@@ -55,10 +55,10 @@ function Login2(props)
         <div className={classes.logcard}>
             <div className={classes.col}>
                 <h2 className={classes.h2}>SIGN IN</h2>
-                <form>
+                <form onSubmit={loginHandler}>
                     <div>
                         <label className={classes.label}>Email</label> <br></br>
-                        <input type='text' className={classes.input} required id='email' ref={emailRef}/>
+                        <input type='email' className={classes.input} required id='email' ref={emailRef}/>
                     </div>
                     <div>
                         <label className={classes.label}>Password</label> <br></br>
@@ -66,7 +66,7 @@ function Login2(props)
                     </div>
                     <div>
                         {errorMsg && (<p className={classes.error}>{errorMsg}</p>)}
-                        <button className={classes.myButton} onClick={loginHandler}>SIGN IN</button>
+                        <input type='submit' className={classes.myButton} value='Sign in'></input>
                     </div>
                 </form>
                 <div>
@@ -79,7 +79,7 @@ function Login2(props)
                 </div>
             </div>
             <div className={classes.right}>
-                    <img src={workerLogo} className={classes.image2}/>
+                    <img src={Logo} className={classes.image2}/>
                     <h3 className={classes.second}>WORKHORSE</h3>
             </div>
             

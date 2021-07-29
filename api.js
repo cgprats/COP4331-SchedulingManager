@@ -390,6 +390,7 @@ exports.setApp = function(app, client) {
 		// outgoing: error
 		var email = req.body.email;
 		var errorMessage = '';
+		var flag = 0;
 		var code = getRandomInt().toString();
 
 		var account = {
@@ -407,9 +408,11 @@ exports.setApp = function(app, client) {
 		try {
 			const db = client.db();
 			var results = await db.collection('workers').updateOne(account, data);
+			flag = 0;
 
 			if (!results.matchedCount) {
 				results = await db.collection('employers').updateOne(account, data);
+				flag = 1;
 			}
 
 			if(!results.matchedCount){
@@ -431,7 +434,7 @@ exports.setApp = function(app, client) {
 		}
 		
 
-		var ret = {error: errorMessage};
+		var ret = {error: errorMessage, flag: flag};
 		res.status(200).json(ret);
 	});
 

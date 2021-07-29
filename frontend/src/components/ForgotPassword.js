@@ -14,18 +14,17 @@ function ForgotPassword(props)
 
     const [errorMsg, setMsg] = useState("");
     const [flippedIsOpen, setFlippedIsOpen] = useState(false);
-
-    var utype = 'w';
+    const [utype, setutype] = useState(0);
 
     function dynamicStyle()
     {
-        if (utype == 'w') return classes.buttonW;
+        if (utype == 0) return classes.buttonW;
         return classes.buttonE;
     }
 
     function dynamicStyle2()
     {
-        if (utype == 'w') return classes.linkW;
+        if (utype == 0) return classes.linkW;
         return classes.linkE;
     }
 
@@ -58,7 +57,7 @@ function ForgotPassword(props)
 
         if (res.error == 'Success')
         {
-            setMsg("");
+            setutype(res.flag);
             setFlippedIsOpen(true);
         }
     }

@@ -5,41 +5,6 @@ import Notes from './Notes';
 import Timesheet from './Timesheet';
 import Edit from './Edit';
 
-const DUMMY_DATA = [
-    {
-        name: 'Sean Bennett',
-        date: '7/18/2021',
-        desc: 'This is an example of a note. It is relatively short.'
-    },
-    {
-        name: 'Trish Nigrelli',
-        date: '7/20/2021',
-        desc: 'This is an example of a longer note. As you can see, it takes up more space. In fact, one might even say that it takes up an utterly absurd amount of space, but its ok cuz it wraps.'
-    }
-];
-
-const DUMMY_DATA2 = [
-    {
-        name: 'Sean Bennett',
-        date: '7/18/2021',
-        start: '11:00',
-        end: '3:30'
-    },
-    {
-        name: 'Trish Nigrelli',
-        date: '7/18/2021',
-        start: '11:05',
-        end: '3:42'
-    },
-    {
-        name: 'Sean Bennett',
-        date: '7/19/2021',
-        start: '11:10',
-        end: '-----'
-    }
-
-];
-
 function Job(props)
 {
     const [errorMsg, setMsg] = useState("");

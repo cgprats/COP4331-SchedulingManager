@@ -20,52 +20,6 @@ function Workers()
     const searchTextRef = useRef();
 
 
-    var activeNotes = [
-        {
-            desc: 'this is an example note description.',
-            title: 'example title',
-            date: '2021-07-23'
-        },
-
-        {
-            desc: 'this is another example of a note description.',
-            title: 'example title #2',
-            date: '2021-08-25'
-        }
-    ];
-
-    var activeTimes = [
-        {
-            date: '2021-07-23',
-            title: 'Example title',
-            start: '8:30',
-            end: '12:30'
-        },
-        {
-            date: '2021-07-24',
-            title: 'Example title 2',
-            start: '9:30',
-            end: '1:30'
-        }
-    ];
-
-    var workersDummy = [
-        {
-            FirstName: 'Sean',
-            LastName: 'Bennett',
-            Phone: '305-804-0523',
-            Email: 'seanmbmiami@gmail.com'
-        },
-
-        {
-            FirstName: 'Trish',
-            LastName: 'Nigrelli',
-            Phone: '305-519-8560',
-            Email: 'kmbmiami@gmail.com'
-        }
-    ];
-
-
     function closeAll()
     {
         setBackdropVisiblity(false);
