@@ -13,29 +13,36 @@ import 'package:mobile/components/job_card.dart';
 import 'package:mobile/components/custom_scaffold.dart';
 
 class EditJobModal extends StatelessWidget {
-  // final GlobalKey<JobListingsScreenState> jobScreenKey;
+  final GlobalKey<JobListingsScreenState> jobScreenKey;
 
-  final String jobId;
-  final Map _payload = Map();
+  // final GlobalKey<JobCardState> jobCardKey;
+
+  final Map searchPayload;
+  final Map jobInfo;
 
   EditJobModal({
-    // required this.jobScreenKey,
-    required this.jobId,
+    required this.jobScreenKey,
+    // required this.jobCardKey,
+    required this.searchPayload,
+    required this.jobInfo,
   });
 
   @override
   Widget build(BuildContext context) {
-    searchForJob();
+    // searchForJob();
     return AlertDialog(
       title: _EditJobTitle(),
       titlePadding: EdgeInsets.zero,
       content: _EditJobBody(
-        payload: _payload,
+        jobInfo: jobInfo,
       ),
       contentPadding: EdgeInsets.zero,
       actions: <Widget>[
         _EditJobActions(
-          payload: _payload,
+          searchPayload: this.searchPayload,
+          jobScreenKey: this.jobScreenKey,
+          // jobCardKey: jobCardKey,
+          jobInfo: jobInfo,
         ),
       ],
       backgroundColor: CustomColors.grey,
@@ -45,81 +52,81 @@ class EditJobModal extends StatelessWidget {
     );
   }
 
-  void searchForJob() async {
-    print('searchForJob!');
-    String dir = '/searchJobs';
-    String ret = await API.getJson(dir, {
-      'input': '',
-      'companyCode': GlobalData.companyCode,
-      'email': GlobalData.email,
-    });
-    print(ret);
-    print(_payload);
-    var jsonObj = json.decode(ret);
-    print(jsonObj);
-    if (ret.isEmpty) {
-      print('oh no :(');
-    } else {
-      print('searchJobs successful!');
-      if (jsonObj['error'].isEmpty) {
-        for (var job in jsonObj['jobs']) {
-          if (job == null) continue;
-          print(job);
-          if (job['_id'] == this.jobId) {
-            _payload['id'] = job['_id'];
-            _payload['title'] = job['title'];
-            _payload['email'] = job['email'];
-            _payload['address'] = job['address'];
-            _payload['clientname'] = job['clientname'];
-            _payload['clientcontact'] = job['clientcontact'];
-            _payload['start'] = job['start'];
-            _payload['end'] = job['end'];
-            _payload['max'] = job['maxworkers'];
-            _payload['briefing'] = job['briefing'];
-            return;
-          }
-        }
-      }
-      // setState(
-      //       () {
-      //     print('searchJobs successful!');
-      //     _errorMessage = jsonObj['error'];
-      //     if (_errorMessage.isEmpty) {
-      //       widget._jobListKey.currentState!.clearJobCards();
-      //       for (var job in jsonObj['jobs']) {
-      //         if (job == null) continue;
-      //         print(job);
-      //         widget._jobListKey.currentState!.addJobCard(
-      //           JobCard(
-      //             width: 0.8,
-      //             jobListKey: widget._jobListKey,
-      //             id: job['_id'],
-      //             isComplete: job['completed'],
-      //             title: '${job['title']}',
-      //             clientInfo: {
-      //               'firstName': job['clientname'],
-      //               'lastName': '',
-      //               'phone': job['clientcontact'],
-      //               'email': job['email'],
-      //             },
-      //             startDate: (job['start'] != null && job['start'] != '')
-      //                 ? DateTime.parse(job['start'])
-      //                 : null,
-      //             endDate: (job['end'] != null && job['end'] != '')
-      //                 ? DateTime.parse(job['end'])
-      //                 : null,
-      //             address: '${job['address']}',
-      //             workers: [],
-      //             maxWorkers: job['maxworkers'] != null ? job['maxworkers'] : '0',
-      //             details: '${job['briefing']}',
-      //           ),
-      //         );
-      //       }
-      //     }
-      //   },
-      // );
-    }
-  }
+// void searchForJob() async {
+//   print('searchForJob!');
+//   String dir = '/searchJobs';
+//   String ret = await API.getJson(dir, {
+//     'input': '',
+//     'companyCode': GlobalData.companyCode,
+//     'email': GlobalData.email,
+//   });
+//   print(ret);
+//   print(_payload);
+//   var jsonObj = json.decode(ret);
+//   print(jsonObj);
+//   if (ret.isEmpty) {
+//     print('oh no :(');
+//   } else {
+//     print('searchJobs successful!');
+//     if (jsonObj['error'].isEmpty) {
+//       for (var job in jsonObj['jobs']) {
+//         if (job == null) continue;
+//         print(job);
+//         if (job['_id'] == this.jobId) {
+//           _payload['id'] = job['_id'];
+//           _payload['title'] = job['title'];
+//           _payload['email'] = job['email'];
+//           _payload['address'] = job['address'];
+//           _payload['clientname'] = job['clientname'];
+//           _payload['clientcontact'] = job['clientcontact'];
+//           _payload['start'] = job['start'];
+//           _payload['end'] = job['end'];
+//           _payload['max'] = job['maxworkers'];
+//           _payload['briefing'] = job['briefing'];
+//           return;
+//         }
+//       }
+//     }
+//     // setState(
+//     //       () {
+//     //     print('searchJobs successful!');
+//     //     _errorMessage = jsonObj['error'];
+//     //     if (_errorMessage.isEmpty) {
+//     //       widget._jobListKey.currentState!.clearJobCards();
+//     //       for (var job in jsonObj['jobs']) {
+//     //         if (job == null) continue;
+//     //         print(job);
+//     //         widget._jobListKey.currentState!.addJobCard(
+//     //           JobCard(
+//     //             width: 0.8,
+//     //             jobListKey: widget._jobListKey,
+//     //             id: job['_id'],
+//     //             isComplete: job['completed'],
+//     //             title: '${job['title']}',
+//     //             clientInfo: {
+//     //               'firstName': job['clientname'],
+//     //               'lastName': '',
+//     //               'phone': job['clientcontact'],
+//     //               'email': job['email'],
+//     //             },
+//     //             startDate: (job['start'] != null && job['start'] != '')
+//     //                 ? DateTime.parse(job['start'])
+//     //                 : null,
+//     //             endDate: (job['end'] != null && job['end'] != '')
+//     //                 ? DateTime.parse(job['end'])
+//     //                 : null,
+//     //             address: '${job['address']}',
+//     //             workers: [],
+//     //             maxWorkers: job['maxworkers'] != null ? job['maxworkers'] : '0',
+//     //             details: '${job['briefing']}',
+//     //           ),
+//     //         );
+//     //       }
+//     //     }
+//     //   },
+//     // );
+//   }
+// }
 }
 
 class _EditJobTitle extends StatelessWidget {
@@ -150,10 +157,10 @@ class _EditJobTitle extends StatelessWidget {
 }
 
 class _EditJobBody extends StatefulWidget {
-  final Map payload;
+  final Map jobInfo;
 
   const _EditJobBody({
-    required this.payload,
+    required this.jobInfo,
   });
 
   @override
@@ -161,7 +168,7 @@ class _EditJobBody extends StatefulWidget {
 }
 
 class _EditJobBodyState extends State<_EditJobBody> {
-  DateTime? _startDate, _endDate;
+  // DateTime? _startDate, _endDate;
   GlobalKey<FormState> _formKey = GlobalKey();
 
   Future<void> _selectDate(BuildContext context,
@@ -175,20 +182,15 @@ class _EditJobBodyState extends State<_EditJobBody> {
     if (pickedDate != null)
       setState(() {
         if (isStartDate) {
-          this._startDate = pickedDate;
-          widget.payload['start'] = _formatDate2(this._startDate);
+          widget.jobInfo['start'] = pickedDate;
+          // this._startDate = pickedDate;
+          // widget.payload['start'] = _formatDate2(this._startDate);
         } else {
-          this._endDate = pickedDate;
-          widget.payload['end'] = _formatDate2(this._endDate);
+          widget.jobInfo['end'] = pickedDate;
+          // this._endDate = pickedDate;
+          // widget.payload['end'] = _formatDate2(this._endDate);
         }
       });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _startDate = DateTime.parse(widget.payload['start']);
-    _endDate = DateTime.parse(widget.payload['end']);
   }
 
   @override
@@ -202,16 +204,17 @@ class _EditJobBodyState extends State<_EditJobBody> {
             RoundedInputField(
               labelText: 'Title',
               labelColor: CustomColors.orange,
-              initialValue: widget.payload['title'],
+              initialValue: widget.jobInfo['title'],
               onChanged: (value) {
-                widget.payload['title'] = value;
+                widget.jobInfo['title'] = value;
               },
             ),
             RoundedInputField(
               labelText: 'Address',
               labelColor: CustomColors.orange,
+              initialValue: widget.jobInfo['address'],
               onChanged: (value) {
-                widget.payload['address'] = value;
+                widget.jobInfo['address'] = value;
               },
             ),
             Row(
@@ -228,9 +231,10 @@ class _EditJobBodyState extends State<_EditJobBody> {
                   flex: 2,
                   child: OutlinedButton.icon(
                     label: Text(
-                      this._startDate == null
-                          ? 'beginning'
-                          : _formatDate1(this._startDate!),
+                      _formatDate1(widget.jobInfo['start']),
+                      // this._startDate == null
+                      //     ? 'beginning'
+                      //     : _formatDate1(this._startDate!),
                       style: TextStyle(
                         color: CustomColors.white,
                       ),
@@ -272,9 +276,10 @@ class _EditJobBodyState extends State<_EditJobBody> {
                   flex: 2,
                   child: OutlinedButton.icon(
                     label: Text(
-                      this._endDate == null
-                          ? 'end'
-                          : _formatDate1(this._endDate!),
+                      _formatDate1(widget.jobInfo['end']),
+                      // this._endDate == null
+                      //     ? 'end'
+                      //     : _formatDate1(this._endDate!),
                       style: TextStyle(
                         color: CustomColors.white,
                       ),
@@ -305,15 +310,17 @@ class _EditJobBodyState extends State<_EditJobBody> {
             RoundedInputField(
               labelText: 'Max Workers',
               labelColor: CustomColors.orange,
+              initialValue: widget.jobInfo['max'],
               onChanged: (value) {
-                widget.payload['max'] = value;
+                widget.jobInfo['max'] = value;
               },
             ),
             RoundedInputField(
               labelText: 'Details',
               labelColor: CustomColors.orange,
+              initialValue: widget.jobInfo['briefing'],
               onChanged: (value) {
-                widget.payload['briefing'] = value;
+                widget.jobInfo['briefing'] = value;
               },
             ),
           ],
@@ -325,20 +332,25 @@ class _EditJobBodyState extends State<_EditJobBody> {
   String _formatDate1(DateTime dateTime) {
     return '${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}/${dateTime.year}';
   }
-
-  String _formatDate2(DateTime? dateTime) {
-    if (dateTime == null) return '';
-    return '${dateTime.year.toString().padLeft(4, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}';
-  }
 }
 
-class _EditJobActions extends StatelessWidget {
-  final Map payload;
+class _EditJobActions extends StatefulWidget {
+  // final GlobalKey<JobCardState> jobCardKey;
+  final GlobalKey<JobListingsScreenState> jobScreenKey;
+  final Map searchPayload;
+  final Map jobInfo;
 
   _EditJobActions({
-    required this.payload,
+    required this.jobScreenKey,
+    required this.searchPayload,
+    // required this.jobCardKey,
+    required this.jobInfo,
   });
 
+  _EditJobActionsState createState() => _EditJobActionsState();
+}
+
+class _EditJobActionsState extends State<_EditJobActions> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -349,18 +361,41 @@ class _EditJobActions extends StatelessWidget {
         fontSize: 24,
         onPressed: () {
           print('pressed!');
-          payload['email'] = GlobalData.email;
-          payload['clientname'] =
-              '${GlobalData.firstName} ${GlobalData.lastName}';
-          payload['clientcontact'] = _formatPhone(GlobalData.phone!);
-          payload['companyCode'] = GlobalData.companyCode;
+          _editorder();
+          widget.jobScreenKey.currentState!.searchJobs(widget.searchPayload);
+          // widget.jobCardKey.currentState!.reassemble();
+          Navigator.pop(context);
         },
       ),
     );
   }
 
+  void _editorder() async {
+    print('editorder!');
+    // widget.jobInfo['start'] = _formatDate2(widget.jobInfo['start']);
+    // widget.jobInfo['end'] = _formatDate2(widget.jobInfo['end']);
+    Map _payload = Map.from(widget.jobInfo)
+      ..['start'] = _formatDate2(widget.jobInfo['start'])
+      ..['end'] = _formatDate2(widget.jobInfo['end']);
+    String dir = '/editorder';
+    String ret = await API.getJson(dir, _payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+    if (ret.isEmpty) {
+      print('oh no :(');
+    } else {
+      print('editorder successful!');
+    }
+  }
+
   String _formatPhone([String phone = '']) {
     phone = phone.replaceAll(new RegExp('\\D'), '').padLeft(10, '0');
     return '(${phone.substring(0, 3)}) ${phone.substring(3, 6)}-${phone.substring(6)}';
+  }
+
+  String _formatDate2(DateTime? dateTime) {
+    if (dateTime == null) return '';
+    return '${dateTime.year.toString().padLeft(4, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}';
   }
 }

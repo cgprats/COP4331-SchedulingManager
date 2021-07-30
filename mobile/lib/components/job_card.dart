@@ -4,25 +4,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mobile/components/job_card_container.dart';
+import 'package:mobile/screens/job_listings_screen.dart';
 import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/components/job_notes_modal.dart';
+import 'confirm_delete.dart';
 import 'edit_job_modal.dart';
 import 'job_timesheet_modal.dart';
 
 class JobCard extends StatefulWidget {
+  // final GlobalKey<JobCardState> key;
+  final GlobalKey<JobListingsScreenState> jobScreenKey;
+  final Map searchPayload;
   final String title, address, details;
   final double? width, height;
   final DateTime? startDate, endDate;
   final Map<String, String> clientInfo;
   final String? maxWorkers;
-  final List<Map<String, String>> workers;
+  final List workers;
   final String id;
   final bool isComplete;
   final GlobalKey<JobCardContainerState> jobListKey;
 
   const JobCard({
+    // required this.key,
+    required this.jobScreenKey,
+    required this.searchPayload,
     required this.title,
     required this.address,
     this.startDate,
@@ -39,10 +47,30 @@ class JobCard extends StatefulWidget {
   });
 
   @override
-  _JobCardState createState() => _JobCardState();
+  JobCardState createState() => JobCardState();
 }
 
-class _JobCardState extends State<JobCard> {
+class JobCardState extends State<JobCard> {
+  Map jobInfo = Map();
+
+  @override
+  void initState() {
+    super.initState();
+    jobInfo
+      ..['id'] = widget.id
+      ..['title'] = widget.title
+      ..['email'] = GlobalData.email
+      ..['address'] = widget.address
+      ..['clientname'] =
+          '${widget.clientInfo['firstName']} ${widget.clientInfo['lastName']}'
+      ..['clientcontact'] = widget.clientInfo['phone']
+      ..['start'] = widget.startDate
+      ..['end'] = widget.endDate
+      ..['workers'] = widget.workers
+      ..['max'] = widget.maxWorkers
+      ..['briefing'] = widget.details;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
@@ -54,8 +82,11 @@ class _JobCardState extends State<JobCard> {
           child: Column(
             children: <Widget>[
               _JobCardTitle(
+                // jobCardKey: widget.key,
+                jobScreenKey: widget.jobScreenKey,
+                searchPayload: widget.searchPayload,
                 title: widget.title,
-                id: widget.id,
+                jobInfo: this.jobInfo,
                 isComplete: widget.isComplete,
                 jobListKey: widget.jobListKey,
               ),
@@ -77,14 +108,20 @@ class _JobCardState extends State<JobCard> {
 }
 
 class _JobCardTitle extends StatefulWidget {
+  // final GlobalKey<JobCardState> jobCardKey;
+  final GlobalKey<JobListingsScreenState> jobScreenKey;
+  final Map searchPayload;
   final String title;
-  final String id;
+  final Map jobInfo;
   final bool isComplete;
   final GlobalKey<JobCardContainerState> jobListKey;
 
   const _JobCardTitle({
+    // required this.jobCardKey,
+    required this.jobScreenKey,
+    required this.searchPayload,
     required this.title,
-    required this.id,
+    required this.jobInfo,
     required this.isComplete,
     required this.jobListKey,
   });
@@ -119,7 +156,10 @@ class _JobCardTitleState extends State<_JobCardTitle> {
           Align(
             alignment: Alignment.centerRight,
             child: _JobCardButtons(
-              id: widget.id,
+              jobScreenKey: widget.jobScreenKey,
+              searchPayload: widget.searchPayload,
+              // jobCardKey: widget.jobCardKey,
+              jobInfo: widget.jobInfo,
               isComplete: widget.isComplete,
               jobListKey: widget.jobListKey,
             ),
@@ -135,7 +175,7 @@ class _JobCardBody extends StatefulWidget {
   final DateTime? startDate, endDate;
   final Map<String, String> clientInfo;
   final String? maxWorkers;
-  final List<Map<String, String>> workers;
+  final List workers;
 
   const _JobCardBody({
     required this.address,
@@ -481,7 +521,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
               children: List<Table>.generate(
                 widget.workers.length,
                 (int index) {
-                  Map<String, String> _worker = widget.workers[index];
+                  Map _worker = widget.workers[index];
                   return Table(
                     columnWidths: <int, TableColumnWidth>{
                       0: FractionColumnWidth(0.25),
@@ -645,12 +685,18 @@ class _JobCardBodyState extends State<_JobCardBody> {
 }
 
 class _JobCardButtons extends StatefulWidget {
-  final String id;
+  // final GlobalKey<JobCardState> jobCardKey;
+  final GlobalKey<JobListingsScreenState> jobScreenKey;
+  final Map searchPayload;
+  final Map jobInfo;
   bool isComplete;
   final GlobalKey<JobCardContainerState> jobListKey;
 
   _JobCardButtons({
-    required this.id,
+    // required this.jobCardKey,
+    required this.jobScreenKey,
+    required this.searchPayload,
+    required this.jobInfo,
     required this.isComplete,
     required this.jobListKey,
   });
@@ -670,6 +716,8 @@ enum Menu {
 }
 
 class _JobCardButtonsState extends State<_JobCardButtons> {
+  bool isSignedOn = false;
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<Menu>(
@@ -684,7 +732,7 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
               builder: (BuildContext context) {
                 return JobNotes(
                   // key: GlobalKey<JobNotesState>(),
-                  jobId: widget.id,
+                  jobId: widget.jobInfo['id'],
                 );
               },
             );
@@ -695,34 +743,43 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
               context: context,
               builder: (BuildContext context) {
                 return JobTimesheet(
-                  jobId: widget.id,
+                  jobId: widget.jobInfo['id'],
                 );
               },
             );
             break;
           case Menu.edit:
-            // TODO: Handle this case.
             showDialog(
               context: context,
               builder: (BuildContext context) {
                 return EditJobModal(
-                  jobId: widget.id,
+                  // jobCardKey: widget.jobCardKey,
+                  jobScreenKey: widget.jobScreenKey,
+                  searchPayload: widget.searchPayload,
+                  jobInfo: widget.jobInfo,
                 );
               },
             );
             break;
           case Menu.delete:
             // TODO: Delete Confirmation
-            _deleteOrder(
-              {
-                'id': widget.id,
-              },
-            );
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return ConfirmDelete(
+                    id: widget.jobInfo['id'],
+                  );
+                });
+            // _deleteOrder(
+            //   {
+            //     'id': widget.jobInfo['id'],
+            //   },
+            // );
             break;
           case Menu.markCompleted:
             _markOrder(
               {
-                'fooid': widget.id,
+                'fooid': widget.jobInfo['id'],
               },
             );
             setState(() {
@@ -731,9 +788,11 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
             break;
           case Menu.signOnOff:
             // TODO: Handle this case.
+            _signJob();
             break;
           case Menu.clockInOut:
             // TODO: Handle this case.
+            _clockEvent();
             break;
         }
       },
@@ -767,22 +826,48 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
             ),
           ]
         ] else ...[
-          const PopupMenuItem<Menu>(
+          PopupMenuItem<Menu>(
             value: Menu.signOnOff,
-            child: Text('Sign On'),
+            child: Text('Sign On/Off'),
           ),
           const PopupMenuItem<Menu>(
             value: Menu.clockInOut,
-            child: Text('Clock In'),
+            child: Text('Clock In/Out'),
           ),
         ]
       ],
     );
   }
 
-  void _editorder(Map _payload) async {
-    print('editorder!');
-    String dir = '/editorder';
+  String _formatDate2(DateTime? dateTime) {
+    if (dateTime == null) return 'None';
+    return '${dateTime.year.toString().padLeft(4, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}';
+  }
+
+  String _formatTime(DateTime? dateTime) {
+    if (dateTime == null) return 'None';
+    return '${dateTime.hour.toString()}:${dateTime.minute.toString().padLeft(2, '0')} ${dateTime.hour >= 12 ? 'PM' : 'AM'}';
+  }
+
+  bool _isSignedOn() {
+    for (Map worker in widget.jobInfo['workers']) {
+      if (worker['email'] == GlobalData.email) return true;
+    }
+    return false;
+  }
+
+  void _clockEvent() async {
+    print('clockEvent!');
+    Map _payload = {
+      'fooid': widget.jobInfo['id'],
+      'email': GlobalData.email,
+      'fn': GlobalData.firstName,
+      'ln': GlobalData.lastName,
+      'date': _formatDate2(DateTime.now()),
+      'title': '',
+      'time': _formatTime(DateTime.now()),
+    };
+    String dir = '/clockEvent';
     String ret = await API.getJson(dir, _payload);
     print(ret);
     var jsonObj = json.decode(ret);
@@ -792,9 +877,36 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
     } else {
       setState(
         () {
-          print('editorder successful!');
-          // _errorMessage =
-          // jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
+          // widget.jobListKey.currentState!.removeJobCard(widget.jobInfo['id']);
+          print('clockEvent successful!');
+        },
+      );
+    }
+  }
+
+  void _signJob() async {
+    print('signJob!');
+    Map _payload = {
+      'email': GlobalData.email,
+      'id': widget.jobInfo['id'],
+      'firstName': GlobalData.firstName,
+      'lastName': GlobalData.lastName,
+      'phone': GlobalData.phone,
+      'current': widget.jobInfo['workers'].length,
+      'max': widget.jobInfo['max'],
+    };
+    String dir = '/signJob';
+    String ret = await API.getJson(dir, _payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+    if (ret.isEmpty) {
+      print('oh no :(');
+    } else {
+      setState(
+        () {
+          // widget.jobListKey.currentState!.removeJobCard(widget.jobInfo['id']);
+          print('signJob successful!');
         },
       );
     }
@@ -812,7 +924,7 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
     } else {
       setState(
         () {
-          widget.jobListKey.currentState!.removeJobCard(widget.id);
+          // widget.jobListKey.currentState!.removeJobCard(widget.jobInfo['id']);
           print('deleteorder successful!');
         },
       );

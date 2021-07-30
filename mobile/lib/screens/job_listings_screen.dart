@@ -108,6 +108,9 @@ class JobListingsScreenState extends State<JobListingsScreen> {
               print(job);
               widget._jobListKey.currentState!.addJobCard(
                 JobCard(
+                  // key: GlobalKey<JobCardState>(),
+                  searchPayload: _payload,
+                  jobScreenKey: widget.key,
                   width: 0.8,
                   jobListKey: widget._jobListKey,
                   id: job['_id'],
@@ -126,7 +129,7 @@ class JobListingsScreenState extends State<JobListingsScreen> {
                       ? DateTime.parse(job['end'])
                       : null,
                   address: '${job['address']}',
-                  workers: [],
+                  workers: job['workers'],
                   maxWorkers: job['maxworkers'] != null ? job['maxworkers'] : '0',
                   details: '${job['briefing']}',
                 ),

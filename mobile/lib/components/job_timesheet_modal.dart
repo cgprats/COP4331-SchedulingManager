@@ -88,11 +88,11 @@ class _JobTimesheetBodyState extends State<_JobTimesheetBody> {
   @override
   void initState() {
     super.initState();
-    // _searchTimesheet(
-    //   {
-    //     'fooid': widget.jobId,
-    //   },
-    // );
+    _searchTimesheet(
+      {
+        'fooid': widget.jobId,
+      },
+    );
   }
 
   Map sample1 = {
@@ -113,8 +113,8 @@ class _JobTimesheetBodyState extends State<_JobTimesheetBody> {
 
   @override
   Widget build(BuildContext context) {
-    _addTime(sample1);
-    _addTime(sample2);
+    // _addTime(sample1);
+    // _addTime(sample2);
     return Container(
       padding: EdgeInsets.all(10),
       child: Table(
