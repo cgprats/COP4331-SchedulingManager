@@ -48,6 +48,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         height: 30,
         child: TextField(
           controller: controller,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+          ),
           style: TextStyle(fontSize: 15, color: Colors.white),
           maxLines: widget.maxLines,
           onChanged: widget.onChanged,

@@ -21,147 +21,153 @@ class EmployeeCard extends StatefulWidget {
 }
 
 class _EmployeeCardState extends State<EmployeeCard> {
+  Map notes_payload = {
+    'email': '',
+  };
+  Map timesheet_payload = {
+    'email': '',
+  };
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
       widthFactor: widget.width,
+
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         decoration: BoxDecoration(
           color: CustomColors.grey,
+          borderRadius: BorderRadius.circular(12),
         ),
         margin: EdgeInsets.symmetric(vertical: 10),
-        child: Column(
-          children: [
-            Table(
-              columnWidths: const <int, TableColumnWidth>{
-                0: FractionColumnWidth(0.40),
-              },
-              children: <TableRow>[
-                TableRow(
-                  children: <TableCell>[
-                    TableCell(
-                      child: Container(
-                        height: 30,
-                        child: Text(
-                          'Name:',
-                          style: TextStyle(
-                            color: CustomColors.white,
-                            fontWeight: FontWeight.bold,
+        child: ClipRRect(
+          child: Column(
+            children: [
+              Table(
+                columnWidths: const <int, TableColumnWidth>{
+                  0: FractionColumnWidth(0.30),
+                },
+                children: <TableRow>[
+                  TableRow(
+                    children: <TableCell>[
+                      TableCell(
+                        child: Container(
+                          height: 30,
+                          child: Text(
+                            'Name:',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    TableCell(
-                      child: Container(
-                        height: 30,
-                        child: Text(
-                          '${widget.clientInfo['firstName']} ${widget.clientInfo['lastName']}',
-                          style: TextStyle(
-                            color: CustomColors.white,
+                      TableCell(
+                        child: Container(
+                          height: 30,
+                          child: Text(
+                            '${widget.clientInfo['firstName']} ${widget.clientInfo['lastName']}',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                TableRow(
-                  children: <TableCell>[
-                    TableCell(
-                      child: Container(
-                        height: 30,
-                        padding: EdgeInsets.only(top: 2.5),
-                        child: Text(
-                          'Email:',
-                          style: TextStyle(
-                            color: CustomColors.white,
-                            fontWeight: FontWeight.bold,
+                    ],
+                  ),
+                  TableRow(
+                    children: <TableCell>[
+                      TableCell(
+                        child: Container(
+                          height: 30,
+                          padding: EdgeInsets.only(top: 2.5),
+                          child: Text(
+                            'Email:',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    TableCell(
-                      child: Container(
-                        height: 30,
-                        padding: EdgeInsets.only(top: 2.5),
-                        child: Text(
-                          '${widget.clientInfo['email']}',
-                          style: TextStyle(
-                            color: CustomColors.white,
+                      TableCell(
+                        child: Container(
+                          height: 30,
+                          padding: EdgeInsets.only(top: 2.5),
+                          child: Text(
+                            '${widget.clientInfo['email']}',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                TableRow(
-                  children: <TableCell>[
-                    TableCell(
-                      child: Container(
-                        height: 30,
-                        padding: EdgeInsets.only(top: 2.5),
-                        child: Text(
-                          'Phone:',
-                          style: TextStyle(
-                            color: CustomColors.white,
-                            fontWeight: FontWeight.bold,
+                    ],
+                  ),
+                  TableRow(
+                    children: <TableCell>[
+                      TableCell(
+                        child: Container(
+                          height: 30,
+                          padding: EdgeInsets.only(top: 2.5),
+                          child: Text(
+                            'Phone:',
+                            style: TextStyle(
+                              color: CustomColors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    TableCell(
-                      child: Container(
-                        height: 30,
-                        padding: EdgeInsets.only(top: 2.5),
-                        child: Text(
-                          _formatPhone(widget.clientInfo['phone']!),
-                          style: TextStyle(
-                            color: CustomColors.white,
+                      TableCell(
+                        child: Container(
+                          height: 30,
+                          padding: EdgeInsets.only(top: 2.5),
+                          child: Text(
+                            _formatPhone(widget.clientInfo['phone']!),
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RoundedButton(
-                  text: 'Notes',
-                  width: 80,
-                  fontSize: 15,
-                  color: CustomColors.orange,
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
-                    );
-                  },
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                RoundedButton(
-                  text: 'Timesheet',
-                  width: 80,
-                  fontSize: 15,
-                  color: CustomColors.orange,
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildPopupDialog(context),
-                    );
-                  },
-                )
-              ],
-            )
-          ],
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RoundedButton(
+                    text: 'Notes',
+                    width: 120,
+                    height: 50,
+                    fontSize: 15,
+                    color: CustomColors.orange,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    onPressed: () {
+                      notes_payload['email'] = widget.clientInfo['email'];
+                      _buildNotesContainer(notes_payload);
+
+                    },
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  RoundedButton(
+                    text: 'Timesheet',
+                    width: 120,
+                    height: 50,
+                    fontSize: 15,
+                    color: CustomColors.orange,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    onPressed: () {
+                      timesheet_payload['email'] = widget.clientInfo['email'];
+                    },
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -172,45 +178,8 @@ class _EmployeeCardState extends State<EmployeeCard> {
     return '(${phone.substring(0, 3)}) ${phone.substring(3, 6)}-${phone.substring(6)}';
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Notes Example'),
-      content: new SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: [
-                Text(
-                  'Example Title',
-                  style: TextStyle(
-                    color: CustomColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  '2021-07-23',
-                  style: TextStyle(
-                    color: CustomColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Close'),
-        ),
-      ],
-      scrollable: true,
-    );
+  void _buildNotesContainer(Map notesPayload) {
+
   }
+
 }

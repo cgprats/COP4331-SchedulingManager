@@ -10,6 +10,7 @@ import 'package:mobile/routes/routes.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/components/custom_scaffold.dart';
 import 'package:mobile/components/textfield_widget.dart';
+import 'package:mobile/components/rounded_input_field.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -41,384 +42,180 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    return Container(
-      child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TweenAnimationBuilder(
-                  tween: Tween<double>(begin: 0, end: angle),
-                  duration: Duration(seconds: 1),
-                  builder: (BuildContext context, double val, _) {
-                    if (val >= (pi / 2)) {
-                      isBack = false;
-                    } else {
-                      isBack = true;
-                    }
-                    return (Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.identity()
-                        ..setEntry(3, 2, 0.001)
-                        ..rotateY(val),
-                      child: Container(
-                          width: 320,
-                          height: 450,
-                          child: isBack
-                              ? Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: CustomColors.grey,
-                            ),
-                            child: Column(children: <Widget>[
-                              Text(
-                                "Enter your email",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
-                                    color: Colors.white),
-                              ),
-                              SizedBox(
-                                height: 50,
-                              ),
-                              TextFieldWidget(
-                                label: 'Email',
-                                text: verify_payload['email'],
-                                onChanged: (text) {
-                                  verify_payload['email'] = text;
-                                },
-                              ),
-                              RoundedButton(
-                                text: 'Confirm',
-                                width: _size.width * 0.25,
-                                height: _size.height * 0.05,
-                                fontSize: 15,
-                                color: CustomColors.orange,
+    return Scaffold(
+        body: Container(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TweenAnimationBuilder(
+                      tween: Tween<double>(begin: 0, end: angle),
+                      duration: Duration(seconds: 1),
+                      builder: (BuildContext context, double val, _) {
+                        if (val >= (pi / 2)) {
+                          isBack = false;
+                        } else {
+                          isBack = true;
+                        }
+                        return (Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..rotateY(val),
+                          child: Container(
+                              width: 320,
+                              height: 450,
+                              child: isBack
+                                  ? Container(
+                                alignment: Alignment.center,
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 10,
-                                    horizontal: 20),
-                                onPressed: () {
-                                  _verify(verify_payload);
-                                  flip();
-                                },
-                              ),
-                              Table(
-                                columnWidths: const <int,
-                                    TableColumnWidth>{
-                                  0: FractionColumnWidth(0.40),
-                                },
-                                //defaultVerticalAlignment: TableCellVerticalAlignment,
-                                children: <TableRow>[
-                                  TableRow(
-                                    children: <TableCell>[
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          child: Text(
-                                            'First Name:',
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                              fontWeight:
-                                              FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          child: Text(
-                                            GlobalData.firstName!,
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                    vertical: 10, horizontal: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: CustomColors.grey,
+                                ),
+                                child: Column(children: <Widget>[
+                                  Text(
+                                    "Reset your password",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: Colors.white),
                                   ),
-                                  TableRow(
-                                    children: <TableCell>[
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          child: Text(
-                                            'Last Name:',
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                              fontWeight:
-                                              FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          child: Text(
-                                            GlobalData.lastName!,
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  SizedBox(
+                                    height: 50,
                                   ),
-                                  TableRow(
-                                    children: <TableCell>[
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          padding:
-                                          EdgeInsets.only(top: 2.5),
-                                          child: Text(
-                                            'Email:',
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                              fontWeight:
-                                              FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          padding:
-                                          EdgeInsets.only(top: 2.5),
-                                          child: Text(
-                                            GlobalData.email!,
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  RoundedInputField(
+                                    labelText: 'Email',
+                                    hintText: 'example@email.com',
+                                    width: _size.width * 0.6,
+                                    onChanged: (text) {
+                                      verify_payload['email'] = text;
+                                    },
                                   ),
-                                  TableRow(
-                                    children: <TableCell>[
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          padding:
-                                          EdgeInsets.only(top: 2.5),
-                                          child: Text(
-                                            'Phone:',
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                              fontWeight:
-                                              FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          padding:
-                                          EdgeInsets.only(top: 2.5),
-                                          child: Text(
-                                            GlobalData.phone!,
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  SizedBox(
+                                    height: 20,
                                   ),
-                                  TableRow(
-                                    children: <TableCell>[
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          padding:
-                                          EdgeInsets.only(top: 2.5),
-                                          child: Text(
-                                            'Company Code:',
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                              fontWeight:
-                                              FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Container(
-                                          height: 30,
-                                          padding:
-                                          EdgeInsets.only(top: 2.5),
-                                          child: Text(
-                                            GlobalData.companyCode
-                                                .toString(),
-                                            style: TextStyle(
-                                              color: CustomColors.white,
-                                              fontWeight:
-                                              FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  RoundedButton(
+                                    text: 'Confirm',
+                                    width: _size.width * 0.25,
+                                    height: _size.height * 0.05,
+                                    fontSize: 15,
+                                    color: CustomColors.orange,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 20),
+                                    onPressed: () {
+                                      _verify();
+                                      flip();
+                                    },
                                   ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    RoundedButton(
-                                      text: 'Sign Out',
-                                      width: _size.width * 0.25,
-                                      fontSize: 15,
-                                      color: CustomColors.orange,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 20, horizontal: 20),
-                                      onPressed: () {
-                                        GlobalData.firstName = null;
-                                        GlobalData.lastName = null;
-                                        GlobalData.phone = null;
-                                        GlobalData.email = null;
-                                        GlobalData.accountType = 0;
-                                        GlobalData.companyCode = null;
-                                        GlobalData.companyName = null;
-                                        GlobalData.verified = null;
-                                        Navigator.popAndPushNamed(
-                                            context, Routes.LOGINSCREEN);
+                                ]),
+                              )
+                                  : Transform(
+                                transform: Matrix4.identity()..rotateY(pi),
+                                alignment: Alignment.center,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: CustomColors.grey,
+                                  ),
+                                  child: Column(children: <Widget>[
+                                    Text(
+                                      "Reset Password",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                          color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                    ),
+                                    RoundedInputField(
+                                      labelText: 'Verification Code',
+                                      width: _size.width * 0.6,
+                                      onChanged: (text) {
+                                        changepassword_payload['ver'] = text;
+                                      },
+                                    ),
+                                    const SizedBox(height: 24),
+                                    RoundedInputField(
+                                      labelText: 'New Password',
+                                      width: _size.width * 0.6,
+                                      onChanged: (text) {
+                                        changepassword_payload['new_password'] = text;
+                                      },
+                                    ),
+                                    const SizedBox(height: 24),
+                                    RoundedInputField(
+                                      labelText: 'Confirm New Password',
+                                      width: _size.width * 0.6,
+                                      onChanged: (text) {
+                                        changepassword_payload['new_password_confirm'] = text;
                                       },
                                     ),
                                     SizedBox(
-                                      width: 20,
+                                      height: 30,
                                     ),
-                                    RoundedButton(
-                                      text: 'Edit',
-                                      width: _size.width * 0.25,
-                                      fontSize: 15,
-                                      color: CustomColors.orange,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 20, horizontal: 20),
-                                      onPressed: () {
-                                        flip();
-                                      },
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ]),
-                          )
-                              : Transform(
-                            transform: Matrix4.identity()
-                              ..rotateY(pi),
-                            alignment: Alignment.center,
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.circular(10.0),
-                                color: CustomColors.grey,
-                              ),
-                              child: Column(children: <Widget>[
-                                Text(
-                                  "New Password",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                      color: Colors.white),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                ),
-                                TextFieldWidget(
-                                  label: 'Verification Code',
-                                  text: changepassword_payload['ver'],
-                                  onChanged: (text) {
-                                    changepassword_payload['ver'] = text;
-                                  },
-                                ),
-                                const SizedBox(height: 24),
-                                TextFieldWidget(
-                                  label: 'Last Name',
-                                  text: _payload['ln'],
-                                  onChanged: (text) {
-                                    _payload['ln'] = text;
-                                  },
-                                ),
-                                const SizedBox(height: 24),
-                                TextFieldWidget(
-                                  label: 'Phone Number',
-                                  text: _payload['phone'],
-                                  onChanged: (text) {
-                                    _payload['phone'] = text;
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      RoundedButton(
-                                        text: 'Cancel',
-                                        width: _size.width * 0.25,
-                                        height: _size.height * 0.05,
-                                        fontSize: 15,
-                                        color: CustomColors.orange,
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 10,
-                                            horizontal: 20),
-                                        onPressed: () {
-                                          flip();
-                                        },
+                                    Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          RoundedButton(
+                                            text: 'Confirm',
+                                            width: _size.width * 0.25,
+                                            height: _size.height * 0.05,
+                                            fontSize: 15,
+                                            color: CustomColors.orange,
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 20),
+                                            onPressed: () {
+                                              changepassword_payload['email'] = verify_payload['email'];
+                                              _changePassword();
+                                              Navigator.pop(context);
+                                              flip();
+                                            },
+                                          )
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      RoundedButton(
-                                        text: 'Confirm',
-                                        width: _size.width * 0.25,
-                                        height: _size.height * 0.05,
-                                        fontSize: 15,
-                                        color: CustomColors.orange,
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 10,
-                                            horizontal: 20),
-                                        onPressed: () {
-                                          _payload['email'] =
-                                              GlobalData.email;
-                                          _edit(_payload);
-                                          flip();
-                                        },
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                  ]),
                                 ),
-                              ]),
-                            ),
-                          )),
-                    ));
-                  })
-            ],
+                              )),
+                        ));
+                      })
+                ],
+              ),
+            ),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          decoration: BoxDecoration(
+            color: CustomColors.purple,
           ),
         ),
-      ),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      decoration: BoxDecoration(
-        color: CustomColors.purple,
-      ),
     );
+
+  }
+
+  void _changePassword() async {
+    print('changing password!');
+    String dir = '/changepassword';
+    String ret = await API.getJson(dir, changepassword_payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+  }
+
+  void _verify() async {
+    print('verifying!');
+    String dir = '/sendcode';
+    String ret = await API.getJson(dir, verify_payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
   }
 }
