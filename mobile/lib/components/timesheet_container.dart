@@ -113,17 +113,7 @@ class _TimesheetBodyState extends State<_TimesheetBody> {
                   children: <Widget>[
                     Expanded(
                       child: Text(
-                        '${_payload['title']}',
-                        style: TextStyle(
-                          color: CustomColors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        _payload['date'],
-                        textAlign: TextAlign.right,
+                        '${_payload['date']}',
                         style: TextStyle(
                           color: CustomColors.white,
                           fontWeight: FontWeight.bold,
@@ -133,7 +123,7 @@ class _TimesheetBodyState extends State<_TimesheetBody> {
                   ],
                 ),
                 Text(
-                  _payload['note'],
+                  '${_payload['start']} - ${_payload['end']}',
                   style: TextStyle(
                     color: CustomColors.white,
                   ),

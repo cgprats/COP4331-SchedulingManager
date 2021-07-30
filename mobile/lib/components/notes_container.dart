@@ -10,9 +10,13 @@ import 'package:mobile/components/rounded_button.dart';
 
 class NotesCard extends StatelessWidget {
   final String email;
+  final String firstName;
+  final String lastName;
 
   const NotesCard({
     required this.email,
+    this.firstName = '',
+    this.lastName = '',
   });
 
   @override
@@ -41,6 +45,8 @@ class NotesCard extends StatelessWidget {
 }
 
 class _NotesTitle extends StatelessWidget {
+  //final String firstName = widget.firstName;
+
   @override
   Widget build(BuildContext context) {
     return Container(
