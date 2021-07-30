@@ -46,7 +46,7 @@
     margin: 0px;
     display: inline-block;
     color: white;
-    text-decoration: underline;
+    text-decoration: bold;
 }
 
 .spacer
@@ -61,7 +61,7 @@
     padding: 8px 26px 8px 24px;
     display: inline-block;
     color: white;
-    text-decoration: underline;
+    text-decoration: bold;
 }
 
 .spanC
@@ -71,7 +71,7 @@
     padding: 8px 32px 8px 24px;
     display: inline-block;
     color: white;
-    text-decoration: underline;
+    text-decoration: bold;
 }
 
 .address
@@ -151,7 +151,7 @@
     padding-bottom: 12px;
     display: inline-block;
     letter-spacing: 1px;
-    text-decoration: underline;
+    text-decoration: bold;
 }
 
 .center

@@ -699,7 +699,7 @@ exports.setApp = function(app, client) {
 			var results = await db.collection('jobs').deleteOne({ _id:o_id });
 
 			if (results.deletedCount == 1) {
-				errorMessage = "Success";
+				errorMessage = "Job deleted";
 			}
 			else {
 				errorMessage = "No Jobs found";
@@ -1211,7 +1211,7 @@ exports.setApp = function(app, client) {
 
 		// Copy over all found jobs to new array
 		// Then empty all elements so they can be filled if matched
-		workersAll.forEach(u => {delete u.password; delete u.verified; delete u.verificationCode});
+		workersAll.forEach(u => {delete u.Password; delete u.Verified; delete u.VerificationCode;});
 		var workersMatched = [].concat(workersAll);
 		workersMatched.splice(0,workersMatched.length);
 
