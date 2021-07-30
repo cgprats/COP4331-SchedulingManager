@@ -41,7 +41,7 @@ class _AnimatedRoundedButtonState extends State<AnimatedRoundedButton>
       duration: widget.duration,
     );
     _colorTween = ColorTween(
-      begin: CustomColors.purple,
+      begin: CustomColors.orange,
       end: CustomColors.green,
     ).animate(_animationController);
     super.initState();

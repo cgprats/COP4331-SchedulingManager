@@ -25,8 +25,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       doAnimation: true,
       appBarColor: GlobalData.accountType == 1
           ? CustomColors.green
-          : CustomColors.purple,
-      backgroundColor: CustomColors.grey,
+          : CustomColors.orange,
+      backgroundColor: CustomColors.purple,
       body: Column(
         children: <Widget>[
           Padding(
@@ -91,7 +91,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   keyboardType: TextInputType.name,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
-                      : CustomColors.purple,
+                      : CustomColors.orange,
                   onChanged: (text) {
                     _payload['firstName'] = text;
                   },
@@ -105,7 +105,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   keyboardType: TextInputType.name,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
-                      : CustomColors.purple,
+                      : CustomColors.orange,
                   onChanged: (text) {
                     _payload['lastName'] = text;
                   },
@@ -118,7 +118,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   keyboardType: TextInputType.emailAddress,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
-                      : CustomColors.purple,
+                      : CustomColors.orange,
                   onChanged: (text) {
                     _payload['email'] = text;
                   },
@@ -131,7 +131,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   keyboardType: TextInputType.phone,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
-                      : CustomColors.purple,
+                      : CustomColors.orange,
                   onChanged: (text) {
                     _payload['phone'] = text;
                   },
@@ -155,7 +155,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                         keyboardType: TextInputType.text,
                         labelColor: GlobalData.accountType == 1
                             ? CustomColors.green
-                            : CustomColors.purple,
+                            : CustomColors.orange,
                         onChanged: (text) {
                           if (GlobalData.accountType == 1)
                             _payload['companyName'] = text;
@@ -179,7 +179,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                         keyboardType: TextInputType.number,
                         labelColor: GlobalData.accountType == 1
                             ? CustomColors.green
-                            : CustomColors.purple,
+                            : CustomColors.orange,
                         onChanged: (text) {
                           if (GlobalData.accountType == 0)
                             _payload['companyCode'] = text;
@@ -197,7 +197,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   keyboardType: TextInputType.visiblePassword,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
-                      : CustomColors.purple,
+                      : CustomColors.orange,
                   onChanged: (text) {
                     _payload['password'] = text;
                   },
@@ -223,7 +223,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   keyboardType: TextInputType.visiblePassword,
                   labelColor: GlobalData.accountType == 1
                       ? CustomColors.green
-                      : CustomColors.purple,
+                      : CustomColors.orange,
                   textInputAction: TextInputAction.done,
                   onChanged: (text) {
                     _payload['password_confirm'] = text;
@@ -265,7 +265,7 @@ class _SignUpFormState extends State<_SignUpForm> {
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             color: GlobalData.accountType == 1
                 ? CustomColors.green
-                : CustomColors.purple,
+                : CustomColors.orange,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _register(_payload);
@@ -343,7 +343,7 @@ class _AccountTypeSelectorState extends State<_AccountTypeSelector> {
                 decoration: BoxDecoration(
                   color: GlobalData.accountType == 1
                       ? CustomColors.green.withAlpha(150)
-                      : CustomColors.purple.withAlpha(150),
+                      : CustomColors.orange.withAlpha(150),
                   borderRadius: BorderRadius.circular(999),
                 ),
               ),
@@ -363,7 +363,7 @@ class _AccountTypeSelectorState extends State<_AccountTypeSelector> {
                 decoration: BoxDecoration(
                   color: GlobalData.accountType == 1
                       ? CustomColors.green
-                      : CustomColors.purple,
+                      : CustomColors.orange,
                   borderRadius: BorderRadius.circular(999),
                 ),
               ),

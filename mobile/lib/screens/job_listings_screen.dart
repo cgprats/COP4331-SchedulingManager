@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:mobile/utils/global_data.dart';
@@ -33,7 +34,7 @@ class JobListingsScreenState extends State<JobListingsScreen> {
     return CustomScaffold(
       title: 'Job Listings',
       appBarColor: CustomColors.orange,
-      backgroundColor: Color(0xFFDFDFDF),
+      backgroundColor: CustomColors.purple, // Color(0xFFDFDFDF),
       body: ListView(
         children: <Widget>[
           Stack(
@@ -45,7 +46,7 @@ class JobListingsScreenState extends State<JobListingsScreen> {
                 child: IconButton(
                   icon: Icon(
                     Icons.add,
-                    color: CustomColors.orange,
+                    color: CustomColors.black,
                   ),
                   onPressed: () {
                     showDialog(

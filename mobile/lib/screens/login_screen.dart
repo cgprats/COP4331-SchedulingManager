@@ -22,8 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
     Size _size = MediaQuery.of(context).size;
     return CustomScaffold(
       title: 'Sign In',
-      appBarColor: CustomColors.purple,
-      backgroundColor: CustomColors.grey,
+      appBarColor: CustomColors.orange,
+      backgroundColor: CustomColors.purple,
       body: Center(
         child: SingleChildScrollView(
           // padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top),
@@ -84,7 +84,7 @@ class _MainPageState extends State<_MainPage> {
         children: <Widget>[
           RoundedInputField(
             order: 1,
-            labelText: 'email',
+            labelText: 'Email',
             hintText: 'example@email.com',
             onChanged: (text) {
               _payload['email'] = text;
@@ -136,6 +136,7 @@ class _MainPageState extends State<_MainPage> {
             text: 'SIGN IN',
             width: _size.width * 0.8,
             fontSize: 20,
+            color: CustomColors.orange,
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             onPressed: () {
               if (_formKey.currentState!.validate()) {

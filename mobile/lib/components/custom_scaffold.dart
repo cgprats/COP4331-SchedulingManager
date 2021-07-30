@@ -42,7 +42,7 @@ class _CustomScaffoldState extends State<CustomScaffold>
       duration: widget.duration,
     );
     _colorTween = ColorTween(
-      begin: CustomColors.purple,
+      begin: CustomColors.orange,
       end: CustomColors.green,
     ).animate(_animationController);
     super.initState();

@@ -113,7 +113,7 @@ class _JobSearchBarState extends State<JobSearchBar>
                 child: IconButton(
                   icon: Icon(
                     Icons.filter_alt,
-                    color: CustomColors.orange,
+                    color: CustomColors.black,
                   ),
                   onPressed: () {
                     setState(() {
