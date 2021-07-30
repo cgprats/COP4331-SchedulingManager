@@ -32,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
                 _MainPage(),
                 SignUpOrLogin(
                   login: true,
@@ -41,19 +40,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: _size.height * 0.01,
                 ),
                 GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/forgotpassword',
-                      );
-                    },
-                    child: Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          color: CustomColors.white,
-                          fontWeight: FontWeight.bold,
-                        )
-                    )
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/forgotpassword',
+                    );
+                  },
+                  child: Text(
+                    'Forgot Password?',
+                    style: TextStyle(
+                      color: CustomColors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -160,7 +159,7 @@ class _MainPageState extends State<_MainPage> {
       print('oh no :(');
     } else {
       setState(
-            () {
+        () {
           _errorMessage = jsonObj['error'];
           if (_errorMessage.startsWith('Success: ')) {
             print('login successful!');
