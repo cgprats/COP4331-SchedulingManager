@@ -75,7 +75,7 @@ class EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
     print('search!');
     Map _payload = Map();
     _payload['input'] = this._input;
-    _payload['compCode'] = GlobalData.companyCode;
+    _payload['companyCode'] = GlobalData.companyCode;
     String dir = '/searchWorkers';
     String ret = await API.getJson(dir, _payload);
     print(ret);
