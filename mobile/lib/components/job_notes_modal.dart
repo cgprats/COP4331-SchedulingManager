@@ -13,21 +13,34 @@ import 'package:mobile/components/job_card.dart';
 import 'package:mobile/components/custom_scaffold.dart';
 
 class JobNotes extends StatelessWidget {
-  final String id;
+  final String jobId;
+
+  // final GlobalKey<JobNotesState> key = GlobalKey<JobNotesState>();
 
   JobNotes({
-    required this.id,
-  });
+    required this.jobId,
+  }); // : super(key: key);
 
+  // JobNotesState createState() => JobNotesState();
+// }
+//
+// class JobNotesState extends State<JobNotes> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: _JobNotesTitle(),
       titlePadding: EdgeInsets.zero,
-      content: _JobNotesBody(id: this.id),
+      content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return _JobNotesBody(
+            jobId: this.jobId,
+            // jobNotesKey: widget.key!,
+          );
+        },
+      ),
       contentPadding: EdgeInsets.zero,
       actions: <Widget>[
-        _JobNotesActions(id: this.id),
+        _JobNotesActions(jobId: this.jobId),
       ],
       backgroundColor: CustomColors.grey,
       clipBehavior: Clip.hardEdge,
@@ -65,10 +78,13 @@ class _JobNotesTitle extends StatelessWidget {
 }
 
 class _JobNotesBody extends StatefulWidget {
-  final String id;
+  final String jobId;
+
+  // final Key jobNotesKey;
 
   _JobNotesBody({
-    required this.id,
+    // required this.jobNotesKey,
+    required this.jobId,
   });
 
   @override
@@ -84,7 +100,7 @@ class _JobNotesBodyState extends State<_JobNotesBody> {
     super.initState();
     _searchNotes(
       {
-        'fooid': widget.id,
+        'fooid': widget.jobId,
       },
     );
   }
@@ -97,45 +113,53 @@ class _JobNotesBodyState extends State<_JobNotesBody> {
   }
 
   void _addNote(Map _payload) {
-    _notes.add(
-      Padding(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
+    if (_payload['firstName'] == null ||
+        _payload['lastName'] == null ||
+        _payload['date'] == null ||
+        _payload['note'] == null) return;
+    setState(
+      () {
+        _notes.add(
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Expanded(
-                  child: Text(
-                    '${_payload['firstName']} ${_payload['lastName']}',
-                    style: TextStyle(
-                      color: CustomColors.white,
-                      fontWeight: FontWeight.bold,
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        '${_payload['firstName']} ${_payload['lastName']}',
+                        style: TextStyle(
+                          color: CustomColors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: Text(
+                        _payload['date'],
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: CustomColors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Text(
-                    _payload['date'],
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: CustomColors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                Text(
+                  _payload['note'],
+                  style: TextStyle(
+                    color: CustomColors.white,
                   ),
+                  textAlign: TextAlign.left,
                 ),
               ],
             ),
-            Text(
-              _payload['note'],
-              style: TextStyle(
-                color: CustomColors.white,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -166,10 +190,10 @@ class _JobNotesBodyState extends State<_JobNotesBody> {
 }
 
 class _JobNotesActions extends StatefulWidget {
-  final String id;
+  final String jobId;
 
   _JobNotesActions({
-    required this.id,
+    required this.jobId,
   });
 
   @override
@@ -220,7 +244,6 @@ class _JobNotesActionsState extends State<_JobNotesActions>
             key: _textFieldKey,
             enabled: this._isAddingNote,
             labelText: 'Note',
-            hintText: 'Note text',
             labelColor: CustomColors.orange,
             onChanged: (value) {
               _noteText = value;
@@ -260,7 +283,7 @@ class _JobNotesActionsState extends State<_JobNotesActions>
                           if (this._isAddingNote) {
                             _addnote(
                               {
-                                'fooid': widget.id,
+                                'fooid': widget.jobId,
                                 'email': GlobalData.email,
                                 'fn': GlobalData.firstName,
                                 'ln': GlobalData.lastName,
@@ -274,9 +297,9 @@ class _JobNotesActionsState extends State<_JobNotesActions>
                           } else {
                             this._isAddingNote = true;
                             _animationController.forward();
-                            _textFieldWidth =
-                                _textFieldKey.currentContext!.size!.width;
                           }
+                          _textFieldWidth =
+                              _textFieldKey.currentContext!.size!.width;
                         },
                       );
                     },
@@ -300,11 +323,7 @@ class _JobNotesActionsState extends State<_JobNotesActions>
     if (ret.isEmpty) {
       print('oh no :(');
     } else {
-      setState(
-        () {
-          print('addnote successful!');
-        },
-      );
+      print('addnote successful!');
     }
   }
 

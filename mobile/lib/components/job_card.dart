@@ -8,6 +8,7 @@ import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/components/job_notes_modal.dart';
+import 'job_timesheet_modal.dart';
 
 class JobCard extends StatefulWidget {
   final String title, address, details;
@@ -680,12 +681,22 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return JobNotes(id: widget.id);
+                return JobNotes(
+                  // key: GlobalKey<JobNotesState>(),
+                  jobId: widget.id,
+                );
               },
             );
             break;
           case Menu.timesheet:
-            // TODO: Handle this case.
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return JobTimesheet(
+                  jobId: widget.id,
+                );
+              },
+            );
             break;
           case Menu.edit:
             // TODO: Handle this case.
@@ -757,6 +768,26 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
         ]
       ],
     );
+  }
+
+  void _editorder(Map _payload) async {
+    print('editorder!');
+    String dir = '/editorder';
+    String ret = await API.getJson(dir, _payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+    if (ret.isEmpty) {
+      print('oh no :(');
+    } else {
+      setState(
+            () {
+          print('editorder successful!');
+          // _errorMessage =
+          // jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
+        },
+      );
+    }
   }
 
   void _deleteOrder(Map _payload) async {
