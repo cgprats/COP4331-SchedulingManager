@@ -287,41 +287,41 @@ class _JobSearchBarState extends State<JobSearchBar>
                             ),
                           ],
                         ),
-                        TableRow(
-                          children: <TableCell>[
-                            TableCell(
-                              child: Container(),
-                            ),
-                            TableCell(
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: Checkbox.width + 5,
-                                    width: Checkbox.width + 5,
-                                    child: Checkbox(
-                                      value: this._showUncompleted,
-                                      fillColor:
-                                          MaterialStateProperty.all<Color>(
-                                        CustomColors.orange,
-                                      ),
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          this._showUncompleted = value!;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Text(
-                                    'Are Not Completed',
-                                    style: TextStyle(
-                                      color: CustomColors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                        // TableRow(
+                        //   children: <TableCell>[
+                        //     TableCell(
+                        //       child: Container(),
+                        //     ),
+                        //     TableCell(
+                        //       child: Row(
+                        //         children: <Widget>[
+                        //           SizedBox(
+                        //             height: Checkbox.width + 5,
+                        //             width: Checkbox.width + 5,
+                        //             child: Checkbox(
+                        //               value: this._showUncompleted,
+                        //               fillColor:
+                        //                   MaterialStateProperty.all<Color>(
+                        //                 CustomColors.orange,
+                        //               ),
+                        //               onChanged: (bool? value) {
+                        //                 setState(() {
+                        //                   this._showUncompleted = value!;
+                        //                 });
+                        //               },
+                        //             ),
+                        //           ),
+                        //           Text(
+                        //             'Are Not Completed',
+                        //             style: TextStyle(
+                        //               color: CustomColors.white,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         TableRow(
                           children: <TableCell>[
                             TableCell(
@@ -363,47 +363,47 @@ class _JobSearchBarState extends State<JobSearchBar>
                             ),
                           ],
                         ),
-                        TableRow(
-                          children: <TableCell>[
-                            TableCell(
-                              child: Visibility(
-                                visible: GlobalData.accountType == 0,
-                                child: Container(),
-                              ),
-                            ),
-                            TableCell(
-                              child: Visibility(
-                                visible: GlobalData.accountType == 0,
-                                child: Row(
-                                  children: <Widget>[
-                                    SizedBox(
-                                      height: Checkbox.width + 5,
-                                      width: Checkbox.width + 5,
-                                      child: Checkbox(
-                                        value: this._showNotSignedUpJobs,
-                                        fillColor:
-                                            MaterialStateProperty.all<Color>(
-                                          CustomColors.orange,
-                                        ),
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            this._showNotSignedUpJobs = value!;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    Text(
-                                      "I'm Not Signed Up For",
-                                      style: TextStyle(
-                                        color: CustomColors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // TableRow(
+                        //   children: <TableCell>[
+                        //     TableCell(
+                        //       child: Visibility(
+                        //         visible: GlobalData.accountType == 0,
+                        //         child: Container(),
+                        //       ),
+                        //     ),
+                        //     TableCell(
+                        //       child: Visibility(
+                        //         visible: GlobalData.accountType == 0,
+                        //         child: Row(
+                        //           children: <Widget>[
+                        //             SizedBox(
+                        //               height: Checkbox.width + 5,
+                        //               width: Checkbox.width + 5,
+                        //               child: Checkbox(
+                        //                 value: this._showNotSignedUpJobs,
+                        //                 fillColor:
+                        //                     MaterialStateProperty.all<Color>(
+                        //                   CustomColors.orange,
+                        //                 ),
+                        //                 onChanged: (bool? value) {
+                        //                   setState(() {
+                        //                     this._showNotSignedUpJobs = value!;
+                        //                   });
+                        //                 },
+                        //               ),
+                        //             ),
+                        //             Text(
+                        //               "I'm Not Signed Up For",
+                        //               style: TextStyle(
+                        //                 color: CustomColors.white,
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ],
