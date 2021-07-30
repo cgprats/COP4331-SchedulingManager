@@ -24,7 +24,7 @@ class EmployeeSearchScreen extends StatefulWidget {
 }
 
 class EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
-  String? _input;
+  String _input = '';
   String _errorMessage = '';
 
 

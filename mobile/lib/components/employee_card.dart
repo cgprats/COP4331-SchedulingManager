@@ -5,6 +5,7 @@ import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:mobile/components/rounded_button.dart';
+import 'package:mobile/components/notes_container.dart';
 
 class EmployeeCard extends StatefulWidget {
   final Map<String, String> clientInfo;
@@ -146,7 +147,15 @@ class _EmployeeCardState extends State<EmployeeCard> {
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     onPressed: () {
                       notes_payload['email'] = widget.clientInfo['email'];
-                      _buildNotesContainer(notes_payload);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return NotesCard(
+                            // key: GlobalKey<JobNotesState>(),
+                            email: widget.clientInfo['email']!,
+                          );
+                        },
+                      );
 
                     },
                   ),
@@ -178,8 +187,6 @@ class _EmployeeCardState extends State<EmployeeCard> {
     return '(${phone.substring(0, 3)}) ${phone.substring(3, 6)}-${phone.substring(6)}';
   }
 
-  void _buildNotesContainer(Map notesPayload) {
 
-  }
 
 }
