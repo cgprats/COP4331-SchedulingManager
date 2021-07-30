@@ -269,7 +269,7 @@ function Job(props)
                         <p className={classes.brief}>{props.briefing}</p>
                     </div>
                     <div>
-                        {errorMsg && <span className={classes.error}>{errorMsg}</span>}
+                        {errorMsg && <p className={classes.error}>{errorMsg}</p>}
                     </div>
                 </div>
                 <div className={classes.cardfooter}>

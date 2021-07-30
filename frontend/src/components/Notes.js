@@ -82,10 +82,10 @@ function Notes(props)
                     {(!formVisible && !props.completed) && <button className={classes.button} onClick={loadNew}>Add Note</button>}
                 </div>
                 {formVisible && 
-                    <div className={classes.center} onSubmit={addHandler}>
-                        <form>
+                    <div className={classes.center}>
+                        <form onSubmit={addHandler}>
                             <textarea rows='5' cols='75' className={classes.ta} required placeholder='Note text' ref={noteRef}></textarea><br></br>
-                            <button className={classes.cancel} onClick={closeNew}>Cancel</button>
+                            <button type='button' className={classes.cancel} onClick={closeNew}>Cancel</button>
                             <input type='submit' className={classes.conf} value='Add note'></input>
                         </form>
                     </div>

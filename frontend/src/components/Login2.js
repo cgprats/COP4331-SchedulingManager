@@ -45,8 +45,9 @@ function Login2(props)
                 Verified: res.verified,
             }
             localStorage.setItem('user_data', JSON.stringify(user));
-            if (!user.Verified)
+            if (!user.Verified) {
                 props.history.push('/verify');
+            }
             props.history.push('/jobs-w');
         }
     }

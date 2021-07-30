@@ -1211,6 +1211,7 @@ exports.setApp = function(app, client) {
 
 		// Copy over all found jobs to new array
 		// Then empty all elements so they can be filled if matched
+		workersAll.forEach(u => {delete u.password; delete u.verified; delete u.verificationCode});
 		var workersMatched = [].concat(workersAll);
 		workersMatched.splice(0,workersMatched.length);
 

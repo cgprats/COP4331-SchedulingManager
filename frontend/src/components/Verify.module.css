@@ -93,10 +93,14 @@
     background-color: #3f994b;
 }
 
-.error
-{
-    font-family: 'MetropolisLight';
-}
+    .error
+  {
+      color: red;
+      font-family: 'MetropolisLight';
+      font-size: 16px;
+      text-align: center;
+  }
+
 
 .back
 {

@@ -37,8 +37,9 @@ function AccountInfo(props) {
     setFlippedIsOpen(false);
   }
 
-  async function editHandler()
+  async function editHandler(event)
   {
+    event.preventDefault();
     var fn = firstNameRef.current.value;
     var ln = lastNameRef.current.value;
     var phone = phoneRef.current.value;
@@ -75,6 +76,8 @@ function AccountInfo(props) {
   function signOut()
   {
     localStorage.removeItem('user_data');
+    localStorage.removeItem('jobs');
+    localStorage.removeItem('workers');
     props.history.push('/');
   }
 
@@ -120,7 +123,7 @@ function AccountInfo(props) {
           <div className={classes.card_back}>
             <h2 className={classes.h2}>Account Info</h2>
             <div className={classes.spacer}></div>
-            <form>
+            <form onSubmit={editHandler}>
               <div>
                 <label className={classes.label}>First Name:</label>
                 <input
@@ -154,8 +157,8 @@ function AccountInfo(props) {
                   ref={phoneRef}
                 />
               </div>
-              <button className={classes.cancel} onClick={flipBack}>Cancel</button>
-              <button className={classes.button} onClick={editHandler}>Confirm</button>
+              <button type='button' className={classes.cancel} onClick={flipBack}>Cancel</button>
+              <input type='submit' value = 'Confirm' className={classes.button}></input>
             </form>
           </div>
            

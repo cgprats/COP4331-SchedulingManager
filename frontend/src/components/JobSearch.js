@@ -85,8 +85,8 @@ function JobSearch(props)
                         <input type='date' className={classes.date} id='password' ref={endDateRef}/>
                     </div>
                     <div>
-                        {props.utype == 'w' && <input type='checkbox' className={classes.check} id='showMine' onClick={toggleMine}></input>}
-                        {props.utype == 'w' && <span className={classes.span2}> Only show jobs I'm signed up for</span>}
+                        {props.utype == 0 && <input type='checkbox' className={classes.check} id='showMine' onClick={toggleMine}></input>}
+                        {props.utype == 0 && <span className={classes.span2}> Only show jobs I'm signed up for</span>}
                     </div>
                     <div>
                         <input type='checkbox' className={classes.check} id='showComplete' onClick={toggleComp}></input>

@@ -3,6 +3,14 @@ import classes from './Timesheet.module.css';
 function Timesheet(props)
 {
 
+    function reformatDate(input)
+    {
+        const year = input.substring(0, 4);
+        const month = input.substring(5, 7);
+        const day = input.substring(8, 10);
+        return (month + '/' + day + '/' + year);
+    }
+
     return (
         <div className={classes.card}>
             <div className={classes.cardheader}>
@@ -18,7 +26,7 @@ function Timesheet(props)
                     </tr>
                     {props.input.map(info => 
                         <tr>
-                            <td className={classes.first2}>{info.date}</td>
+                            <td className={classes.first2}>{reformatDate(info.date)}</td>
                             <td className={classes.second2}>{info.start} - {info.end}</td>
                             <td className={classes.third2}>{info.firstName} {info.lastName}</td>
                         </tr>
