@@ -294,6 +294,7 @@ class _JobNotesActionsState extends State<_JobNotesActions>
                             );
                             this._isAddingNote = false;
                             _animationController.reverse();
+                            Navigator.pop(context);
                           } else {
                             this._isAddingNote = true;
                             _animationController.forward();
