@@ -8,6 +8,7 @@ import 'package:mobile/utils/custom_colors.dart';
 import 'package:mobile/utils/get_api.dart';
 import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/components/job_notes_modal.dart';
+import 'edit_job_modal.dart';
 import 'job_timesheet_modal.dart';
 
 class JobCard extends StatefulWidget {
@@ -689,6 +690,7 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
             );
             break;
           case Menu.timesheet:
+            // TODO: Handle this case.
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -700,6 +702,14 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
             break;
           case Menu.edit:
             // TODO: Handle this case.
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return EditJobModal(
+                  jobId: widget.id,
+                );
+              },
+            );
             break;
           case Menu.delete:
             // TODO: Delete Confirmation
@@ -781,7 +791,7 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
       print('oh no :(');
     } else {
       setState(
-            () {
+        () {
           print('editorder successful!');
           // _errorMessage =
           // jsonObj['error'] == 'Job added!' ? '' : jsonObj['error'];
