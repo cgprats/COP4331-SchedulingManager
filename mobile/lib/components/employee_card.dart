@@ -6,6 +6,7 @@ import 'package:mobile/utils/global_data.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:mobile/components/rounded_button.dart';
 import 'package:mobile/components/notes_container.dart';
+import 'package:mobile/components/timesheet_container.dart';
 
 class EmployeeCard extends StatefulWidget {
   final Map<String, String> clientInfo;
@@ -23,9 +24,11 @@ class EmployeeCard extends StatefulWidget {
 
 class _EmployeeCardState extends State<EmployeeCard> {
   Map notes_payload = {
+    'name': '',
     'email': '',
   };
   Map timesheet_payload = {
+    'name': '',
     'email': '',
   };
   @override
@@ -151,12 +154,11 @@ class _EmployeeCardState extends State<EmployeeCard> {
                         context: context,
                         builder: (BuildContext context) {
                           return NotesCard(
-                            // key: GlobalKey<JobNotesState>(),
+                            name: '${widget.clientInfo['firstName']}',
                             email: widget.clientInfo['email']!,
                           );
                         },
                       );
-
                     },
                   ),
                   SizedBox(
@@ -171,8 +173,17 @@ class _EmployeeCardState extends State<EmployeeCard> {
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     onPressed: () {
                       timesheet_payload['email'] = widget.clientInfo['email'];
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return TimesheetCard(
+                              name: '${widget.clientInfo['firstName']} ${widget.clientInfo['lastName']}',
+                              email: widget.clientInfo['email']!,
+                            );
+                          },
+                      );
                     },
-                  )
+                  ),
                 ],
               )
             ],

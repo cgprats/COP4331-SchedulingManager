@@ -7,15 +7,19 @@ import 'package:mobile/utils/get_api.dart';
 
 class TimesheetCard extends StatelessWidget {
   final String email;
+  final String name;
 
   const TimesheetCard({
     required this.email,
+    required this.name,
   });
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: _TimesheetTitle(),
+      title: _TimesheetTitle(
+        name: this.name,
+      ),
       titlePadding: EdgeInsets.zero,
       content: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
@@ -38,6 +42,12 @@ class TimesheetCard extends StatelessWidget {
 }
 
 class _TimesheetTitle extends StatelessWidget {
+  final String name;
+
+  _TimesheetTitle({
+    required this.name,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +59,7 @@ class _TimesheetTitle extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Text(
-              'Timesheet',
+              'Timesheet for ' + this.name,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: CustomColors.white,
@@ -136,6 +146,21 @@ class _TimesheetBodyState extends State<_TimesheetBody> {
       },
     );
   }
+  Map sample1 = {
+    'firstName': 'Cameron',
+    'lastName': 'Nichols',
+    'start': '12:00 PM',
+    'end': '3:00 PM',
+    'date': '2021-07-03',
+  };
+
+  Map sample2 = {
+    'firstName': 'John',
+    'lastName': 'Doe',
+    'start': '10:00 AM',
+    'end': '11:37 AM',
+    'date': '2021-08-29',
+  };
 
   void _searchTimesheets(Map _payload) async {
     print('searchTimesheet!');
@@ -150,6 +175,8 @@ class _TimesheetBodyState extends State<_TimesheetBody> {
       setState(
             () {
           print('searchTimesheet successful!');
+          _addTimesheet(sample1);
+          _addTimesheet(sample2);
           for (var time in jsonObj['times']) {
             _addTimesheet(time);
           }

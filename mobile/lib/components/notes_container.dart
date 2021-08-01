@@ -12,9 +12,11 @@ class NotesCard extends StatelessWidget {
   final String email;
   final String firstName;
   final String lastName;
+  final String name;
 
   const NotesCard({
     required this.email,
+    required this.name,
     this.firstName = '',
     this.lastName = '',
   });
@@ -22,7 +24,9 @@ class NotesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: _NotesTitle(),
+      title: _NotesTitle(
+          name: this.name,
+      ),
       titlePadding: EdgeInsets.zero,
       content: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
@@ -45,7 +49,11 @@ class NotesCard extends StatelessWidget {
 }
 
 class _NotesTitle extends StatelessWidget {
-  //final String firstName = widget.firstName;
+  final String name;
+
+  _NotesTitle({
+    required this.name,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +66,7 @@ class _NotesTitle extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Text(
-              'Notes',
+              'Notes by ' + this.name,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: CustomColors.white,
@@ -155,6 +163,22 @@ class _NotesBodyState extends State<_NotesBody> {
       },
     );
   }
+
+  Map sample1 = {
+    'firstName': 'Cameron',
+    'lastName': 'Nichols',
+    'date': '2021-07-03',
+    'note': 'This is a short note.'
+  };
+
+  Map sample2 = {
+    'firstName': 'John',
+    'lastName': 'Doe',
+    'date': '2021-08-29',
+    'note': 'This is a longer example note that had nothing to do with anything. '
+        'Life is meaningless if you really think about it. '
+        'But you have to create your own meaning and use that as your guidance',
+  };
 
   void _searchNotes(Map _payload) async {
     print('searchNotes!');
