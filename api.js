@@ -1090,7 +1090,7 @@ exports.setApp = function(app, client) {
 		jobsMatched.splice(0,jobsMatched.length);
 
 		if (jobsAll.length == 0)
-			errorMessage = "No Jobs found with given company code";
+			errorMessage = "This company does not have any jobs yet";
 		
 		for (let i = 0; i < jobsAll.length; i++)
 			if (jobsAll[i].title != null)
@@ -1183,10 +1183,8 @@ exports.setApp = function(app, client) {
 
 		if (showCompleted == false)
 			var ret = {jobs:jobsMatchedFinal, error:errorMessage};
-		else if (useInRange == true)
-			var ret = {jobs:jobsMatchedPostRange, error:errorMessage};
 		else
-			var ret = {jobs:jobsMatched, error:errorMessage};
+			var ret = {jobs:jobsMatchedPostRange, error:errorMessage};
 		
 		res.status(200).json(ret);
 	});
@@ -1216,7 +1214,7 @@ exports.setApp = function(app, client) {
 		workersMatched.splice(0,workersMatched.length);
 
 		if (workersAll.length == 0)
-			errorMessage = "No workers found in company";
+			errorMessage = "This company does not have any workers yet";
 		
 		for (let i = 0; i < workersAll.length; i++)
 			if (workersAll[i].firstName != null)
