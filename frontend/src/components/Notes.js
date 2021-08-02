@@ -76,7 +76,7 @@ function Notes(props)
                 <h3 className={classes.h3}>Job Notes</h3>
                 <button className={classes.close} onClick={props.onClick}>X</button>
             </div>
-            <div>
+            <div className={classes.cardbody}>
                 <div className={classes.center}>
                     {msg && <p className={classes.error}>{msg}</p>}
                     {(!formVisible && !props.completed) && <button className={classes.button} onClick={loadNew}>Add Note</button>}

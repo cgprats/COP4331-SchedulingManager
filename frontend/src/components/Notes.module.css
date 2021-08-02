@@ -12,6 +12,12 @@
     left: calc(50% - 24rem);
 }
 
+.cardbody
+{
+    max-height: 40rem;
+    overflow-y: scroll;
+}
+
 .cardheader
 {
     background-color: #c57b57;
@@ -20,7 +26,7 @@
     border-radius: 12px 12px 0px 0px;
     padding: 0px 0px;
     margin: 0px;
-    margin-top: -28px;
+    margin-top: -32px;
     text-align: center;
 }
 

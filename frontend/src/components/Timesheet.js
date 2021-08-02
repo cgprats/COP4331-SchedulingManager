@@ -17,7 +17,7 @@ function Timesheet(props)
                 <h3 className={classes.h3}>Timesheet</h3>
                 <button className={classes.close} onClick={props.onClick}>X</button>
             </div>
-            <div>
+            <div className={classes.cardbody}>
                 <table className={classes.table}>
                     <tr>
                         <th className={classes.first}>Date</th>

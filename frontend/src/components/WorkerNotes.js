@@ -17,7 +17,7 @@ function WorkerNotes(props)
                 <h3 className={classes.h3}>Notes by {props.name}</h3>
                 <button className={classes.close} onClick={props.onClick}>X</button>
             </div>
-            <div>
+            <div className={classes.cardbody}>
                 <ul className={classes.ul}>
                     {props.input.map(info => 
                         <li className={classes.item} key={info.note}>
