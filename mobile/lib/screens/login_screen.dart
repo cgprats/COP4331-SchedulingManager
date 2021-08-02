@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                _MainPage(),
+                MainPage(),
                 SignUpOrLogin(
                   login: true,
                 ),
@@ -77,12 +77,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class _MainPage extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<_MainPage> {
+class _MainPageState extends State<MainPage> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map _payload = Map();
   bool _visible = false;
@@ -120,7 +120,7 @@ class _MainPageState extends State<_MainPage> {
             textInputAction: TextInputAction.done,
             onFieldSubmitted: (text) {
               if (_formKey.currentState!.validate()) {
-                _login(_payload);
+                login(_payload);
               }
             },
             suffixIcon: IconButton(
@@ -153,7 +153,7 @@ class _MainPageState extends State<_MainPage> {
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                _login(_payload);
+                login(_payload);
               }
             },
           ),
@@ -162,7 +162,7 @@ class _MainPageState extends State<_MainPage> {
     );
   }
 
-  void _login(Map _payload) async {
+  void login(Map _payload) async {
     print('login!');
     String dir = '/login';
     String ret = await API.getJson(dir, _payload);
