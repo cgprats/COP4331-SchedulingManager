@@ -236,30 +236,33 @@ class _JobSearchBarState extends State<JobSearchBar>
                         ),
                       ],
                     ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          height: Checkbox.width + 5,
-                          width: Checkbox.width + 5,
-                          child: Checkbox(
-                            value: this._showSignedUpJobs,
-                            fillColor: MaterialStateProperty.all<Color>(
-                              CustomColors.orange,
+                    Visibility(
+                      visible: GlobalData.accountType == 0,
+                      child: Row(
+                        children: <Widget>[
+                          SizedBox(
+                            height: Checkbox.width + 5,
+                            width: Checkbox.width + 5,
+                            child: Checkbox(
+                              value: this._showSignedUpJobs,
+                              fillColor: MaterialStateProperty.all<Color>(
+                                CustomColors.orange,
+                              ),
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  this._showSignedUpJobs = value!;
+                                });
+                              },
                             ),
-                            onChanged: (bool? value) {
-                              setState(() {
-                                this._showSignedUpJobs = value!;
-                              });
-                            },
                           ),
-                        ),
-                        Text(
-                          "Only show jobs I'm signed up for",
-                          style: TextStyle(
-                            color: CustomColors.white,
+                          Text(
+                            "Only show jobs I'm signed up for",
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Row(
                       children: <Widget>[

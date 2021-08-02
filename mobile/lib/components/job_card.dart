@@ -732,7 +732,7 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
               builder: (BuildContext context) {
                 return JobNotes(
                   // key: GlobalKey<JobNotesState>(),
-                  jobId: widget.jobInfo['id'],
+                  jobInfo: widget.jobInfo,
                 );
               },
             );

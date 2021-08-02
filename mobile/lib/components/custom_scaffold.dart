@@ -71,59 +71,105 @@ class _CustomScaffoldState extends State<CustomScaffold>
       backgroundColor: widget.backgroundColor,
       endDrawer: Drawer(
         // TODO: change drawer items if user is logged in and if employer or worker
-        child: ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text('Sign In'),
-              trailing: Icon(Icons.login),
-              onTap: () {
-                String _route = Routes.LOGINSCREEN;
-                Navigator.pop(context);
-                if (ModalRoute.of(context)!.settings.name != _route)
-                  Navigator.pushNamed(context, _route);
-              },
-            ),
-            ListTile(
-              title: Text('Sign Up'),
-              trailing: Icon(Icons.how_to_reg),
-              onTap: () {
-                String _route = Routes.SIGNUPSCREEN;
-                Navigator.pop(context);
-                if (ModalRoute.of(context)!.settings.name != _route)
-                  Navigator.pushNamed(context, _route);
-              },
-            ),
-            ListTile(
-              title: Text('Job Listings'),
-              trailing: Icon(Icons.work),
-              onTap: () {
-                String _route = Routes.JOBLISTINGSSCREEN;
-                Navigator.pop(context);
-                if (ModalRoute.of(context)!.settings.name != _route)
-                  Navigator.pushNamed(context, _route);
-              },
-            ),
-            ListTile(
-              title: Text('Employee Search'),
-              trailing: Icon(Icons.groups),
-              onTap: () {
-                String _route = Routes.EMPLOYEESEARCHSCREEN;
-                Navigator.pop(context);
-                if (ModalRoute.of(context)!.settings.name != _route)
-                  Navigator.pushNamed(context, _route);
-              },
-            ),
-            ListTile(
-              title: Text('Manage Account'),
-                trailing: Icon(Icons.account_box),
-              onTap: () {
-                String _route = Routes.MANAGEACCOUNTSCREEN;
-                Navigator.pop(context);
-                if (ModalRoute.of(context)!.settings.name != _route)
-                  Navigator.pushNamed(context, _route);
-              }
-            )
-          ],
+        child: Container(
+          color: CustomColors.orange,
+          child: ListView(
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  'WORKHORSE',
+                  style: TextStyle(color: CustomColors.white, fontSize: 24),
+                ),
+                // trailing: Image(
+                //   image: AssetImage('assets/logo.png'),
+                // ),
+              ),
+              if (GlobalData.email != null) ...[
+                ListTile(
+                  title: Text(
+                    'Job Listings',
+                    style: TextStyle(color: CustomColors.white),
+                  ),
+                  trailing: Icon(
+                    Icons.work,
+                    color: CustomColors.white,
+                  ),
+                  onTap: () {
+                    String _route = Routes.JOBLISTINGSSCREEN;
+                    Navigator.pop(context);
+                    if (ModalRoute.of(context)!.settings.name != _route)
+                      Navigator.pushNamed(context, _route);
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Employee Search',
+                    style: TextStyle(color: CustomColors.white),
+                  ),
+                  trailing: Icon(
+                    Icons.groups,
+                    color: CustomColors.white,
+                  ),
+                  onTap: () {
+                    String _route = Routes.EMPLOYEESEARCHSCREEN;
+                    Navigator.pop(context);
+                    if (ModalRoute.of(context)!.settings.name != _route)
+                      Navigator.pushNamed(context, _route);
+                  },
+                ),
+                ListTile(
+                    title: Text(
+                      'Manage Account',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.account_box,
+                      color: CustomColors.white,
+                    ),
+                    onTap: () {
+                      String _route = Routes.MANAGEACCOUNTSCREEN;
+                      Navigator.pop(context);
+                      if (ModalRoute.of(context)!.settings.name != _route)
+                        Navigator.pushNamed(context, _route);
+                    }),
+              ] else ...[
+                ListTile(
+                  title: Text(
+                    'Sign In',
+                    style: TextStyle(color: CustomColors.white),
+                  ),
+                  trailing: Icon(
+                    Icons.login,
+                    color: CustomColors.white,
+                  ),
+                  onTap: () {
+                    String _route = Routes.LOGINSCREEN;
+                    Navigator.pop(context);
+                    if (ModalRoute.of(context)!.settings.name != _route)
+                      Navigator.pushNamed(context, _route);
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Sign Up',
+                    style: TextStyle(color: CustomColors.white),
+                  ),
+                  trailing: Icon(
+                    Icons.how_to_reg,
+                    color: CustomColors.white,
+                  ),
+                  onTap: () {
+                    String _route = Routes.SIGNUPSCREEN;
+                    Navigator.pop(context);
+                    if (ModalRoute.of(context)!.settings.name != _route)
+                      Navigator.pushNamed(context, _route);
+                  },
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
@@ -144,6 +190,9 @@ class _CustomScaffoldState extends State<CustomScaffold>
         ),
       );
     return AppBar(
+      leading: Image(
+        image: AssetImage('assets/logo.png'),
+      ),
       title: Text(
         '${widget.title}',
         style: TextStyle(

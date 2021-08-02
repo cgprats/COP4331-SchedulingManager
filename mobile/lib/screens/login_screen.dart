@@ -32,6 +32,17 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Image(
+                  image: AssetImage('assets/logo.png'),
+                ),
+                Text(
+                  'WORKHORSE',
+                  style: TextStyle(
+                    color: CustomColors.white,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 _MainPage(),
                 SignUpOrLogin(
                   login: true,

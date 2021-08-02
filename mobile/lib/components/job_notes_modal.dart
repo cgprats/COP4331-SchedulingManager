@@ -13,12 +13,12 @@ import 'package:mobile/components/job_card.dart';
 import 'package:mobile/components/custom_scaffold.dart';
 
 class JobNotes extends StatelessWidget {
-  final String jobId;
+  final Map jobInfo;
 
   // final GlobalKey<JobNotesState> key = GlobalKey<JobNotesState>();
 
   JobNotes({
-    required this.jobId,
+    required this.jobInfo,
   }); // : super(key: key);
 
   // JobNotesState createState() => JobNotesState();
@@ -33,14 +33,14 @@ class JobNotes extends StatelessWidget {
       content: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return _JobNotesBody(
-            jobId: this.jobId,
+            jobInfo: this.jobInfo,
             // jobNotesKey: widget.key!,
           );
         },
       ),
       contentPadding: EdgeInsets.zero,
       actions: <Widget>[
-        _JobNotesActions(jobId: this.jobId),
+        _JobNotesActions(jobInfo: this.jobInfo),
       ],
       backgroundColor: CustomColors.grey,
       clipBehavior: Clip.hardEdge,
@@ -78,13 +78,13 @@ class _JobNotesTitle extends StatelessWidget {
 }
 
 class _JobNotesBody extends StatefulWidget {
-  final String jobId;
+  final Map jobInfo;
 
   // final Key jobNotesKey;
 
   _JobNotesBody({
     // required this.jobNotesKey,
-    required this.jobId,
+    required this.jobInfo,
   });
 
   @override
@@ -100,7 +100,7 @@ class _JobNotesBodyState extends State<_JobNotesBody> {
     super.initState();
     _searchNotes(
       {
-        'fooid': widget.jobId,
+        'fooid': widget.jobInfo['id'],
       },
     );
   }
@@ -190,10 +190,10 @@ class _JobNotesBodyState extends State<_JobNotesBody> {
 }
 
 class _JobNotesActions extends StatefulWidget {
-  final String jobId;
+  final Map jobInfo;
 
   _JobNotesActions({
-    required this.jobId,
+    required this.jobInfo,
   });
 
   @override
@@ -283,12 +283,12 @@ class _JobNotesActionsState extends State<_JobNotesActions>
                           if (this._isAddingNote) {
                             _addnote(
                               {
-                                'fooid': widget.jobId,
+                                'fooid': widget.jobInfo['id'],
                                 'email': GlobalData.email,
                                 'fn': GlobalData.firstName,
                                 'ln': GlobalData.lastName,
                                 'date': _formatDate2(DateTime.now()),
-                                'title': '',
+                                'title': widget.jobInfo['title'],
                                 'note': _noteText,
                               },
                             );
