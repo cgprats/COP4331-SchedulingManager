@@ -57,11 +57,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       '/forgotpassword',
                     );
                   },
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      color: CustomColors.white,
-                      fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 100),
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        color: CustomColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
