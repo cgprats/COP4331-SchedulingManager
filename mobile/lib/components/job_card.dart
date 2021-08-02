@@ -209,7 +209,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
         children: <Widget>[
           Table(
             columnWidths: const <int, TableColumnWidth>{
-              0: FractionColumnWidth(0.25),
+              0: FractionColumnWidth(0.27),
             },
             children: <TableRow>[
               TableRow(
@@ -220,17 +220,18 @@ class _JobCardBodyState extends State<_JobCardBody> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: CustomColors.white,
-                              ),
-                            ),
-                          ),
+                          // decoration: BoxDecoration(
+                          //   border: Border(
+                          //     bottom: BorderSide(
+                          //       color: CustomColors.white,
+                          //     ),
+                          //   ),
+                          // ),
                           child: Text(
                             'Location:',
                             style: TextStyle(
                               color: CustomColors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -258,17 +259,18 @@ class _JobCardBodyState extends State<_JobCardBody> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: CustomColors.white,
-                              ),
-                            ),
-                          ),
+                          // decoration: BoxDecoration(
+                          //   border: Border(
+                          //     bottom: BorderSide(
+                          //       color: CustomColors.white,
+                          //     ),
+                          //   ),
+                          // ),
                           child: Text(
                             'Duration:',
                             style: TextStyle(
                               color: CustomColors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -324,17 +326,18 @@ class _JobCardBodyState extends State<_JobCardBody> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: CustomColors.white,
-                              ),
-                            ),
-                          ),
+                          // decoration: BoxDecoration(
+                          //   border: Border(
+                          //     bottom: BorderSide(
+                          //       color: CustomColors.white,
+                          //     ),
+                          //   ),
+                          // ),
                           child: Text(
                             'Client:',
                             style: TextStyle(
                               color: CustomColors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -365,7 +368,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
                             child: Expanded(
                               child: Table(
                                 columnWidths: const <int, TableColumnWidth>{
-                                  0: FractionColumnWidth(0.25),
+                                  0: FractionColumnWidth(0.27),
                                 },
                                 children: <TableRow>[
                                   TableRow(
@@ -480,17 +483,19 @@ class _JobCardBodyState extends State<_JobCardBody> {
                 child: Align(
                   alignment: Alignment.center,
                   child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: CustomColors.white,
-                        ),
-                      ),
-                    ),
+                    // decoration: BoxDecoration(
+                    //   border: Border(
+                    //     bottom: BorderSide(
+                    //       color: CustomColors.white,
+                    //     ),
+                    //   ),
+                    // ),
                     child: Text(
                       'Team: ${widget.workers.length} / ${widget.maxWorkers}',
                       style: TextStyle(
                         color: CustomColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -536,6 +541,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
                                 'Name:',
                                 style: TextStyle(
                                   color: CustomColors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -562,6 +568,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
                                 'Email:',
                                 style: TextStyle(
                                   color: CustomColors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -588,6 +595,7 @@ class _JobCardBodyState extends State<_JobCardBody> {
                                 'Phone:',
                                 style: TextStyle(
                                   color: CustomColors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -618,17 +626,19 @@ class _JobCardBodyState extends State<_JobCardBody> {
                 child: Align(
                   alignment: Alignment.center,
                   child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: CustomColors.white,
-                        ),
-                      ),
-                    ),
+                    // decoration: BoxDecoration(
+                    //   border: Border(
+                    //     bottom: BorderSide(
+                    //       color: CustomColors.white,
+                    //     ),
+                    //   ),
+                    // ),
                     child: Text(
                       'Details:',
                       style: TextStyle(
                         color: CustomColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -721,12 +731,12 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<Menu>(
+      color: CustomColors.orange,
       onSelected: (Menu result) {
         print(result);
         switch (result) {
           case Menu.notes:
             // TODO: Update state after adding note
-            // TODO: Limit the size of the body of the modal
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -804,35 +814,56 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
       itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
         const PopupMenuItem<Menu>(
           value: Menu.notes,
-          child: Text('Notes'),
+          child: Text(
+            'Notes',
+            style: TextStyle(color: CustomColors.white),
+          ),
         ),
         const PopupMenuItem<Menu>(
           value: Menu.timesheet,
-          child: Text('Timesheet'),
+          child: Text(
+            'Timesheet',
+            style: TextStyle(color: CustomColors.white),
+          ),
         ),
         if (GlobalData.accountType == 1) ...[
           const PopupMenuItem<Menu>(
             value: Menu.edit,
-            child: Text('Edit'),
-          ),
-          const PopupMenuItem<Menu>(
-            value: Menu.delete,
-            child: Text('Delete'),
+            child: Text(
+              'Edit',
+              style: TextStyle(color: CustomColors.white),
+            ),
           ),
           if (!widget.isComplete) ...[
             const PopupMenuItem<Menu>(
               value: Menu.markCompleted,
-              child: Text('Mark as Completed'),
+              child: Text(
+                'Mark as Completed',
+                style: TextStyle(color: CustomColors.white),
+              ),
             ),
-          ]
+          ],
+          const PopupMenuItem<Menu>(
+            value: Menu.delete,
+            child: Text(
+              'Delete',
+              style: TextStyle(color: CustomColors.white),
+            ),
+          ),
         ] else ...[
           PopupMenuItem<Menu>(
             value: Menu.signOnOff,
-            child: Text('Sign On/Off'),
+            child: Text(
+              'Sign On/Off',
+              style: TextStyle(color: CustomColors.white),
+            ),
           ),
           const PopupMenuItem<Menu>(
             value: Menu.clockInOut,
-            child: Text('Clock In/Out'),
+            child: Text(
+              'Clock In/Out',
+              style: TextStyle(color: CustomColors.white),
+            ),
           ),
         ]
       ],
