@@ -52,7 +52,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 TweenAnimationBuilder(
                     tween: Tween<double>(begin: 0, end: angle),
-                    duration: Duration(seconds: 1),
+                    duration: Duration(milliseconds: 500),
                     builder: (BuildContext context, double val, _) {
                       if (val >= (pi / 2)) {
                         isBack = false;
@@ -100,9 +100,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       ),
                                       RoundedButton(
                                         text: 'Confirm',
-                                        width: _size.width * 0.25,
-                                        height: _size.height * 0.05,
-                                        fontSize: 15,
                                         color: CustomColors.orange,
                                         padding: EdgeInsets.symmetric(
                                             vertical: 10, horizontal: 20),
@@ -182,9 +179,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                             children: <Widget>[
                                               RoundedButton(
                                                 text: 'Confirm',
-                                                width: _size.width * 0.25,
-                                                height: _size.height * 0.05,
-                                                fontSize: 15,
                                                 color: CustomColors.orange,
                                                 padding: EdgeInsets.symmetric(
                                                     vertical: 10,
