@@ -25,10 +25,12 @@ class ConfirmDelete extends StatelessWidget {
       title: _Title(),
       titlePadding: EdgeInsets.zero,
       content: _Body(),
-      contentPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.symmetric(vertical: 10),
       actions: <Widget>[
         _Actions(id: this.id),
       ],
+      buttonPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+      // buttonPadding: EdgeInsets.zero,
       backgroundColor: CustomColors.grey,
       clipBehavior: Clip.hardEdge,
       scrollable: true,
@@ -67,6 +69,24 @@ class _Title extends StatelessWidget {
 class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Spacer(),
+        Expanded(
+          flex: 8,
+          child: Text(
+            'Are You Sure You Want to Delete This Job?',
+            style: TextStyle(
+              color: CustomColors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Spacer(),
+      ],
+    );
     return Center(
       child: Text(
         'Are You Sure You Want to Delete This Job?',
@@ -100,16 +120,18 @@ class _Actions extends StatelessWidget {
             },
           ),
         ),
-        Expanded(child: RoundedButton(
-          text: 'Delete',
-          // width: double.infinity,
-          color: CustomColors.orange,
-          fontSize: 24,
-          onPressed: () {
-            _deleteOrder({'id': this.id});
-            Navigator.pop(context);
-          },
-        ),),
+        Expanded(
+          child: RoundedButton(
+            text: 'Delete',
+            // width: double.infinity,
+            color: CustomColors.orange,
+            fontSize: 24,
+            onPressed: () {
+              _deleteOrder({'id': this.id});
+              Navigator.pop(context);
+            },
+          ),
+        ),
       ],
     );
   }

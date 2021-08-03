@@ -40,22 +40,23 @@ class _EmployeeCardState extends State<EmployeeCard> {
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         decoration: BoxDecoration(
           color: CustomColors.grey,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
         ),
         margin: EdgeInsets.symmetric(vertical: 10),
         child: ClipRRect(
+          // borderRadius: BorderRadius.circular(20),
           child: Column(
             children: [
               Table(
                 columnWidths: const <int, TableColumnWidth>{
-                  0: FractionColumnWidth(0.30),
+                  0: FractionColumnWidth(0.20),
                 },
                 children: <TableRow>[
                   TableRow(
                     children: <TableCell>[
                       TableCell(
                         child: Container(
-                          height: 30,
+                          padding: EdgeInsets.all(5),
                           child: Text(
                             'Name:',
                             style: TextStyle(
@@ -67,7 +68,7 @@ class _EmployeeCardState extends State<EmployeeCard> {
                       ),
                       TableCell(
                         child: Container(
-                          height: 30,
+                          padding: EdgeInsets.all(5),
                           child: Text(
                             '${widget.clientInfo['firstName']} ${widget.clientInfo['lastName']}',
                             style: TextStyle(
@@ -82,8 +83,7 @@ class _EmployeeCardState extends State<EmployeeCard> {
                     children: <TableCell>[
                       TableCell(
                         child: Container(
-                          height: 30,
-                          padding: EdgeInsets.only(top: 2.5),
+                          padding: EdgeInsets.all(5),
                           child: Text(
                             'Email:',
                             style: TextStyle(
@@ -95,8 +95,7 @@ class _EmployeeCardState extends State<EmployeeCard> {
                       ),
                       TableCell(
                         child: Container(
-                          height: 30,
-                          padding: EdgeInsets.only(top: 2.5),
+                          padding: EdgeInsets.all(5),
                           child: Text(
                             '${widget.clientInfo['email']}',
                             style: TextStyle(
@@ -112,7 +111,7 @@ class _EmployeeCardState extends State<EmployeeCard> {
                       TableCell(
                         child: Container(
                           height: 30,
-                          padding: EdgeInsets.only(top: 2.5),
+                          padding: EdgeInsets.all(5),
                           child: Text(
                             'Phone:',
                             style: TextStyle(
@@ -125,7 +124,7 @@ class _EmployeeCardState extends State<EmployeeCard> {
                       TableCell(
                         child: Container(
                           height: 30,
-                          padding: EdgeInsets.only(top: 2.5),
+                          padding: EdgeInsets.all(5),
                           child: Text(
                             _formatPhone(widget.clientInfo['phone']!),
                             style: TextStyle(
@@ -141,39 +140,36 @@ class _EmployeeCardState extends State<EmployeeCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  RoundedButton(
-                    text: 'Notes',
-                    width: 120,
-                    height: 50,
-                    fontSize: 15,
-                    color: CustomColors.orange,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    onPressed: () {
-                      notes_payload['email'] = widget.clientInfo['email'];
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return NotesCard(
-                            name: '${widget.clientInfo['firstName']}',
-                            email: widget.clientInfo['email']!,
-                          );
-                        },
-                      );
-                    },
+                  Expanded(
+                    flex: 2,
+                    child: RoundedButton(
+                      text: 'Notes',
+                      color: CustomColors.orange,
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      onPressed: () {
+                        notes_payload['email'] = widget.clientInfo['email'];
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return NotesCard(
+                              name: '${widget.clientInfo['firstName']}',
+                              email: widget.clientInfo['email']!,
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  RoundedButton(
-                    text: 'Timesheet',
-                    width: 120,
-                    height: 50,
-                    fontSize: 15,
-                    color: CustomColors.orange,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    onPressed: () {
-                      timesheet_payload['email'] = widget.clientInfo['email'];
-                      showDialog(
+                  Spacer(),
+                  Expanded(
+                    flex: 2,
+                    child: RoundedButton(
+                      text: 'Timesheet',
+                      color: CustomColors.orange,
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      onPressed: () {
+                        timesheet_payload['email'] = widget.clientInfo['email'];
+                        showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return TimesheetCard(
@@ -181,8 +177,9 @@ class _EmployeeCardState extends State<EmployeeCard> {
                               email: widget.clientInfo['email']!,
                             );
                           },
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ],
               )
@@ -197,7 +194,4 @@ class _EmployeeCardState extends State<EmployeeCard> {
     phone = phone.replaceAll(new RegExp('\\D'), '').padLeft(10, '0');
     return '(${phone.substring(0, 3)}) ${phone.substring(3, 6)}-${phone.substring(6)}';
   }
-
-
-
 }

@@ -83,7 +83,7 @@ class _JobTimesheetBody extends StatefulWidget {
 
 class _JobTimesheetBodyState extends State<_JobTimesheetBody> {
   GlobalKey<FormState> _formKey = GlobalKey();
-  List<TableRow> _timesheet = [];
+  List<Widget> _timesheet = [];
 
   @override
   void initState() {
@@ -115,53 +115,56 @@ class _JobTimesheetBodyState extends State<_JobTimesheetBody> {
   Widget build(BuildContext context) {
     // _addTime(sample1);
     // _addTime(sample2);
-    return Container(
-      padding: EdgeInsets.all(10),
-      child: Table(
-        columnWidths: <int, TableColumnWidth>{
-          0: FlexColumnWidth(10),
-          1: FlexColumnWidth(25),
-          2: FlexColumnWidth(25),
-        },
-        children: <TableRow>[
-          TableRow(
-            children: <TableCell>[
-              TableCell(
-                child: Text(
-                  'Date',
-                  style: TextStyle(
-                    color: CustomColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              TableCell(
-                child: Text(
-                  'Hours',
-                  style: TextStyle(
-                    color: CustomColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              TableCell(
-                child: Text(
-                  'Team Member',
-                  style: TextStyle(
-                    color: CustomColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-          ..._timesheet,
-        ],
-      ),
+    return Column(
+      children: _timesheet,
     );
+    // return Container(
+    //   padding: EdgeInsets.all(10),
+    //   child: Table(
+    //     columnWidths: <int, TableColumnWidth>{
+    //       0: FlexColumnWidth(10),
+    //       1: FlexColumnWidth(25),
+    //       2: FlexColumnWidth(25),
+    //     },
+    //     children: <TableRow>[
+    //       // TableRow(
+    //       //   children: <TableCell>[
+    //       //     TableCell(
+    //       //       child: Text(
+    //       //         'Date',
+    //       //         style: TextStyle(
+    //       //           color: CustomColors.white,
+    //       //           fontWeight: FontWeight.bold,
+    //       //         ),
+    //       //         textAlign: TextAlign.center,
+    //       //       ),
+    //       //     ),
+    //       //     TableCell(
+    //       //       child: Text(
+    //       //         'Hours',
+    //       //         style: TextStyle(
+    //       //           color: CustomColors.white,
+    //       //           fontWeight: FontWeight.bold,
+    //       //         ),
+    //       //         textAlign: TextAlign.center,
+    //       //       ),
+    //       //     ),
+    //       //     TableCell(
+    //       //       child: Text(
+    //       //         'Team Member',
+    //       //         style: TextStyle(
+    //       //           color: CustomColors.white,
+    //       //           fontWeight: FontWeight.bold,
+    //       //         ),
+    //       //         textAlign: TextAlign.center,
+    //       //       ),
+    //       //     ),
+    //       //   ],
+    //       // ),
+    //       // ..._timesheet,
+    //     ],
+    //   ),
+    // );
   }
 
   void _addTime(Map _payload) {
@@ -173,38 +176,77 @@ class _JobTimesheetBodyState extends State<_JobTimesheetBody> {
     setState(
       () {
         _timesheet.add(
-          TableRow(
-            children: <TableCell>[
-              TableCell(
-                child: Text(
-                  _formatDate(_payload['date']),
-                  style: TextStyle(
-                    color: CustomColors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              TableCell(
-                child: Text(
-                  '${_payload['start']} - ${_payload['end']}',
-                  style: TextStyle(
-                    color: CustomColors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              TableCell(
-                child: Text(
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
                   '${_payload['firstName']} ${_payload['lastName']}',
                   style: TextStyle(
                     color: CustomColors.white,
+                    fontWeight: FontWeight.bold,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-            ],
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        _formatDate(_payload['date']),
+                        style: TextStyle(
+                          color: CustomColors.white,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        '${_payload['start']} - ${_payload['end']}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: CustomColors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
+        // _timesheet.add(
+        //   TableRow(
+        //     children: <TableCell>[
+        //       TableCell(
+        //         child: Text(
+        //           _formatDate(_payload['date']),
+        //           style: TextStyle(
+        //             color: CustomColors.white,
+        //           ),
+        //           textAlign: TextAlign.center,
+        //         ),
+        //       ),
+        //       TableCell(
+        //         child: Text(
+        //           '${_payload['start']} - ${_payload['end']}',
+        //           style: TextStyle(
+        //             color: CustomColors.white,
+        //           ),
+        //           textAlign: TextAlign.center,
+        //         ),
+        //       ),
+        //       TableCell(
+        //         child: Text(
+        //           '${_payload['firstName']} ${_payload['lastName']}',
+        //           style: TextStyle(
+        //             color: CustomColors.white,
+        //           ),
+        //           textAlign: TextAlign.center,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // );
       },
     );
   }

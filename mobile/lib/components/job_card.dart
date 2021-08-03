@@ -895,7 +895,7 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
       'fn': GlobalData.firstName,
       'ln': GlobalData.lastName,
       'date': _formatDate2(DateTime.now()),
-      'title': '',
+      'title': widget.jobInfo['title'],
       'time': _formatTime(DateTime.now()),
     };
     String dir = '/clockEvent';

@@ -128,6 +128,7 @@ class _JobNotesBodyState extends State<_JobNotesBody> {
                 Row(
                   children: <Widget>[
                     Expanded(
+                      flex: 2,
                       child: Text(
                         '${_payload['firstName']} ${_payload['lastName']}',
                         style: TextStyle(

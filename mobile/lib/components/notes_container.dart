@@ -129,6 +129,7 @@ class _NotesBodyState extends State<_NotesBody> {
                 Row(
                   children: <Widget>[
                     Expanded(
+                      flex: 2,
                       child: Text(
                         '${_payload['title']}',
                         style: TextStyle(

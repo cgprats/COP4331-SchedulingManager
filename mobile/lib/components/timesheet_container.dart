@@ -113,36 +113,75 @@ class _TimesheetBodyState extends State<_TimesheetBody> {
         _payload['date'] == null) return;
     setState(
           () {
-        _timesheets.add(
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
+            _timesheets.add(
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        '${_payload['date']}',
-                        style: TextStyle(
-                          color: CustomColors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    Text(
+                      _payload['title'],
+                      style: TextStyle(
+                        color: CustomColors.white,
+                        fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            _formatDate(_payload['date']),
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            '${_payload['start']} - ${_payload['end']}',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: CustomColors.white,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Text(
-                  '${_payload['start']} - ${_payload['end']}',
-                  style: TextStyle(
-                    color: CustomColors.white,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-          ),
-        );
+              ),
+            );
+        // _timesheets.add(
+        //   Padding(
+        //     padding: EdgeInsets.all(10),
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: <Widget>[
+        //         Row(
+        //           children: <Widget>[
+        //             Expanded(
+        //               child: Text(
+        //                 '${_payload['date']}',
+        //                 style: TextStyle(
+        //                   color: CustomColors.white,
+        //                   fontWeight: FontWeight.bold,
+        //                 ),
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //         Text(
+        //           '${_payload['start']} - ${_payload['end']}',
+        //           style: TextStyle(
+        //             color: CustomColors.white,
+        //           ),
+        //           textAlign: TextAlign.left,
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // );
       },
     );
   }
@@ -162,6 +201,10 @@ class _TimesheetBodyState extends State<_TimesheetBody> {
     'date': '2021-08-29',
   };
 
+  String _formatDate(String date) {
+    return '${date.substring(5, 7)}/${date.substring(8, 10)}/${date.substring(0, 4)}';
+  }
+
   void _searchTimesheets(Map _payload) async {
     print('searchTimesheet!');
     String dir = '/searchIndividualTimesheet';
@@ -175,8 +218,8 @@ class _TimesheetBodyState extends State<_TimesheetBody> {
       setState(
             () {
           print('searchTimesheet successful!');
-          _addTimesheet(sample1);
-          _addTimesheet(sample2);
+          // _addTimesheet(sample1);
+          // _addTimesheet(sample2);
           for (var time in jsonObj['times']) {
             _addTimesheet(time);
           }
