@@ -6,6 +6,7 @@ import 'package:mobile/screens/forgot_password_screen.dart';
 import 'package:mobile/screens/job_listings_screen.dart';
 import 'package:mobile/screens/employee_search_screen.dart';
 import 'package:mobile/screens/manage_account.dart';
+import 'package:mobile/screens/manage_account_v2.dart';
 
 class Routes {
   static const String SIGNUPSCREEN = '/signup';
@@ -22,7 +23,7 @@ class Routes {
         FORGOTPASSWORDSCREEN: (context) => ForgotPasswordScreen(),
         JOBLISTINGSSCREEN: (context) =>
             JobListingsScreen(GlobalKey<JobListingsScreenState>()),
-        MANAGEACCOUNTSCREEN: (context) => ManageAccountScreen(),
+        MANAGEACCOUNTSCREEN: (context) => ManageAccountScreen2(),
         EMPLOYEESEARCHSCREEN: (context) =>
             EmployeeSearchScreen(GlobalKey<EmployeeSearchScreenState>()),
       };
