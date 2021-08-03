@@ -2,8 +2,8 @@ import 'package:mobile/counter.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Counter', () {
-    test('value should start at 0', () {
+  group('Test Login', () {
+    test('First name is returned from login', () async {
       expect(Counter().value, 0);
     });
 
