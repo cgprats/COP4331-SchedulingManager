@@ -70,7 +70,6 @@ class _CustomScaffoldState extends State<CustomScaffold>
       body: widget.body,
       backgroundColor: widget.backgroundColor,
       endDrawer: Drawer(
-        // TODO: change drawer items if user is logged in and if employer or worker
         child: Container(
           color: CustomColors.orange,
           child: ListView(
@@ -84,7 +83,7 @@ class _CustomScaffoldState extends State<CustomScaffold>
                 //   image: AssetImage('assets/logo.png'),
                 // ),
               ),
-              if (GlobalData.email != null) ...[
+              if (GlobalData.verified == true) ...[
                 ListTile(
                   title: Text(
                     'Job Listings',

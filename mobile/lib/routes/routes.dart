@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:mobile/screens/login_screen.dart';
-import 'package:mobile/screens/forgot_password_screen.dart';
 import 'package:mobile/screens/sign_up_screen.dart';
+import 'package:mobile/screens/forgot_password_screen.dart';
 import 'package:mobile/screens/job_listings_screen.dart';
 import 'package:mobile/screens/employee_search_screen.dart';
 import 'package:mobile/screens/manage_account.dart';
@@ -18,8 +18,8 @@ class Routes {
   static Map<String, Widget Function(BuildContext)> get getRoutes => {
         // '/': (context) => LoginScreen(),
         LOGINSCREEN: (context) => LoginScreen(),
-        FORGOTPASSWORDSCREEN: (context) => ForgotPasswordScreen(),
         SIGNUPSCREEN: (context) => SignUpScreen(),
+        FORGOTPASSWORDSCREEN: (context) => ForgotPasswordScreen(),
         JOBLISTINGSSCREEN: (context) =>
             JobListingsScreen(GlobalKey<JobListingsScreenState>()),
         MANAGEACCOUNTSCREEN: (context) => ManageAccountScreen(),

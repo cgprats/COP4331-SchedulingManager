@@ -877,7 +877,7 @@ class _JobCardButtonsState extends State<_JobCardButtons> {
 
   String _formatTime(DateTime? dateTime) {
     if (dateTime == null) return 'None';
-    return '${dateTime.hour.toString()}:${dateTime.minute.toString().padLeft(2, '0')} ${dateTime.hour >= 12 ? 'PM' : 'AM'}';
+    return '${(dateTime.hour > 12 ? dateTime.hour - 12 : (dateTime.hour == 0 ? 12 : dateTime.hour)).toString()}:${dateTime.minute.toString().padLeft(2, '0')} ${dateTime.hour >= 12 ? 'PM' : 'AM'}';
   }
 
   bool _isSignedOn() {

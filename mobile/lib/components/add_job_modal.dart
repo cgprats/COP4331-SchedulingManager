@@ -275,6 +275,7 @@ class _AddJobActions extends StatelessWidget {
           payload['clientcontact'] = _formatPhone(GlobalData.phone!);
           payload['companyCode'] = GlobalData.companyCode;
           this.jobScreenKey.currentState!.addOrder(payload);
+          Navigator.pop(context);
         },
       ),
     );

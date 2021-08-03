@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 Image(
                   image: AssetImage('assets/logo.png'),
+                  width: _size.width * 0.8,
                 ),
                 Text(
                   'WORKHORSE',
@@ -82,14 +83,42 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _curve;
+  late Animation<double> _textFieldAnimation;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map _payload = Map();
   bool _visible = false;
+  bool _needVerification = GlobalData.verified == false;
+  // _needVerification logic might seem redundant,
+  // but it is used so null is false
+  String verificationCode = '';
   String _errorMessage = '';
 
   @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+    _curve = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOutBack,
+    );
+    _textFieldAnimation = Tween(begin: 0.0, end: 1.0).animate(_curve);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_needVerification) _animationController.forward();
     Size _size = MediaQuery.of(context).size;
     return Form(
       key: _formKey,
@@ -99,29 +128,24 @@ class _MainPageState extends State<MainPage> {
             order: 1,
             labelText: 'Email',
             hintText: 'example@email.com',
+            width: _size.width * 0.8,
+            keyboardType: TextInputType.emailAddress,
+            labelColor: CustomColors.orange,
             onChanged: (text) {
               _payload['email'] = text;
             },
-            width: _size.width * 0.8,
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            // autofocus: true,
           ),
           RoundedInputField(
             order: 2,
             labelText: 'Password',
             hintText: 'Password',
-            onChanged: (text) {
-              _payload['password'] = text;
-            },
             obscureText: !_visible,
             width: _size.width * 0.8,
             keyboardType: TextInputType.visiblePassword,
-            textInputAction: TextInputAction.done,
-            onFieldSubmitted: (text) {
-              if (_formKey.currentState!.validate()) {
-                login(_payload);
-              }
+            labelColor: CustomColors.orange,
+            textInputAction: _needVerification ? TextInputAction.next : TextInputAction.done,
+            onChanged: (text) {
+              _payload['password'] = text;
             },
             suffixIcon: IconButton(
               focusNode: FocusNode(skipTraversal: true),
@@ -133,6 +157,38 @@ class _MainPageState extends State<MainPage> {
                   _visible = !_visible;
                 });
               },
+            ),
+            onFieldSubmitted: (text) {
+              if (!_needVerification && _formKey.currentState!.validate()) {
+                login(_payload);
+              }
+            },
+          ),
+          SizeTransition(
+            sizeFactor: _textFieldAnimation,
+            axis: Axis.vertical,
+            axisAlignment: -1,
+            child: Center(
+              child: RoundedInputField(
+                order: 3,
+                skipTraversal: !_needVerification,
+                enabled: _needVerification,
+                required: _needVerification,
+                labelText: 'Verification Code',
+                hintText: '1234',
+                width: _size.width * 0.8,
+                keyboardType: TextInputType.number,
+                labelColor: CustomColors.orange,
+                onChanged: (text) {
+                  // if (text.isEmpty) text = '0';
+                  verificationCode = text;
+                },
+                onFieldSubmitted: (text) {
+                  if (_formKey.currentState!.validate()) {
+                    login(_payload);
+                  }
+                },
+              ),
             ),
           ),
           Visibility(
@@ -185,8 +241,43 @@ class _MainPageState extends State<MainPage> {
             GlobalData.accountType = jsonObj['flag'];
             GlobalData.companyCode = jsonObj['companyCode'];
             GlobalData.companyName = jsonObj['companyName'];
-            GlobalData.verified = jsonObj['Verified'];
-            //TODO: add if verified check
+            GlobalData.verified = jsonObj['verified'];
+            if (_needVerification) {
+              _verify({
+                'email': jsonObj['email'],
+                'verificationCode': verificationCode,
+              });
+            } else {
+              if (GlobalData.verified == true) {
+                Navigator.pushNamed(context, Routes.JOBLISTINGSSCREEN);
+              } else {
+                _needVerification = true;
+              }
+            }
+          }
+        },
+      );
+    }
+  }
+
+  void _verify(Map _payload) async {
+    print('verify!');
+    String dir = '/verify';
+    print(_payload);
+    String ret = await API.getJson(dir, _payload);
+    print(ret);
+    var jsonObj = json.decode(ret);
+    print(jsonObj);
+    if (ret.isEmpty) {
+      print('oh no :(');
+    } else {
+      setState(
+        () {
+          _errorMessage = jsonObj['error'];
+          if (_errorMessage.isEmpty) {
+            print('verify successful!');
+            _errorMessage = '';
+            GlobalData.verified = true;
             Navigator.pushNamed(context, Routes.JOBLISTINGSSCREEN);
           }
         },

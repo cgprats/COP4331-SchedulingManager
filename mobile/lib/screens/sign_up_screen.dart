@@ -19,6 +19,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
+    GlobalData.verified = null;
     Size _size = MediaQuery.of(context).size;
     return CustomScaffold(
       title: 'Sign Up',
@@ -301,7 +302,7 @@ class _SignUpFormState extends State<_SignUpForm> {
             GlobalData.companyCode = jsonObj['CompanyCode'];
             GlobalData.verified = jsonObj['Verified'];
             //TODO: add if verified check
-            Navigator.pushNamed(context, Routes.JOBLISTINGSSCREEN);
+            Navigator.pushNamed(context, Routes.LOGINSCREEN);
           } else {
             _errorMessage = jsonObj['error'];
           }
