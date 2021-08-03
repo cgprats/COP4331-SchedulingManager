@@ -27,8 +27,6 @@ class EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
   String _input = '';
   String _errorMessage = '';
 
-
-
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
@@ -36,7 +34,7 @@ class EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
       title: 'Employee Search',
       appBarColor: CustomColors.orange,
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        padding: EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           color: CustomColors.purple,
         ),
@@ -44,24 +42,33 @@ class EmployeeSearchScreenState extends State<EmployeeSearchScreen> {
           child: ListView(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              RoundedInputField(
-                hintText: 'Search...',
-                margin: EdgeInsets.zero,
-                width: _size.width * 0.8,
-                onChanged: (text) {
-                  this._input = text;
-                },
-                textInputAction: TextInputAction.done,
-                onFieldSubmitted: (value) {
-                  _search();
-                },
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.search,
-                    color: CustomColors.orange,
+              Row(
+                children: <Widget>[
+                  Spacer(),
+                  Expanded(
+                    flex: 8,
+                    child: RoundedInputField(
+                      hintText: 'Search...',
+                      margin: EdgeInsets.zero,
+                      // width: _size.width * 0.8,
+                      onChanged: (text) {
+                        this._input = text;
+                      },
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (value) {
+                        _search();
+                      },
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          color: CustomColors.orange,
+                        ),
+                        onPressed: _search,
+                      ),
+                    ),
                   ),
-                  onPressed: _search,
-                ),
+                  Spacer(),
+                ],
               ),
               EmployeeCardContainer(key: widget._employeeListKey),
             ],

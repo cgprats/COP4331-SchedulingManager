@@ -197,7 +197,7 @@ class _CustomScaffoldState extends State<CustomScaffold>
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: CustomColors.white,
-          fontSize: 30,
+          fontSize: 26,
         ),
       ),
       centerTitle: true,
